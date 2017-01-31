@@ -1,0 +1,2042 @@
+//et_entities.def created for ETJump mapping
+
+/*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
+-------- KEYS --------
+"music" Music wav file
+"gravity" 800 is default gravity
+"message" - This text will not appear ingame in ET
+"ambient" Ambient light value (must use '_color')
+"_color" Ambient light color (must be used with 'ambient')
+"_minlight" Minimun light level throughout the map
+"sun" Shader to use for 'sun' image
+"_blocksize" q3map always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
+"gridsize" granularity of the light grid created by q3map. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
+"fogclip" Uses vis to exclude stuff beyond the specified distance. q3map support varies.
+"mapcoordsmins"  Top left corner coordinate. Example "-256 256".
+"mapcoordsmaxs"  Lower right corner coordinate. Example "256 -256". Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.
+"noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
+"noghost" Disables player ghosting.
+"nogod" Disables god mode.
+"nogoto" Disables goto.
+"nonoclip" Disables noclip.
+"nosave" Disables save.
+"portalgun_spawn" Toggles whether players should spawn with a portal gun.
+"portalsurfaces" If set to 1, players can shoot portals everywhere on the map. If set to 0, players can only shoot portals to areas with surfaceparm monsterslickeast.
+"portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals.
+"savelimit" If set to higher than 0, saves are limited to the set value.
+-------- SPAWNFLAGS --------
+NO_GT_WOLF regular wolf cannot be played on this map
+NO_STOPWATCH stopwatch cannot be played on this map
+NO_LMS lms cannot be played on this map
+-------- NOTES --------
+Every map should have exactly one worldspawn.
+*/
+
+/*QUAKED alarm_box (1 0 1) START_ON
+A model with a toggleable button and a soundalarm.
+-------- KEYS --------
+"health" defaults to 10
+"noise" the sound to play over the system (this would be the siren sound)
+"team" key/value is valid for teamed alarm boxes
+-------- SPAWNFLAGS --------
+START_ON means the button is pushed in, any dlights are cycling, and alarms are sounding
+-------- NOTES --------
+You need to have an origin brush as part of this entity
+place the origin at the center of your trigger box
+current alarm box model is (8 x 16 x 28)
+You MUST target a dlight with this entity.
+
+Target a box to dlights to have them activate/deactivate with the system (use a stylestring that matches the cycletime for the alarmbox sound)
+alarm sound locations are also placed in the dlights, so wherever you place an attached dlight, you will hear the alarm
+
+Teamed alarm_boxes work in tandem (tswitches/lights syncronize)
+
+Model path: models\mapobjects\electronics\alarmbox.md3
+*/
+
+/*QUAKED corona (0 1 0) (-4 -4 -4) (4 4 4) START_OFF
+-------- KEYS --------
+"scale" will designate a multiplier to the default size.  (so 2.0 is 2xdefault size, 0.5 is half)
+"color" will change the color
+-------- SPAWNFLAGS --------
+START_OFF starts non-visible
+-------- NOTES --------
+Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
+*/
+
+/*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) FORCEACTIVE STARTOFF ONETIME
+-------- KEYS --------
+"style" value is an int from 1-19 that contains a pre-defined 'flicker' string.
+"stylestring" set your own 'flicker' string.  (ex. "klmnmlk"). NOTE: this should be all lowercase
+"offset" change the initial index in a style string.  So val of 3 in the above example would start this light at 'N'.  (used to get dlights using the same style out of sync).
+"atten" offset from the alpha values of the stylestring.  stylestring of "ddeeffzz" with an atten of -1 would result in "ccddeeyy"
+"shader" name of shader to apply
+"sound" sound to loop every cycle (this actually just plays the sound at the beginning of each cycle)
+-------- SPAWNFLAGS --------
+FORCEACTIVE	toggle makes sure this light stays alive in a map even if the user has r_dynamiclight set to 0.
+STARTOFF means the dlight doesn't spawn in until ent is triggered
+ONETIME	when the dlight is triggered, it will play through it's cycle once, then shut down until triggered again
+-------- NOTES --------
+Stylestring characters run at 10 cps in the game. (meaning the alphabet, at 24 characters, would take 2.4 seconds to cycle)
+Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
+
+styles:
+1 - "mmnmmommommnonmmonqnmmo"
+2 - "abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba"
+3 - "mmmmmaaaaammmmmaaaaaabcdefgabcdefg"
+4 - "ma"
+5 - "jklmnopqrstuvwxyzyxwvutsrqponmlkj"
+6 - "nmonqnmomnmomomono"
+7 - "mmmaaaabcdefgmmmmaaaammmaamm"
+8 - "aaaaaaaazzzzzzzz"
+9 - "mmamammmmammamamaaamammma"
+10 - "abcdefghijklmnopqrrqponmlkjihgfedcba"
+11 - "mmnommomhkmmomnonmmonqnmmo"
+12 - "kmamaamakmmmaakmamakmakmmmma"
+13 - "kmmmakakmmaaamammamkmamakmmmma"
+14 - "mmnnoonnmmmmmmmmmnmmmmnonmmmmmmm"
+15 - "mmmmnonmmmmnmmmmmnonmmmmmnmmmmmmm"
+16 - "zzzzzzzzaaaaaaaa"
+17 - "zzzzzzzzaaaaaaaaaaaaaaaa"
+18 - "aaaaaaaazzzzzzzzaaaaaaaa"
+19 - "aaaaaaaaaaaaaaaazzzzzzzz"
+*/
+
+/*QUAKED func_bobbing (0 .5 .8) ? X_AXIS Y_AXIS
+-------- KEYS --------
+"model2" .md3 model to also draw
+"height" amplitude of bob (32 default)
+"speed"	seconds to complete a bob cycle (4 default)
+"phase"	the 0.0 to 1.0 offset in the cycle to start at
+"dmg" damage to inflict when blocked (2 default)
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+X_AXIS bobs on the x-axis
+Y_AXIS bobs on the y-axis
+-------- NOTES --------
+Normally bobs on the Z axis
+*/
+
+/*QUAKED func_brushmodel (.9 .50 .50) ?
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+A brushmodel that gets deleted on the fourth frame. We use this to hijack it's brushmodel in func_constructible
+entities that are based around staged construction.
+*/
+
+/*QUAKED func_button (0 .5 .8) ? - - - TOUCH
+When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
+-------- KEYS --------
+"target"	all entities with a matching targetname will be used
+"angle"	does NOT work in ET, use "angles"
+"angles" 	direction to move, x y z (eg 45 45 45)
+"model2"	.md3 model to also draw - use an origin
+"speed"	override the default 40 speed
+"wait"	override the default 1 second wait (-1 = never return)
+"lip"		override the default 4 pixel lip remaining at end of move
+"health"	if set, the button will also open when hurt
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+TOUCH 	activates when player is close enough
+-------- NOTES --------
+When activated, plays sound "sound/movers/switches/butn2.wav".
+Bug: does not play the sound on first activation.
+Sound cannot be changed.
+*/
+
+/*QUAKED func_constructible (.9 .75 .15) ? START_BUILT INVULNERABLE AXIS_CONSTRUCTIBLE ALLIED_CONSTRUCTIBLE
+-------- KEYS --------
+"track"	functions as a group name. All entities with the same 'track' as the func_constructible will be constructed at the same time.
+"constages"	list of target func_brushmodel entities (up to 3) that make up the construction stages (example: "stage1;stage2;")
+"desstages"	list of target func_brushmodel entities (up to 3) that make up the destruction stages (example: "desstage1;desstage2;")
+-------- SPAWNFLAGS --------
+START_BUILT : building starts built
+INVULNERABLE : building can't be destroyed
+AXIS_CONSTRUCTIBLE : building is constructible by axis
+ALLIED_CONSTRUCTIBLE : building is constructible by allies
+-------- NOTES --------
+A constructible object that functions as target for engineers.
+
+This entity will call standard triggers in its script routine:
+buildstart <X>
+decayed <X>
+built <X>
+destroyed <X>
+death
+where <X> is stage1, stage2 or final
+*/
+
+/*QUAKED func_door (0 .5 .8) ? START_OPEN TOGGLE CRUSHER TOUCH
+-------- KEYS --------
+"key" -1 for locked, 0 for open, default 0, -1 if door is targeted
+"model2" .md3 model to also draw
+"angle" determines the opening direction
+"target" fires target when opened and closed
+"targetname" target the door to open it from a distance
+"speed" movement speed (100 default)
+"closespeed" optional different movement speed for door closing
+"wait" wait before returning (3 default, -1 = never return)
+"lip" lip remaining at end of move (8 default)
+"dmg" damage to inflict when blocked (2 default)
+"color" constantLight color
+"light" constantLight radius
+"health" if set, the door will open when shot/ hurt
+"team" team name.  other doors with same team name will open/close in syncronicity
+"type" use sounds based on construction of door
+"allowteams" used to enable a covop with uniform to pass through a one-team-only door
+-------- SPAWNFLAGS --------
+START_OPEN the door to moves to its destination when spawned, and operate in reverse.  It is used to temporarily or permanently close off an area when triggered (not useful for touch doors).
+TOGGLE - requires beeing triggered (by scripting) before closing
+CRUSHER - will hurt a blocking player and keep trying to move
+TOUCH - opens when touched
+-------- NOTES --------
+if targeted, key is in most cases by default -1 (locked)
+
+allowteams: possible values are:
+"axis" - only axis
+"allies" - only allies
+"axis,cvops" - axis and cvops with uniforms
+"allies,cvops" - allies and cvops with uniforms
+
+sound types:
+     0 - nosound (default)
+     2 - stone
+     4 - wood
+     5 - iron/jail
+     6 - portcullis
+
+*/
+
+/*QUAKED func_door_rotating (0 .5 .8) ? - TOGGLE X_AXIS Y_AXIS REVERSE FORCE STAYOPEN
+Door rotating on an axis.
+-------- KEYS --------
+"key" -1 for locked, 0 for open. default 0, -1 if door is targeted
+"model2" .md3 model to also draw
+"degrees" determines how many degrees it will turn (90 default)
+"speed" movement speed (100 default)
+"closespeed" optional different movement speed for door closing
+"time" how many milliseconds it will take to open 1 sec = 1000
+"dmg" damage to inflict when blocked (2 default)
+"color" constantLight color
+"light" constantLight radius
+"type" use sounds based on construction of door:
+"team" team name.  other doors with same team name will open/close in syncronicity
+"allowteams" used to enable a covop with uniform to pass through a one-team-only door
+"target" will fire its targets when opened and closed
+"targetname" target door to open it from a distance
+-------- SPAWNFLAGS --------
+TOGGLE - requires beeing triggered (by scripting) before closing
+FORCE - door opens in one direction only (set with +/- on degrees)
+REVERSE - use with team function to have doors open in the same direction
+STAYOPEN - never closes after opened
+-------- NOTES --------
+You need to have an origin brush as part of this entity.
+The center of that brush will be the point around which it is rotated. It will rotate around the Z axis by default.  You can check either the X_AXIS or Y_AXIS box to change that (only one axis allowed. If both X and Y are checked, the default of Z will be used).
+
+if targeted, key is in most cases by default -1 (locked)
+
+allowteams: possible values are:
+"axis" - only axis
+"allies" - only allies
+"axis,cvops" - axis and cvops with uniforms
+"allies,cvops" - allies and cvops with uniforms
+
+sound types:
+     0 - nosound (default)
+     2 - stone
+     4 - wood
+     5 - iron/jail
+     6 - portcullis
+
+*/
+
+/*QUAKED func_explosive (0 .5 .8) ? START_INVIS TOUCHABLE USESHADER LOWGRAV - TANK
+-------- KEYS --------
+"model2" optional md3 to draw over the solid clip brush
+"wait" how long (in seconds) to leave the model after it's 'dead'.  '-1' leaves forever.
+"dmg" how much radius damage should be done, defaults to 0
+"health" defaults to 100.  If health is set to '0' the brush will not be shootable.
+"targetname" if set, no touch field will be spawned and a remote button or trigger field triggers the explosion.
+"scriptname" script whose death is triggered when the object is destroyed
+"type" type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric") default is "wood"
+"mass" defaults to 75.  This determines how much debris is emitted when it explodes.  You get one large chunk per 100 of mass (up to 8) and one small chunk per 25 of mass (up to 16).  So 800 gives the most.
+"noise" sound to play when triggered.  The explosive will default to a sound that matches it's 'type'.  Use the sound name "nosound" (case in-sensitive) if you want it silent.
+-------- SPAWNFLAGS --------
+TOUCHABLE means automatic use on player contact.
+USESHADER will apply the shader used on the brush model to the debris.
+LOWGRAV specifies that the debris will /always/ fall slowly
+START_INVIS spawn trigger
+TANK Will show as a tank on a command map if linked to by a trigger_objective_info
+-------- NOTES --------
+the default sounds are:
+  "wood"	- "sound/world/boardbreak.wav"
+  "glass"	- "sound/world/glassbreak.wav"
+  "metal"	- "sound/world/metalbreak.wav"
+  "gibs"	- "sound/player/gibsplit1.wav"
+  "brick"	- "sound/world/brickfall.wav"
+  "stone"	- "sound/world/stonefall.wav"
+
+If you use model2, you must have an origin brush in the explosive with the center of the origin at the origin of the model
+If you want an explosion, set dmg and it will do a radius explosion of that amount at the center of the bursh.
+*/
+
+/*QUAKED func_group (0 .5 .8) ?
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used to group brushes together just for editor convenience.  They are turned into normal brushes by the utilities.
+When using alphamod, group terrain together with alpha brushes to apply alphamod only to terrain brushes.
+*/
+
+/*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE NOT_KICKABLE
+-------- KEYS --------
+"delay" time (in seconds) before it can be used again
+"offnoise" specifies an alternate sound
+"cursorhint" overrides the auto-location of targeted entity (list below)
+-------- SPAWNFLAGS --------
+NO_OFF_NOISE no sound will play if the invis_user is used when 'off'
+NOT_KICKABLE kicking doesn't fire, only player activating
+STARTOFF isn't functional till toggled
+-------- NOTES --------
+when activated will use its target
+
+cursorhint types:
+	HINT_NONE
+	HINT_ACTIVATE
+	HINT_CHAIR - gives "not useable" icon
+	HINT_DOOR
+	HINT_DOOR_LOCKED (& HINT_LOCKPICK)
+	HINT_BREAKABLE
+	HINT_LADDER
+	HINT_BUILD (& HINT_CONSTRUCTIBLE)
+	HINT_TANK
+
+	HINT_SATCHELCHARGE
+	HINT_DYNAMITE
+	HINT_DISARM
+
+	HINT_REVIVE
+	HINT_WATER
+	HINT_KNIFE
+	HINT_UNIFORM
+	HINT_LANDMINE
+
+When used, calls standard scripting functions:
+activate allies - if used by allies
+activate axis - if used by axis
+activate - when used
+
+Probably outdated info:
+Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate the user.
+The sound defaults to "sound/movers/invis_user_off.wav"
+*/
+
+/*QUAKED func_leaky (0 .5 .8) ?
+Invisible brush that leaks particles when shot at.
+-------- KEYS --------
+"model2" .md3 model to also draw
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Use an origin brush as a part of this entity to determine where the attached model spawns.
+This entity is solid, so it's a good idea to use it as clipping if you attach model to it.
+*/
+
+/*QUAKED func_pendulum (0 .5 .8) ?
+-------- KEYS --------
+"model2" .md3 model to also draw
+"speed"	the number of degrees each way the pendulum swings, (30 default)
+"phase"	the 0.0 to 1.0 offset in the cycle to start at
+"dmg" damage to inflict when blocked (2 default)
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+You need to have an origin brush as part of this entity.
+Pendulums always swing north / south on unrotated models.  Add an angles field to the model to allow rotation in other directions.
+Pendulum frequency is a physical constant based on the length of the beam and gravity.
+*/
+
+/*QUAKED func_plat (0 .5 .8) ?
+Platform which moves up/down when stepped on
+-------- KEYS --------
+"lip" default 8, protrusion above rest position
+"height" total height of movement, defaults to model height (+/- for up/down)
+"speed"	overrides default 200.
+"dmg" overrides default 2
+"model2" .md3 model to also draw
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Plats are always drawn in the extended position so they will light correctly.
+*/
+
+/*QUAKED func_rotating (0 .5 .8) ? START_ON STARTINVIS X_AXIS Y_AXIS
+-------- KEYS --------
+"model2" .md3 model to also draw
+"speed" determines how fast it moves; default value is 100. Negative value reverses rotation direction.
+"dmg" damage to inflict when blocked (2 default)
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+X_AXIS rotate around the x-axis
+Y_AXIS rotate around the y-axis
+STARTINVIS Spawn triggered
+START_ON Initially turning upon start of map
+-------- NOTES --------
+You need to have an origin brush as part of this entity.
+The center of that brush will be the point around which it is rotated.
+It will rotate around the Z axis by default.
+*/
+
+/*QUAKED func_secret (0 .5 .8) ? REVERSE - - TOUCH
+Secret door which opens inwards, then to the side. No usefield.
+-------- KEYS --------
+"key" -1 for locked, 0 for open.  default '0' unless door is targeted.
+"angle" determines the opening direction
+"targetname" target this entity to open it
+"speed"	movement speed (100 default)
+"wait" wait before returning (2 default, -1 = never return)
+"lip" lip remaining at end of move (8 default)
+"health" if set, the door will also open when hurt
+"team" doors with the same "team" value will open at the same time
+"model2" .md3 model to also draw
+"color" constantLight color
+"light" constantLight radius
+-------- SPAWNFLAGS --------
+REVERSE - changes sliding direction left/right
+TOUCH - opens when touched or hurt - can't be targeted
+-------- NOTES --------
+Seems to always be crusher.
+If TOUCH spawnflag is used, a player standing in the touchfield will halt movement.
+*/
+
+/*QUAKED func_static (0 .5 .8) ? START_INVIS PAIN
+A brush model that just sits there, doing nothing.
+Can be used for conditional walls and models.
+-------- KEYS --------
+"model2" .md3 model to also draw
+"color"	constantLight color
+"light"	constantLight radius
+"targetname" If targeted, it will toggle existance when triggered
+"target" may fire targets when hurt, see PAIN
+"delay" time, in seconds, before targets can be fired again when using PAIN default 1
+"health" if set (and _not_ pain spawnflag) damage will turn the entity invisible, when pain flag is set, default health is 9999
+
+-------- SPAWNFLAGS --------
+START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
+PAIN  - will fire its targets when hurt/pain
+-------- NOTES --------
+When using pain you will need to specify the delay time
+
+After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
+*/
+
+/*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
+-------- KEYS --------
+"wait" base time between triggering all targets, default is 1
+"random" wait variance, default is 0
+-------- SPAWNFLAGS --------
+START_ON starts enabled
+-------- NOTES --------
+Use like you would use trigger_multiple.
+Repeatedly fires its targets.
+Can be turned on or off by using.
+
+So, the basic time between firing is a random time between (wait - random) and (wait + random)
+*/
+
+/*QUAKED func_train (0 .5 .8) ? START_ON START_OFF BLOCK_STOPS
+A train is a mover that moves between path_corner target points.
+Trains MUST HAVE AN ORIGIN BRUSH.
+The train spawns at the first target it is pointing at.
+-------- KEYS --------
+"model2" .md3 model to also draw
+"speed" default 100
+"target" next path corner
+"color" constantLight color
+"light" constantLight radius
+-------- SPAWNFLAGS --------
+START_ON starts enabled (default behavior)
+START_OFF starts disabled
+BLOCK_STOPS blocking will stop movement
+-------- NOTES --------
+If activated, movement direction is reversed. When reaching the path_corner, it will teleport to back to the path_corner it was originally moving towards and continue movement there.
+This can be used to "stuck" it between two path_corners if activated repeatedly.
+*/
+
+/*QUAKED info_camp (0 0.5 0) (-4 -4 -4) (4 4 4)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+
+/*QUAKED info_limbo_camera (0.5 0 0) (-8 -8 -8) (8 8 8) LMS_ONLY ALL_MODES
+-------- KEYS ---------
+"objective" a number starting from 0 possibly going anywhere up to 8, but maybe more later. (only required for objectives, not spawns)
+a value of 0 corresponds to the default, non-objective view in the limbo screen
+-------- SPAWNFLAGS --------
+DEFAULT is all modes NOT including LMS mode.
+LMS_ONLY is used for limbo cameras that only appear in LMS mode.
+ALL_MODES is used for limbo cameras that appear in all modes including LMS.
+-------- NOTES --------
+Target an "info_notnull" entity EXCEPT for cameras overlooking SPAWNS (which target the "yellow blob", AKA team_WOLF_objective).
+*/
+
+/*QUAKED info_notnull (0 0.5 0) (-4 -4 -4) (4 4 4)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used as a positional target for in-game calculation, eg. aiming smoke.
+*/
+
+/*QUAKED info_notnull_big (0 0.5 0) (-32 -32 -32) (32 32 32)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used as a positional target for in-game calculation. eg, aiming smoke.
+Same as info_notnull, just bigger entity.
+*/
+
+/*QUAKED info_null (0 0.5 0) (-4 -4 -4) (4 4 4)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+
+/*QUAKED info_player_deathmatch (1 0 1) (-18 -18 -24) (18 18 48)
+-------- KEYS --------
+"angle" specs will face this direction when spawning here
+"angles" specs will face this direction when spawning here, eg (45 0 30)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Spectators spawnpoint, always include one in a map.
+If no team_CTF_bluespawn or team_CTF_redspawn are present, players will also start from this spawnpoint.
+*/
+
+/*QUAKED info_player_intermission (1 0 1) (-16 -16 -24) (16 16 32) AXIS ALLIED
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+AXIS This intermission point will be used if Axis win the match
+ALLIED This intermission point will be used if Allies win the match
+-------- NOTES --------
+The intermission will be viewed from this point.
+This entity will override info_player_deathmatch and info_player_start as spectator spawnpoint.
+Target an info_notnull for the view direction.
+*/
+
+/*QUAKED info_player_start (1 0 0) (-18 -18 -24) (18 18 48)
+Equivelant to info_player_deathmatch
+-------- KEYS --------
+"angle" specs will face this direction when spawning here
+"angles" specs will face this direction when spawning here, eg (45 0 30)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Spectators spawnpoint, always include one in a map.
+If no team_CTF_bluespawn or team_CTF_redspawn are present, players will also start from this spawnpoint.
+*/
+
+/*QUAKED info_train_spline_control (1 .5 1) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"targetname" - the "control" key in a main splinepoint references to this
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Defines a control point for a spline curve.
+*/
+
+/*QUAKED info_train_spline_main (0 1 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"targetname" name of this point
+"target" target spline point
+"control" sets a control point for this spline
+"controlX" (where X is a number greater than or equal to 2) sets additional control points
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Defines a main point for a spline curve.
+The spline between this point and next point is named after this point, ie use this point's targetname
+*/
+
+/*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - Q3MAP_NON-DYNAMIC
+-------- KEYS --------
+"light" overrides the default 300 intensity.
+"radius" overrides the default 64 unit radius of a spotlight at the target point.
+"fade" falloff/radius adjustment value. multiply the run of the slope by "fade" (1.0f default) (only valid for "Linear" lights) (wolf)
+-------- SPAWNFLAGS --------
+NONLINEAR checkbox gives inverse square falloff instead of linear
+Q3MAP_NON-DYNAMIC specifies that this light should not contribute to the world's 'light grid' and therefore will not light dynamic models in the game.(wolf)
+ANGLE adds light:surface angle calculations (only valid for "Linear" lights) (wolf)
+-------- NOTES --------
+Non-displayed light.
+Lights pointed at a target will be spotlights.
+*/
+
+/*QUAKED lightJunior (0 0.7 0.3) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE NEGATIVE_SPOT NEGATIVE_POINT
+-------- KEYS --------
+"light" overrides the default 300 intensity.
+"radius" overrides the default 64 unit radius of a spotlight at the target point.
+"fade" falloff/radius adjustment value. multiply the run of the slope by "fade" (1.0f default) (only valid for "Linear" lights) (wolf)
+-------- SPAWNFLAGS --------
+NONLINEAR checkbox gives inverse square falloff instead of linear
+ANGLE adds light:surface angle calculations (only valid for "Linear" lights) (wolf)
+-------- NOTES --------
+Non-displayed light that only affects dynamic game models, but does not contribute to lightmaps
+Lights pointed at a target will be spotlights.
+*/
+
+/*QUAKED misc_beam (0 .5 .8) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"target"	start of beam
+"message"	end of beam
+"shader"	the shader
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+When on, displays a electric beam from target to target2.
+Used by the cranes in railgun.
+*/
+
+/*QUAKED misc_cabinet_health (.5 .5 .5) (-20 -20 0) (20 20 60)
+model="models/mapobjects/supplystands/stand_health.md3"
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Entity to link trigger_heal entity to, for visual display
+*/
+
+/*QUAKED misc_cabinet_supply (.5 .5 .5) (-20 -20 0) (20 20 60)
+model="models/mapobjects/supplystands/stand_ammo.md3"
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Entity to link trigger_ammo entity to, for visual display
+*/
+
+/*QUAKED misc_commandmap_marker (0 0.85 .85) (-16 -16 0) (16 16 16) ONLY_AXIS ONLY_ALLIED
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+ONLY_AXIS only shows for axis players
+ONLY_ALLIED only shows for allied players
+-------- NOTES --------
+Has to be targetted by a trigger_objective_info to work.
+Command map marker entity. When set to state default it shows, any other state and it isn't visible.
+*/
+
+/*QUAKED misc_constructiblemarker (1 0.85 0) ?
+-------- KEYS --------
+"model2" optional model
+"angles" angles for the model
+"skin" optional .skin file to use for the model
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The entity has to target the trigger_objective_info entity
+belonging to the constructible.
+Not used any more in the game.
+If used will behave like a func_static entity.
+*/
+
+/*QUAKED misc_firetrails (.4 .9 .7) (-16 -16 -16) (16 16 16)
+This will produce fire and smoke and look like a jetengine blowout if its tagged or attached to another entity.
+-------- KEYS --------
+"target" This entity must target the airplane/ entity its going to be attached to
+"scriptname" script routine in wich "attachtotag" or "attatchtotrain" command is used
+-------- NOTES --------
+Its use function will turn the fire stream effect on and off.
+An alert entity call will kill it.
+Use scripting to tag or attach.
+*/
+
+/*QUAKED misc_gamemodel (1 0 0) (-16 -16 -16) (16 16 16) ORIENT_LOD START_ANIMATE
+-------- KEYS --------
+"model"	arbitrary .md3 file to display
+"modelscale" scale multiplier (defaults to 1x, and scales uniformly)
+"modelscale_vec" scale multiplier (defaults to 1 1 1, scales each axis as requested)
+"skin" .skin file used to define shaders for model
+"trunk" diameter of solid core (used for trace visibility and collision (not ai pathing))
+"trunkheight" height of trunk
+"frames" number of animation frames
+"start" frame to start on
+"fps" fps to animate with
+"modelscale_vec" Set scale per-axis. Overrides "modelscale", so if you have both, the "modelscale" is ignored
+-------- SPAWNFLAGS --------
+ORIENT_LOD the entity will yaw towards the player when the LOD switches (digibob: non-functional?)
+START_ANIMATE the entity will spawn animating
+-------- NOTES --------
+md3 placed in the game at runtime (rather than in the bsp).
+Must be included in .pk3
+*/
+
+/*QUAKED misc_landmine (.7 .3 .16) (-8 -8 -8) (8 8 24) AXIS ALLIED
+Landmine entity.
+-------- KEYS --------
+"angle" landmine orientation
+-------- SPAWNFLAGS --------
+AXIS Axis landmine
+ALLIED Allied landmine
+-------- NOTES --------
+Needs to have one spawnflag set.
+
+Make sure it is placed less than 64 units above an appropiate, landmine placement
+compatible surface. It will drop down on spawn and then settle itself.
+
+There is a team limit of 10 landmines. With this entity you can place more landmines for  that team in the map on start, but none of the engineers will be able to place landmines until there are less than 10 left. The counter that limits each team to 10 mines will also look strange.
+*/
+
+/*QUAKED misc_mg42 (1 0 0) (-16 -16 -24) (16 16 24) HIGH NOTRIPOD
+-------- KEYS --------
+"harc" horizonal fire arc, default 115
+"varc" vertical fire arc, default 45
+"health" how much damage can it take, default 50
+"damage" determines how much the weapon will inflict if a non player uses it
+"accuracy" all guns are 100% accurate an entry of 0.5 would make it 50%
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Emplaced MG42 weapon.
+*/
+
+/*QUAKED misc_model (1 0 0) (-16 -16 -16) (16 16 16) - SOLID FORCEMETA
+-------- KEYS --------
+"angle" sets the angle to the degree (0-360)
+"angles" set model rotation on all axis (0 90 360)
+"model"   arbitrary .md3 file to display
+"modelscale" scale multiplier (defaults to 1x)
+"modelscale_vec" scale multiplier (defaults to 1 1 1, scales each axis as requested)
+"modelscale_vec" Set scale per-axis.  Overrides "modelscale", so if you have both, the "modelscale" is ignored
+"_remap" this will force the use of another file for the models skin, keyvalues like this: "*;models/mapobjects/props_sd/snowrock_clip"
+"target" target another entitiy to include this entity into that entity (see notes)
+-------- SPAWNFLAGS --------
+SOLID - will make it solid (read note)
+FORCEMETA - needs Q3Map2 by ydnar to work, forcemeta/lightmapped unless explicitly set as vertex lit in their shader(s). If u dont know what this is, leave it.
+-------- NOTES --------
+Model that will be compiled into the map.
+
+A complex model with SOLID spawnflag may create (to) complex clipping and this will cause trouble, use with care.
+
+You may target another entity with this entity (eg a script_mover). If so, this entity will be part of the targeted entity. It will move, rotate, hurt, blow etc accordingly. SOLID spawnflag works together with this feature. Both the model and the targeted entity will appear ingame. Any debris will spawn at the brush origin.
+*/
+
+/*QUAKED misc_portal_camera (0 0 1) (-8 -8 -8) (8 8 8) SLOWROTATE FASTROTATE
+The target for a misc_portal_surface.
+-------- KEYS --------
+"angles" this sets the pitch and yaw aiming angles of the portal camera (default 0 0)
+"roll" an angle modifier to orient the camera around the target vector
+-------- SPAWNFLAGS --------
+SLOWROTATE rotates slow
+FASTROTATE rotates fast
+-------- NOTES --------
+You can set either angles or target another entity to determine the direction of view.
+The spawnflags does not seem to work
+*/
+
+/*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
+Used for mirror and cameras
+-------- KEYS --------
+"target" - target a misc_portal_camera for portals, remove key for mirror
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portal surface nearest this entity will show a view from the targeted misc_portal_camera, or a mirror view if untargeted.
+This must be within 64 world units of the surface!
+*/
+
+/*QUAKED misc_spawner (.3 .7 .8) (-8 -8 -8) (8 8 8)
+Spawns item at entitys location when activated. Must use pickup name.
+-------- KEYS --------
+"spawnitem" which item to spawn
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Angle cannot be set; items always spawn towards east.
+*/
+
+/*QUAKED misc_teleporter_dest (1 0 0) (-32 -32 -24) (32 32 -16)
+Point teleporters at these.
+-------- KEYS --------
+angle : direction in which player will look when arriving.
+targetname : make the trigger_- or target_teleporter point to this.
+-------- NOTES --------
+Now that we don't have teleport destination pads, this is just an info_notnull.
+*/
+
+/*QUAKED misc_vis_dummy (1 .5 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+If this entity is "visible" (in player's PVS) then it's target is forced to be active whether it is in the player's PVS or not.
+This entity itself is never visible or transmitted to clients.
+For safety, you should have each dummy only point at one entity (however, it's okay to have many dummies pointing at one entity)
+*/
+
+/*QUAKED misc_vis_dummy_multiple (1 .5 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+If this entity is "visible" (in player's PVS) then it's target is forced to be active whether it is in the player's PVS or not.
+This entity itself is never visible or transmitted to clients.
+This entity was created to have multiple speakers targeting it
+*/
+
+/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Train path corners.
+*/
+
+/*QUAKED path_corner_2 (.5 .3 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Train path corners.
+This version will not contribute towards ingame entity count.
+*/
+
+/*QUAKED props_box_32 (1 0 0) (-16 -16 -16) (16 16 16)
+Pushable 32x32x32 box.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Default texture (models/mapobjects/boxes/box.tga) does not exist. Add scriptname and use remapshader
+to assign texture to it. _remap does not work.
+You must create a dummy texture for remapshader to work.
+*/
+
+/*QUAKED props_box_48 (1 0 0) (-16 -16 -16) (16 16 16)
+Pushable 48x48x48 box.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Default texture (models/mapobjects/boxes/box.tga) does not exist. Add scriptname and use remapshader
+to assign texture to it. _remap does not work.
+You must create a dummy texture for remapshader to work.
+*/
+
+/*QUAKED props_box_64 (1 0 0) (-16 -16 -16) (16 16 16)
+Pushable 64x64x64 box.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Default texture (models/mapobjects/boxes/box.tga) does not exist. Add scriptname and use remapshader
+to assign texture to it. _remap does not work.
+You must create a dummy texture for remapshader to work.
+*/
+
+/*QUAKED props_chair (.8 .6 .2) (-16 -16 0) (16 16 32)
+-------- KEYS --------
+"health" default 10
+"wait" default 5, how many shards to spawn ( try not to exceed 20 )
+"shard" type of shard to spawn
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+shard types:
+	0 = glass
+	1 = wood
+	2 = metal
+	3 = ceramic
+*/
+
+/*QUAKED props_chair_chat(.8 .6 .2) (-16 -16 0) (16 16 32)
+Shootable, pusheable chair
+-------- KEYS --------
+health = default = 10
+wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
+shard =
+	shard_glass = 0,
+	shard_wood = 1,
+	shard_metal = 2,
+	shard_ceramic = 3
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+point entity
+model: models\furniture\chair\chair_chat.mdc
+*/
+
+/*QUAKED props_chair_chatarm(.8 .6 .2) (-16 -16 0) (16 16 32)
+Shootable, pusheable chair
+-------- KEYS --------
+health = default = 10
+wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
+shard =
+	shard_glass = 0,
+	shard_wood = 1,
+	shard_metal = 2,
+	shard_ceramic = 3
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+point entity
+model:models\furniture\chair\chair_chatarm.mdc
+*/
+
+/*QUAKED props_chair_hiback (.8 .6 .2) (-16 -16 0) (16 16 32)
+Shootable, pusheable chair
+-------- KEYS --------
+health = default = 10
+wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
+shard =
+	shard_glass = 0,
+	shard_wood = 1,
+	shard_metal = 2,
+	shard_ceramic = 3
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+point entity
+*/
+
+/*QUAKED props_chair_side (.8 .6 .2) (-16 -16 0) (16 16 32)
+Shootable, pusheable chair
+-------- KEYS --------
+health = default = 10
+wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
+shard =
+	shard_glass = 0,
+	shard_wood = 1,
+	shard_metal = 2,
+	shard_ceramic = 3
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+point entity
+*/
+
+/*QUAKED props_decoration (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+-------- KEYS --------
+"model2" will specify the model to load
+"skin" optional skin to use with the model
+"noise" the looping sound entity is to make
+"health" unkillable by default
+"type" type of debris ("glass", "wood", "metal", "rubble") default is "wood"
+"count" how much debris ei. default 4 pieces
+"high" default is 4
+"wide" default is 4
+"frames" how many frames of animation to play
+"loop" when the animation is done start again on this frame
+"startonframe" on what frame do you want to start the animation
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+STARTINVIS spawn triggered
+DEBRIS spawns debris when killed
+ANIMATE will be animated
+KEEPBLOCK
+TOUCHACTIVATE killed when touched
+LOOPING 
+STARTON starts enabled
+-------- NOTES --------
+Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to set clipping box. 
+*/
+
+/*QUAKED props_decoration_scale (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+-------- KEYS --------
+"modelscale" - Scale multiplier (defaults to 1.0 and scales uniformly)
+"modelscale_vec" - Set scale per-axis.  Overrides "modelscale", so if you have both the "modelscale" is ignored
+"model2" will specify the model to load
+"skin" optional skin to use with the model
+"noise" the looping sound entity is to make
+"health" unkillable by default
+"type" type of debris ("glass", "wood", "metal", "rubble") default is "wood"
+"count" how much debris ei. default 4 pieces
+"high" default is 4
+"wide" default is 4
+"frames" how many frames of animation to play
+"loop" when the animation is done start again on this frame
+"startonframe" on what frame do you want to start the animation
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+STARTINVIS spawn triggered
+DEBRIS spawns debris when killed
+ANIMATE will be animated
+KEEPBLOCK
+TOUCHACTIVATE killed when touched
+LOOPING 
+STARTON starts enabled
+-------- NOTES --------
+Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to set clipping box.
+Same as props_decoration except has support for modelscaling.
+*/
+
+/*QUAKED props_decorBRUSH (.6 .7 .7) ? STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+-------- KEYS --------
+"model2" will specify the model to load
+"skin" optional skin to use with the model
+"noise" the looping sound entity is to make
+"health" unkillable by default
+"type" type of debris ("glass", "wood", "metal", "rubble") default is "wood"
+"count" how much debris ei. default 4 pieces
+"frames" how many frames of animation to play
+"loop" when the animation is done start again on this frame
+"startonframe" on what frame do you want to start the animation
+"color"	constantLight color
+"light"	constantLight radius
+-------- SPAWNFLAGS --------
+STARTINVIS spawn triggered
+DEBRIS spawns debris when killed
+ANIMATE will be animated
+KEEPBLOCK
+TOUCHACTIVATE killed when touched
+LOOPING 
+STARTON starts enabled
+-------- NOTES --------
+Use origin to specify model spawnpoint.
+Nonsolid and unkillable unless "health" is set.
+Use on brushwok. Useful if you attach a complex model to it and need to make more accurate clipping.
+*/
+
+/*QUAKED props_dust (.7 .3 .16) (-8 -8 -8) (8 8 8) WHITE
+A brief streak of dust.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+WHITE spawn white dust
+-------- NOTES --------
+Must be activated.
+Use info_not_null as target to make the streak longer. "angles" can be used as well
+but the change is barely noticeable.
+*/
+
+/*QUAKED props_flamebarrel (.8 .6 .2) (-13 -13 0) (13 13 40) SMOKING NOLID OIL -
+Exploding barrel.
+-------- KEYS --------
+"health" default 20
+-------- SPAWNFLAGS --------
+SMOKING spawns smoke after killed
+NOLID lid won't fly when killed
+OIL spills oil after taking damage
+-------- NOTES --------
+Angle will determine which way the lid will fly off when it explodes.
+*/
+
+/*QUAKED props_flamethrower (.6 .7 .3) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Aim at info_notnull.
+*/
+
+/*QUAKED props_gunsparks (.8 .46 .16) (-8 -8 -8) (8 8 8)
+Some tiny gunsparks.
+-------- KEYS --------
+"speed" default is 20
+"health" number to spawn default is 4
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Seems to always fire towards the entity which activated it.
+*/
+
+/*QUAKED props_skyportal (.6 .7 .7) (-8 -8 0) (8 8 16)
+-------- KEYS --------
+"fov" for the skybox default is 90
+"fogcolor" (r g b) (values 0.0-1.0)
+"fognear" distance from entity to start fogging
+"fogfar" distance from entity that fog is opaque
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Allows you to place a static "far away" looking scene around the map.
+*/
+
+/*QUAKED props_smokedust (.8 .46 .16) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"health" how many pieces 16 is default
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Direction cannot be controlled. Must be activated.
+*/
+
+/*QUAKED script_mover (0.5 0.25 1.0) ? TRIGGERSPAWN SOLID EXPLOSIVEDAMAGEONLY RESURECTABLE COMPASS ALLIED AXIS MOUNTED_GUN
+-------- KEYS --------
+"modelscale" Scale multiplier (defaults to 1, and scales uniformly)
+"modelscale_vec" Set scale per-axis.  Overrides "modelscale", so if you have both, the "modelscale" is ignored
+"model2" optional md3 to draw over the solid clip brush
+"scriptname" name used for scripting purposes
+"health" optionally make this entity damagable
+"tagent" target entity a mounted gun will be attached to
+"gun" variable gun type, only other option other than default is "browning"
+-------- SPAWNFLAGS --------
+TRIGGERSPAWN wont spawn until activated
+SOLID non-solid unless set
+EXPLOSIVEDAMAGEONLY will only take damage from explosive weapons
+RESURECTABLE will not disappear when fully damaged
+COMPASS shows up on compass
+ALLIED only axis can damage
+AXIS only allies can damage
+MOUNTED_GUN has a mounted gun attached to it
+-------- NOTES --------
+Scripted brush entity. A simplified means of moving brushes around based on events.
+
+Health needs to be set for MOUNTED_GUN to work
+The health can be updated via scripting with the constructible_health command. (regardless of beeing constructible or not)
+Triggering a dead script_mover with resurrectable spawnflag will reset the health.
+
+*/
+
+/*QUAKED script_multiplayer (1.0 0.25 1.0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"scriptname" game_manager  - always use this scriptname
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+This is used for scripting.  Entity not displayed in game.
+You MUST have one, and one only, of these in your map for it to function correctly.
+*/
+
+/*QUAKED shooter_mortar (1 0 0) (-16 -16 -16) (16 16 16) SMOKE_FX FLASH_FX
+-------- KEYS --------
+"random" the number of degrees of deviance from the target. (1.0 default)
+-------- SPAWNFLAGS --------
+LAUNCH_FX a smoke effect will play at the origin of this entity.
+FLASH_FX a muzzle flash effect will play at the origin of this entity.
+-------- NOTES --------
+Lobs a mortar so that it will pass through the info_notnull targeted by this entity
+*/
+
+/*QUAKED shooter_rocket (1 0 0) (-16 -16 -16) (16 16 16)
+-------- KEYS --------
+"random" the number of degrees of deviance from the target. (1.0 default)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Fires (a panzerfaust) at either the target or the current direction.
+*/
+
+/*QUAKED target_counter (1 1 0) (-8 -8 -8) (8 8 8)
+Simple counter that fires its targets when "count" is reached.
+-------- KEYS --------
+"count" target count value
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+When activated, increases count by 1. Starts from 0.
+Does not reset, so effectively one-time use.
+*/
+
+/*QUAKED target_delay (1 1 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"wait" seconds to pause before firing targets.
+"random" delay variance, total delay = delay +/- random seconds
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Fires off targets after a delay.
+*/
+
+/*QUAKED target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT EXPLODE SMOKE - - - -
+-------- KEYS --------
+"mass" defaults to 15.  This determines how much debris is emitted when it explodes.  (number of pieces)
+"dmg" defaults to 0.  damage radius blast when triggered
+"type" rubble mdel type
+-------- SPAWNFLAGS --------
+TNT Big explosion when triggered
+EXPLODE explosion when triggered
+SMOKE Produces smoke when triggered
+-------- NOTES --------
+rubble types:
+	"glass"
+	"wood" (default)
+	"metal"
+	"gibs"
+	"brick"
+	"rock"
+*/
+
+/*QUAKED target_explosion (0 .5 .8) (-32 -32 -32) (32 32 32) LOWGRAV
+-------- KEYS --------
+"type" type of debris
+-------- SPAWNFLAGS --------
+LOWGRAV the explosive debris will move with low gravity
+-------- NOTES --------
+debris types:
+	"glass"
+	"wood" (default)
+	"metal"
+	"gibs"
+	"brick"
+	"rock"
+	"fabric"
+*/
+
+/*QUAKED target_fog (1 1 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"distance" sets fog distance. Use value '0' to give control back to the game (and use the fog values specified in the sky shader if present).
+"time" time it takes to change fog to new value.  Default time is 1 sec.
+"color" color of the fog, default black.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Distance must be set. Distance is always calculated from players PVS.
+*/
+
+/*QUAKED target_kill (.5 .5 .5) (-8 -8 -8) (8 8 8) KILL_USER_TOO
+Kills targets when activated.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+KILL_USER_TOO also kills the activator.
+-------- NOTES --------
+Can be used to kill script_movers as well.
+*/
+
+/*QUAKED target_laser (0 .5 .8) (-8 -8 -8) (8 8 8) START_ON
+When activated, fires a laser.  You can either set a target or a direction.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+START_ON starts on.
+-------- NOTES --------
+Has sorting issues (eg. laser shows on top of weapon when player is looking towards it).
+Players and moving objects will cut the beam.
+Does not damage players or entities.
+*/
+
+/*QUAKED target_lock (1 1 0) (-8 -8 -8) (8 8 8)
+Used to lock/unlock doors.
+-------- KEYS --------
+"key" 0 to unlock, -1 to lock
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Does not require "key" to be set on the door.
+Supposedly could be used to set a door to a state requiring n key, but any other value
+than -1 just seems to unlock the door.
+*/
+
+/*QUAKED target_position (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for in-game calculation, like jumppad targets.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Position of this entity will determine the apex of the jump when used as jumppad target.
+*/
+
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE
+Prints out text in centerprint when activated.
+-------- KEYS --------
+"message" text to print
+-------- SPAWNFLAGS --------
+AXIS_ONLY axis only.
+ALLIED_ONLY allies only.
+PRIVATE only the activator gets the message.
+-------- NOTES --------
+If no spawnflag is checked, all clients get the message, including spectators.
+Color codes can be used in the message.
+*/
+
+/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"speed"	defaults to 1000
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Pushes the activator in the direction of angles, or towards target_position.
+Speed has no effect when target_position is used as target.
+*/
+
+/*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+Fires its targets.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only trigger by allied accepted
+RANDOM only one of the targets will be fired, not all of them.
+-------- NOTES --------
+(none)
+*/
+
+/*QUAKED target_remove_powerups (1 0 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Returns objective carried by player instantly to its original location when activated.
+*/
+
+/*QUAKED target_rumble (0 0.75 0.8) (-8 -8 -8) (8 8 8) STARTOFF
+-------- KEYS --------
+"wait" time the entity will enable rumble effect, default 2
+"pitch" value from 1 to 10 default is 5
+"yaw" value from 1 to 10 default is 5
+"rampup" how much time it will take to reach maximum pitch and yaw in seconds
+"rampdown" how long till effect ends after rampup is reached in seconds
+"startnoise" startingsound
+"noise" the looping sound entity is to make
+"endnoise" endsound
+"duration" the amount of time the effect is to last ei 1.0 sec 3.6 sec
+-------- SPAWNFLAGS --------
+STARTOFF not activated unless triggered
+-------- NOTES --------
+Causes clients' views to shake
+Will cause an error if triggered again before finished rumbling
+*/
+
+/*QUAKED target_script_trigger (1 .7 .2) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"target" The name of the trigger
+"scriptname" Name of the script routine to use
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Must have a target.
+When used it will run the trigger event relating to it's target within it's routine.
+*/
+
+/*QUAKED target_smoke (1 0 0) (-32 -32 -16) (32 32 16) BLACK WHITE SMOKEON GRAVITY
+-------- KEYS --------
+"delay" this is the maximum smoke that will show up, default 100ms
+"time" time before the smoke disipates, default 5000ms
+"duration" time before the smoke starts to alpha, default 2000ms
+"start_size" default 24
+"end_size" default 96
+"wait" the rate at which it will travel up, default 50
+"shader" custom shader to use, overrides spawnflags
+-------- SPAWNFLAGS --------
+BLACK black smoke
+WHITE white/grey smoke
+SMOKEON starts on
+GRAVITY check this to move smoke downwards
+-------- NOTES --------
+A particle emmiter.
+Target an info_notnull to angle the smoke.
+*/
+
+/*QUAKED target_speaker (1 0 0) (-8 -8 -8) (8 8 8) LOOPED_ON LOOPED_OFF GLOBAL ACTIVATOR VIS_MULTIPLE NO_PVS
+-------- KEYS --------
+"noise"	wav file to play
+"wait" Seconds between auto triggerings, 0 = don't auto trigger
+"random" wait variance, default is 0
+"volume" allows variance of the volume of the speaker, default is 255 (limit is 65535, but digital distortion will cut in long before then)
+-------- SPAWNFLAGS --------
+LOOPED_ON Plays looped at map start until toggled
+LOOPED_OFF Starts off and loops when toggled
+GLOBAL plays at full volume throughout the map.
+ACTIVATOR plays only to the activator
+VIS_MULTIPLE 
+NO_PVS plays even when not in players PVS
+-------- NOTES --------
+Global and activator sounds can't be combined with looping.
+Multiple identical looping sounds will just increase volume without any speed cost.
+*/
+
+/*QUAKED target_teleporter (1 0 0) (-8 -8 -8) (8 8 8) RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH
+The activator will be teleported away.
+Unlike trigger_teleport, this entity must be activated by a trigger.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RESET_VELOCITY resets player velocity when teleported.
+CONVERT_VELOCITY converts player velocity to match the angle of teleport destination.
+RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
+RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
+-------- NOTES --------
+Angle which player faces after being teleported is set from destination.
+*/
+
+/*QUAKED team_CTF_bluespawn (0 0 1) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
+-------- KEYS --------
+angle - player faces this direction when spawning
+target - fires targets when a player spawns
+targetname - may be targeted by a team_WOLF_checkpoint
+-------- SPAWNFLAGS --------
+INVULNERABE player always spawn invulnerable, so the usage of this flag
+is unknown. The official ET maps seem to always set it.
+STARTACTIVE this spawn is active at map start
+-------- NOTES --------
+ET spawnpoint
+If target is set, point spawnpoint toward target activation
+*/
+
+/*QUAKED team_CTF_redspawn (1 0 0) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
+-------- KEYS --------
+angle - player faces this direction when spawning
+target - fires targets when a player spawns
+targetname - may be targeted by a team_WOLF_checkpoint
+-------- SPAWNFLAGS --------
+INVULNERABE player always spawn invulnerable, so the usage of this flag
+is unknown. The official ET maps seem to always set it.
+STARTACTIVE this spawn is active at map start
+-------- NOTES --------
+ET spawnpoint
+If target is set, point spawnpoint toward target activation
+*/
+
+/*QUAKED team_WOLF_checkpoint (.6 .9 .6) (-16 -16 0) (16 16 128) SPAWNPOINT CP_HOLD AXIS_ONLY ALLIED_ONLY
+This is the flagpole players touch to gain control of a checkpoint, usually connected to forward spawnpoints.
+-------- KEYS --------
+"model" model to use (will use same animations as flagpole however)
+"scriptname" name of script which contains allied_capture and axis_capture triggers
+-------- SPAWNFLAGS --------
+SPAWNPOINT - if spawnpoint flag is set, capture will turn on targeted spawnpoints for capture team and turn *off* targeted spawnpoints for opposing team
+AXIS_ONLY & ALLIED_ONLY - for building axis or allie only forward spawns, which can be turned off by the opposing team
+-------- NOTES --------
+the CP_HOLD spawnflag is leftover from something unfinished in RTCW, so probably does not do anything
+
+This entity will call specific trigger funtions in its script routine.
+When allies capture, it will call "trigger allied_capture".
+When axis capture, it will call "trigger axis_capture".
+
+This entity must have a scriptname.
+*/
+
+/*QUAKED team_WOLF_objective (1 1 0.3) (-16 -16 -24) (16 16 32) DEFAULT_AXIS DEFAULT_ALLIES
+This is the clickable spawnpoint flags seen on the commandmap.
+-------- KEYS --------
+"description" short text that shows on the commandmap
+"targetname" target an info_limbo_camera ast this
+-------- SPAWNFLAGS --------
+DEFAULT_AXIS This spawn region belongs to the Axis at the start of the map
+DEFAULT_ALLIES This spawn region belongs to the Alles at the start of the map
+-------- NOTES --------
+When active, this will make a player spawn at the team_CTF spawnpoint closest to it.
+The description key is also used for 'setautospawn' scripting command.
+*/
+
+/*QUAKED trigger_always (.5 .5 .5) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+A trigger which fires at map start, redundant through script usage.
+*/
+
+/*QUAKED trigger_ammo (.5 .5 .5) ?
+-------- KEYS --------
+"ammorate" rate of ammo clips per second. default 1. (whole number only).
+"ammototal" the maximum clips of ammo this trigger can add. if <= 0, it's unlimited. default 0 (whole numbers only).
+"target" cabinet that this entity is linked to.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Any entity that touches this will get additional ammo a specified rate up to a specified maximum.
+*/
+
+/*QUAKED trigger_flagonly_multiple (.5 .5 .5) ? RED_FLAG BLUE_FLAG
+-------- KEYS --------
+"scriptname" The routine name in the script file.
+-------- SPAWNFLAGS --------
+RED_FLAG only trigger if player is carrying red flag.
+BLUE_FLAG only trigger if player is carrying blue flag.
+-------- NOTES --------
+Player must be carrying the proper flag for it to trigger.
+It will call the "death" function in the object's script.
+Axis carries blueflags, Allies redflags.
+*/
+
+/*QUAKED trigger_heal (.5 .5 .5) ?
+-------- KEYS --------
+"healrate" rate of healing per second, default 20 (whole numbers only)
+"healtotal" the maximum of healing this trigger can do. if <= 0, it's unlimited. default 0 (whole numbers only)
+"target" cabinet that this entity is linked to
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Any entity that touches this will be healed at a specified rate up to a specified maximum.
+*/
+
+/*QUAKED trigger_hurt (.5 .5 .5) ? START_OFF - SILENT NO_PROTECTION SLOW ONCE
+-------- KEYS --------
+"dmg" default is 5.
+"life" time this brush will exist if value is 0 will live for ever i.e. 0.5sec 2sec default 0.
+-------- SPAWNFLAGS --------
+START_OFF isn't functional until toggled.
+SILENT supresses playing the sound.
+SLOW changes the damage rate to once per second.
+NO_PROTECTION *nothing* stops the damage.
+ONCE damages once and turns off. Must be toggled on again.
+-------- NOTES --------
+Any entity that touches this will be hurt.
+It does dmg points of damage each server frame
+Targeting the trigger will toggle its on / off state.
+The entity must be used first before it will count down its life
+*/
+
+/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY CONSTANT
+-------- KEYS --------
+"wait" Seconds between triggerings, 0.5 default, -1 = one time only.
+"random" wait variance, default is 0
+-------- SPAWNFLAGS --------
+AXIS_ONLY only axis may trigger this
+ALLIED_ONLY only allies may trigger this
+SOLDIER_ONLY only soldiers may trigger this
+FIELDOPS_ONLY only fieldops may trigger this
+MEDIC_ONLY only medics may trigger this
+ENGINEER_ONLY only engineers may trigger this
+COVERTOPS_ONLY only covertops may trigger this
+CONSTANT triggers on every frame
+-------- NOTES --------
+Variable sized repeatable trigger.  Must be targeted at one or more entities.
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+*/
+
+/*QUAKED trigger_objective_info (.5 .5 .5) ? AXIS_OBJECTIVE ALLIED_OBJECTIVE - MOBILE_TANK IS_OBJECTIVE IS_HEALTHAMMOCABINET IS_COMMANDPOST
+-------- KEYS --------
+"customimage" image used on the commandmap, overrides the team-individual ones
+"customaxisimage" image to show axis players on the commandmap
+"customalliesimage" image to show allied players on the commandmap
+"track"	Mandatory, this text will be appended to "You are near "
+"target" You may target dynamitable objectives
+"score" If targeting a dynamitable objective, give this score when blown.
+"shortname" Name to display on the command map
+-------- SPAWNFLAGS --------
+AXIS_OBJECTIVE set if targeting an objective owned by AXIS, then only allied dynamite will blow it up.
+ALLIED_OBJECTIVE set if targeting an objective owned by ALLIES, then only axis dynamite will blow it up.
+MOBILE_TANK enables moving the icon on the commandmap, default icon: tank
+IS_OBJECTIVE Will use a standard objective icon on the command map
+IS_HEALTHAMMOCABINET Will use a healthammo cabinet icon on the command map
+IS_COMMANDPOST Will use a command post icon on the command map
+-------- NOTES --------
+Players in this field will see a message saying that they are near an objective.
+Also, if targeting a dynamitable objective, the dynamite must be armed inside
+of the trigger to blow up the objective.
+*/
+
+/*QUAKED trigger_once (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+AXIS_ONLY only axis may trigger this
+ALLIED_ONLY only allies may trigger this
+SOLDIER_ONLY only soldiers may trigger this
+FIELDOPS_ONLY only fieldops may trigger this
+MEDIC_ONLY only medics may trigger this
+ENGINEER_ONLY only engineers may trigger this
+COVERTOPS_ONLY only covertops may trigger this
+-------- NOTES --------
+Must be targeted at one or more entities.
+Once triggered, this entity is destroyed
+(you can actually do the same thing with trigger_multiple with a wait of -1)
+*/
+
+/*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH
+Touching this will teleport players to the location of the targeted misc_teleporter_dest entity.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RESET_VELOCITY resets player velocity when teleported.
+CONVERT_VELOCITY converts player velocity to match the angle of teleport destination.
+RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
+RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
+-------- NOTES --------
+Angle which player faces after being teleported is set from destination.
+*/
+
+/*QUAKED weapon_fg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+A weapon you can pick up.
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_flamethrower (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+A weapon you can pick up.
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Allied sniperrifle.
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Axis sniperrifle
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Axis engy rifle
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Allied engy rifle
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Pickup Ammo pack
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo-packs included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_magicammo2 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Pickup Mega Ammo pack
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo-packs included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+
+This doesn't have more ammo in it by default, you need to set it manually.
+*/
+
+/*QUAKED weapon_mobile_mg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Pickup weapon
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+A weapon you can pick up
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_mp40 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+A weapon you can pick up
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_panzerfaust (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+A weapon you can pick up
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_sten (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+A weapon you can pick up
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+/*QUAKED weapon_thompson (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+A weapon you can pick up
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+*/
+
+
+//ETJump Entities
+
+/*QUAKED etjump203_target_relay (0 1 1) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+Fires its targets.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only trigger by allied accepted
+RANDOM only one of the targets will be fired, not all of them.
+-------- NOTES --------
+Works exactly like target_relay.
+Used for version checking, preventing a map for working on <ETjump 2.0.3. You should probably not use this.
+*/
+
+/*QUAKED etjump2_target_relay (0 1 1) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+Fires its targets.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only trigger by allied accepted
+RANDOM only one of the targets will be fired, not all of them.
+-------- NOTES --------
+Works exactly like target_relay.
+Used for version checking, preventing a map for working on <ETjump 2.0.0. You should probably not use this.
+*/
+
+/*QUAKED target_activate (0 1 0) (-8 -8 -8) (8 8 8) TRIGGER_IF_GT TRIGGER_IF_NOT TRIGGER_IF_LT
+Fires its targets if ident requirement is met.
+-------- KEYS --------
+"reqident" ident value
+-------- SPAWNFLAGS --------
+no spawnflag = trigger if equals to
+TRIGGER_IF_GT triggers if greater than specified ident value.
+TRIGGER_IF_NOT triggers if not the specified ident value.
+TRIGGER_IF_LT triggers if lower than specified ident value.
+-------- NOTES --------
+Ident system has been replaced with tracker system. Use that instead.
+*/
+
+/*QUAKED target_activate_if_velocity (0.2 0.2 0.2) (-8 -8 -8) (8 8 8) HORIZONTAL VERTICAL
+-------- KEYS --------
+"lower_limit" If velocity is under lower_limit, nothing will be activated. 0 to disregard.
+"upper_limit" If velocity is over upper_limit, nothing will be activated. 0 to disregard.
+-------- SPAWNFLAGS --------
+HORIZONTAL only horizontal velocity.
+VERICAL only vertical velocity.
+-------- NOTES --------
+Fires targets if velocity requirements are met.
+*/
+
+/*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
+Decays activators ident value.
+-------- KEYS --------
+"ident" value required to activate.
+"decay_time" time it takes in milliseconds for ident to decay to specified value.
+"decay_value" value that ident decays to.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Ident system has been replaced with tracker system. Use that instead.
+*/
+
+/*QUAKED target_ftrelay (0.7 0.7 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+Fires its targets.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only trigger by allied accepted
+RANDOM only one of the targets will be fired, not all of them.
+-------- NOTES --------
+Works exactly like target_relay but activates the entities for everyone in the player's current fireteam, not just the player.
+*/
+
+/*QUAKED target_increase_ident (0.6 0.6 0.6) (-8 -8 -8) (8 8 8)
+Increase target client's map ident by the value of "inc"
+-------- KEYS --------
+"inc" Increase value.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Ident system has been replaced with tracker system. Use that instead.
+*/
+
+/*QUAKED target_interrupt_timerun (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+Stops a timerun without setting a record.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Run name does not have to be specified as it interrupts any ongoing timerun.
+*/
+
+/*QUAKED target_printname (0 0 1) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE
+-------- KEYS --------
+"message" text to print (%s or %i are placeholders for player name) Example: text text text %s text text text
+-------- SPAWNFLAGS --------
+AXIS_ONLY axis only.
+ALLIED_ONLY allies only.
+PRIVATE only the activator gets the message.
+-------- NOTES --------
+Prints text on left print.
+*/
+
+/*QUAKED target_remove_portals (0.3 0.3 0.3) (-8 -8 -8) (8 8 8) SILENT
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SILENT does not print text when portals are removed.
+-------- NOTES --------
+Removes activators portals from the map.
+*/
+
+/*QUAKED target_save (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+Saves targets position.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+ Replaces save on slot 0.
+*/
+
+/*QUAKED target_savereset (1 1 1) (-8 -8 -8) (8 8 8)
+Resets targets saves when activated.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Resets saves on every slot.
+*/
+
+/*QUAKED target_scale_velocity (0.3 0.3 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"scale" multiplier to scale with.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Scales activator's velocity by factor of "scale".
+*/
+
+/*QUAKED target_setident (1 0 0) (-8 -8 -8) (8 8 8)
+Used to set ident for target_activate.
+-------- KEYS --------
+"ident" ident value.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Ident system has been replaced with tracker system. Use that instead.
+*/
+
+/*QUAKED target_set_health (1 0 0) (-8 -8 -8) (8 8 8) ONCE
+Sets activators health to specified value.
+-------- KEYS --------
+"health" value which health is set to.
+"wait" how long in milliseconds before next activation by same player.
+-------- SPAWNFLAGS --------
+ONCE only set health once per life.
+-------- NOTES --------
+(none)
+*/
+
+/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_SAVE NO_EXPLOSIVES NO_PG
+Starts a timerun.
+-------- KEYS --------
+"name" timerun name.
+"speed_limit" maximum allowed speed at which timerun can be started.
+-------- SPAWNFLAGS --------
+RESET_TEAM run resets on team change.
+RESET_DEATH run resets on death.
+RESET_END only reset when you reach the end.
+FORCE_PMOVE run does not start if activator has pmove_fixed 0.
+NO_SAVE disabled saves and backups during timerun.
+NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
+NO_PG cannot pickup portalgun during timerun.
+-------- NOTES --------
+"name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
+*/
+
+/*QUAKED target_stoptimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+Ends a timerun.
+-------- KEYS --------
+"name" Run name.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+"name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
+*/
+
+/*QUAKED target_tracker (0 0 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
+"tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
+"tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
+"tracker_set" Tracker sets player's tracker value to the specified value.
+"tracker_set_if" Tracker sets player's tracker value to the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+"tracker_inc" Tracker increases player's target value by the specified value.
+"tracker_inc_if" Tracker increases player's target value by the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+There are three different formats for specifying the tracker index and value.
+1. <value> 
+Set the tracker on index 1 to <value>
+
+2. <index, value> 
+Set the tracker on index <index> to <value>
+
+3. <index1,value1>|<index2,value2>|..|<indexN,valueN> 
+Set the trackers on indices <index1, index2, .., indexN> to values <value1, value2, .., valueN>
+
+Examples:
+Key         Value               Meaning
+tracker_eq  1                   tracker on index 1 has to be 1
+tracker_eq  2,1                 tracker on index 2 has to be 1
+tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
+
+Maximum amount of tracker indexes is 50.
+*/
+
+/*QUAKED trigger_savereset (1 1 1) (-8 -8 -8) (8 8 8)
+Resets targets saves.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Resets saves on every slot.
+*/
+
+/*QUAKED trigger_tracker (0 0 0) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
+"tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
+"tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
+"tracker_set" Tracker sets player's tracker value to the specified value.
+"tracker_set_if" Tracker sets player's tracker value to the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+"tracker_inc" Tracker increases player's target value by the specified value.
+"tracker_inc_if" Tracker increases player's target value by the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+There are three different formats for specifying the tracker index and value.
+1. <value> 
+Set the tracker on index 1 to <value>
+
+2. <index, value> 
+Set the tracker on index <index> to <value>
+
+3. <index1,value1>|<index2,value2>|..|<indexN,valueN> 
+Set the trackers on indices <index1, index2, .., indexN> to values <value1, value2, .., valueN>
+
+Examples:
+Key         Value               Meaning
+tracker_eq  1                   tracker on index 1 has to be 1
+tracker_eq  2,1                 tracker on index 2 has to be 1
+tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
+
+Maximum amount of tracker indexes is 50.
+*/
+
+/*QUAKED weapon_portalgun (.3 .3 1) (-16 -16 -16) (16 16 16) - SPIN BOB
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SPIN spins constantly.
+BOB bobs constantly.
+-------- NOTES --------
+(none)
+*/
