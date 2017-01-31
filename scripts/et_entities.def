@@ -34,6 +34,15 @@ NO_LMS lms cannot be played on this map
 Every map should have exactly one worldspawn.
 */
 
+/*QUAKED _decal (0 1.0 0) ?
+-------- KEYS --------
+"target" the name of the entity targetted at for projection
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Compiler-only entity that specifies a decal to be projected. Should contain 1 or more patch meshes (curves) and target an info_null entity. The distance between the center of the _decal entity and the target is the axis and distance of projection.
+*/
+
 /*QUAKED alarm_box (1 0 1) START_ON
 A model with a toggleable button and a soundalarm.
 -------- KEYS --------
