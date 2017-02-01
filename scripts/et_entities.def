@@ -1398,6 +1398,17 @@ RELATIVE_PITCH converts player velocity and angles to be relative to destination
 Angle which player faces after being teleported is set from destination.
 */
 
+/*QUAKED team_CTF_blueflag (0 0 1) (-16 -16 -16) (16 16 16)
+-------- KEYS --------
+"model"	Set model to display in game.
+"message" Name of object in game (ex: the Radar parts).
+"scriptname" name used for scripting purposes.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used for dual objectives in ET.
+*/
+
 /*QUAKED team_CTF_bluespawn (0 0 1) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
 -------- KEYS --------
 angle - player faces this direction when spawning
@@ -1410,6 +1421,17 @@ STARTACTIVE this spawn is active at map start
 -------- NOTES --------
 ET spawnpoint
 If target is set, point spawnpoint toward target activation
+*/
+
+/*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
+-------- KEYS --------
+"model"		Set model to display in game.
+"message"	Name of object in game (ex: the Radar Parts).
+"scriptname"	name used for scripting purposes.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Used for dual objectives in ET.
 */
 
 /*QUAKED team_CTF_redspawn (1 0 0) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
