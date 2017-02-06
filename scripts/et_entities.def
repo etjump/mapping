@@ -1,5 +1,5 @@
 //et_entities.def created for ETJump mapping
-//Version 1.0
+//Version 1.1
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -63,6 +63,62 @@ alarm sound locations are also placed in the dlights, so wherever you place an a
 Teamed alarm_boxes work in tandem (tswitches/lights syncronize)
 
 Model path: models\mapobjects\electronics\alarmbox.md3
+*/
+
+/*QUAKED ammo_dynamite (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Dynamite model.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Decorative model only, cannot be picked up. Has cursorhint.
+The model is located in models/multiplayer/dynamite/dynamite.md3. You must copy it to
+models/ammo/dynamite/dynamite.md3
+*/
+
+/*QUAKED ammo_landmine (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Landmine model.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Decorative model only, cannot be picked up. Has cursorhint.
+The model is located in models/multiplayer/landmine/landmine.md3. You must copy it to
+models/ammo/landmine/landmine.md3
+*/
+
+/*QUAKED ammo_smoke_grenade (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Smoke grenade model.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Decorative model only, cannot be picked up. Has cursorhint.
+The model is located in models/multiplayer/smokegrenade/smokegrenade.md3. You must copy it to
+models/ammo/smoke_grenade/smoke_grenade.md3 (note the underscore in path and filename!)
+*/
+
+/*QUAKED ammo_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Syringe model.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Decorative model only, cannot be picked up. Has cursorhint.
+The model is located in models/multiplayer/syringe/syringe.md3. You must copy it to
+models/ammo/syringe/syringe.md3
 */
 
 /*QUAKED corona (0 1 0) (-4 -4 -4) (4 4 4) START_OFF
@@ -592,6 +648,42 @@ Defines a main point for a spline curve.
 The spline between this point and next point is named after this point, ie use this point's targetname
 */
 
+/*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Med pack.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Heals for 20 health.
+*/
+
+/*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Med pack.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Heals for 50 health.
+*/
+
+/*QUAKED item_health_turkey (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+A hot meal of turkey.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
+BOB bobs constantly.
+-------- NOTES --------
+Heals for 20 health.
+*/
+
 /*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - Q3MAP_NON-DYNAMIC
 -------- KEYS --------
 "light" overrides the default 300 intensity.
@@ -1105,6 +1197,18 @@ Allows you to place a static "far away" looking scene around the map.
 (none)
 -------- NOTES --------
 Direction cannot be controlled. Must be activated.
+*/
+
+/*QUAKED props_snowGenerator (3 2 7) ? - ALWAYS_ON
+Generates falling snow and some particle effects.
+-------- KEYS --------
+"count" how many snow particles to spawn. Do not go over 64 as it might cause problems. Default 32.
+-------- SPAWNFLAGS --------
+ALWAYS_ON is enabled at map start.
+-------- NOTES --------
+Brush-based entity. Creates snow and particles inside the brush.
+You MUST target an info_notnull with this for it to work. This does NOT determine the direction of snow, it always follows standard gravity.
+Can be toggled on/off with scripting.
 */
 
 /*QUAKED script_mover (0.5 0.25 1.0) ? TRIGGERSPAWN SOLID EXPLOSIVEDAMAGEONLY RESURECTABLE COMPASS ALLIED AXIS MOUNTED_GUN
