@@ -1,5 +1,5 @@
 //et_entities.def created for ETJump mapping
-//Version 1.1
+//Version 1.2
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -883,7 +883,7 @@ Spawns item at entitys location when activated. Must use pickup name.
 Angle cannot be set; items always spawn towards east.
 */
 
-/*QUAKED misc_teleporter_dest (1 0 0) (-32 -32 -24) (32 32 -16)
+/*QUAKED misc_teleporter_dest (1 0 0) (-19 -19 -24) (19 19 -16)
 Point teleporters at these.
 -------- KEYS --------
 angle : direction in which player will look when arriving.
@@ -1953,6 +1953,32 @@ HORIZONTAL only horizontal velocity.
 VERICAL only vertical velocity.
 -------- NOTES --------
 Fires targets if velocity requirements are met.
+*/
+
+/*QUAKED target_deathrun_start (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"message" Start message. [n] will be replaced with the player's name.
+"endMessage" End message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
+"checkpointMessage" Checkpoint message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
+"sound" Path to the sound file. Plays the sound once player hits the entity.
+"location" Print location for the run. console/chat/center/left.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Starts a death run.
+Death runs will be supported from ETJump 2.3.0 onwards.
+*/
+
+/*QUAKED target_deathrun_checkpoint (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+-------- KEYS --------
+"message" Start message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
+"sound" Path to the sound file. Plays the sound once player triggers the entity.
+"location" Print location for the checkpoint. console/chat/center/left.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Death run checkpoint.
+Death runs will be supported from ETJump 2.3.0 onwards.
 */
 
 /*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
