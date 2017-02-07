@@ -1,7 +1,17 @@
-# mapping
-ETJump mapping scripts and files.
+# ETJump Mapping Assets
+This repository has all ETJump mapping scripts and files you need to start mapping for ETJump mod.
 
-# Missing assets
+### What is ETJump
+[__ETJump__](http://etjump.com) is a [Wolfenstein: Enemy Territory](https://en.wikipedia.org/wiki/Wolfenstein:_Enemy_Territory) trickjump modification.
+
+### ETJump documentation
+All avaible ETJump cvar and mapping entity descriptions can be found in [ETJump documentation](http://etjump.rtfd.io/).
+
+## How to install
+* Download repository as a zip file
+* Extract archive in your `etmain` folder of your `mapping directory`
+
+## Missing assets
 There are few missing assets linked to some entities. These can be found in either Radiant install folder or in RTCW.
 
 * alarm_box
