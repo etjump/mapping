@@ -228,30 +228,6 @@ textures/common/ladder
 	surfaceparm trans
 }
 
-textures/common/leakoil
-{
-	qer_trans 0.5
-//	surfaceparm markparticles
-	surfaceparm nodraw
-	surfaceparm trans
-}
-
-textures/common/leaksteam
-{
-	qer_trans 0.5
-//	surfaceparm markparticles
-	surfaceparm nodraw
-	surfaceparm trans
-}
-
-textures/common/leakwater
-{
-	qer_trans 0.5
-//	surfaceparm markparticles
-	surfaceparm nodraw
-	surfaceparm trans
-}
-
 textures/common/lightgrid
 {
 	qer_trans 0.5
