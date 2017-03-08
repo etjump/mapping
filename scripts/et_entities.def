@@ -1,30 +1,35 @@
 //et_entities.def created for ETJump mapping
-//Version 1.2
+//Version 1.3
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
-"music" Music wav file
-"gravity" 800 is default gravity
-"message" - This text will not appear ingame in ET
-"ambient" Ambient light value (must use '_color')
-"_color" Ambient light color (must be used with 'ambient')
-"_minlight" Minimun light level throughout the map
+"music" wav file to play throughout the map.
+"_ambient" Raises all light values in map by specified amount.
+"_minlight" Minimun light level throughout the map.
+"_minvertexlight" Minimum light level for vertex-lit surfaces.
+"_mingridlight" Minimum light level for lightgrid.
+"_color" Sets color of ambient lighting
 "sun" Shader to use for 'sun' image
-"_blocksize" q3map always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
-"gridsize" granularity of the light grid created by q3map. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
-"fogclip" Uses vis to exclude stuff beyond the specified distance. q3map support varies.
-"mapcoordsmins"  Top left corner coordinate. Example "-256 256".
-"mapcoordsmaxs"  Lower right corner coordinate. Example "256 -256". Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.
+"_blocksize" q3map2 always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
+"gridsize" granularity of the lightgrid created by q3map2. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
+"_fog" fog shader to apply throughout the map.
+"fogclip" Determines how far world is drawn. Note that this is not actual game units, but rather calculates distance between PVS clusters, therefore _blocksize will affect this key.
+"_farplanedist" Same as "fogclip", just with proper "_" compiler prefix.
+"atmosphere" specifies the atmosphere (rain/snow) in map. You must generate tracemap for atmosphere to work.
+"mapcoordsmins" Top left corner coordinate. Example "-256 256".
+"mapcoordsmaxs" Lower right corner coordinate. Example "256 -256". Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.
+"_styleNalphaGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
+"_styleNrgbGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
 "nogoto" Disables goto.
 "nonoclip" Disables noclip.
-"nooverbounce" Default 0. If set to 1, overbounces are disabled everywhere except on surfaces with surfaceparm monsterslicksouth.
+"nooverbounce" 0 = cannot overbounce on surfaces with surfaceparm monsterslicksouth. 1 = can only overbounce on surfaces with surfaceparm monsterslicksouth. Default 0.
 "nosave" Disables save.
 "portalgun_spawn" Toggles whether players should spawn with a portal gun.
-"portalsurfaces" If set to 1, players can shoot portals everywhere on the map. If set to 0, players can only shoot portals to areas with surfaceparm monsterslickeast.
-"portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals.
+"portalsurfaces" 0 = players can only shoot portals to surfaces with surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaces with surfaceparm monsterslickeast. Default 1
+"portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
 "savelimit" If set to higher than 0, saves are limited to the set value.
 -------- SPAWNFLAGS --------
 NO_GT_WOLF regular wolf cannot be played on this map
@@ -41,6 +46,20 @@ Every map should have exactly one worldspawn.
 (none)
 -------- NOTES --------
 Compiler-only entity that specifies a decal to be projected. Should contain 1 or more patch meshes (curves) and target an info_null entity. The distance between the center of the _decal entity and the target is the axis and distance of projection.
+*/
+
+/*QUAKED _skybox (.6 .7 .7) (-8 -8 0) (8 8 16)
+-------- KEYS --------
+"_scale" scales the skybox bigger/smaller. Valid range is 0-120. Extremely low values can cause the skybox to be rendered inside the map. Default 64.
+"angle" rotation value for Z
+"angles" rotation value for X Y Z
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Allows you to place a static "far away" looking scene around the map.
+You should place this entity in the exact middle of your skybox area.
+This skybox entity is drawn a bit differently from "props_skyportal", as the scenery moves with the player and is not affected by viewing angles.
+This entity does not work well if player has r_fastsky 1.
 */
 
 /*QUAKED alarm_box (1 0 1) START_ON
@@ -131,21 +150,23 @@ START_OFF starts non-visible
 Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
 */
 
-/*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) FORCEACTIVE STARTOFF ONETIME
+/*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) - STARTOFF ONETIME
 -------- KEYS --------
 "style" value is an int from 1-19 that contains a pre-defined 'flicker' string.
-"stylestring" set your own 'flicker' string.  (ex. "klmnmlk"). NOTE: this should be all lowercase
+"stylestring" set your own 'flicker' string.  (ex. "klmnmlk"). NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.
 "offset" change the initial index in a style string.  So val of 3 in the above example would start this light at 'N'.  (used to get dlights using the same style out of sync).
 "atten" offset from the alpha values of the stylestring.  stylestring of "ddeeffzz" with an atten of -1 would result in "ccddeeyy"
 "shader" name of shader to apply
 "sound" sound to loop every cycle (this actually just plays the sound at the beginning of each cycle)
 -------- SPAWNFLAGS --------
-FORCEACTIVE	toggle makes sure this light stays alive in a map even if the user has r_dynamiclight set to 0.
-STARTOFF means the dlight doesn't spawn in until ent is triggered
-ONETIME	when the dlight is triggered, it will play through it's cycle once, then shut down until triggered again
+STARTOFF doesn't spawn in until triggered
+ONETIME	when the dlight is triggered, it will play through it's cycle once, then shut down until triggered again.
 -------- NOTES --------
-Stylestring characters run at 10 cps in the game. (meaning the alphabet, at 24 characters, would take 2.4 seconds to cycle)
+Stylestring characters run at 10 cps in the game (meaning the alphabet, at 24 characters, would take 2.4 seconds to cycle).
+Characters in stylestring represent the intensity of light: a = lowest and z = highest.
 Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
+If using "sound", make sure you set the key to "sound" instead of "noise"! The sound button sets "noise" key instead of "sound".
+The intensity of dlights cannot be scaled up or down, they have fixed intensity tied to the characters.
 
 styles:
 1 - "mmnmmommommnonmmonqnmmo"
@@ -684,31 +705,40 @@ BOB bobs constantly.
 Heals for 20 health.
 */
 
-/*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - Q3MAP_NON-DYNAMIC
+/*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
-"light" overrides the default 300 intensity.
+"light" light intensity. Default 300. Negative values darken areas.
 "radius" overrides the default 64 unit radius of a spotlight at the target point.
-"fade" falloff/radius adjustment value. multiply the run of the slope by "fade" (1.0f default) (only valid for "Linear" lights) (wolf)
+"fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
+"anglescale" scales angle attenuation. Higher values lessens attenuation. Default 1.0.
+"scale" scales light intensity by prescribed factor.
+"style" applies style index N defined in worldspawn to this light. Only affects lightmapped surfaces.
+"_deviance" width of the light entity in degrees for penumbra ("half-shadow") effect. Default 0.0.
+"_samples" random jitters distributed over solid arc. Default 1.
+"_filter" or "_filterRadius" filters (blurs) shadows produced by light from this entity by N world units. Default 0.0.
 -------- SPAWNFLAGS --------
-NONLINEAR checkbox gives inverse square falloff instead of linear
-Q3MAP_NON-DYNAMIC specifies that this light should not contribute to the world's 'light grid' and therefore will not light dynamic models in the game.(wolf)
-ANGLE adds light:surface angle calculations (only valid for "Linear" lights) (wolf)
+NONLINEAR inverse square falloff instead of linear.
+ANGLE adds angle attenuation calculations. Not valid if NONLINEAR is set.
 -------- NOTES --------
 Non-displayed light.
 Lights pointed at a target will be spotlights.
+Negative values of "light" will not darken below _minlight value.
+Styled lights are always excluded from lightgrid.
+For more information about "_deviance", "_samples" and "_filter", see shader directives q3map_sunExt and q3map_lightmapFilterRadius.
 */
 
-/*QUAKED lightJunior (0 0.7 0.3) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE NEGATIVE_SPOT NEGATIVE_POINT
+/*QUAKED lightJunior (0 0.7 0.3) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
-"light" overrides the default 300 intensity.
-"radius" overrides the default 64 unit radius of a spotlight at the target point.
-"fade" falloff/radius adjustment value. multiply the run of the slope by "fade" (1.0f default) (only valid for "Linear" lights) (wolf)
+"light" light intensity. Default 300. Negative values darken areas.
+"fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
+"scale" scales light intensity by prescribed factor.
 -------- SPAWNFLAGS --------
-NONLINEAR checkbox gives inverse square falloff instead of linear
-ANGLE adds light:surface angle calculations (only valid for "Linear" lights) (wolf)
+NONLINEAR inverse square falloff instead of linear.
+ANGLE adds angle attenuation calculations. Not valid if NONLINEAR is set.
 -------- NOTES --------
-Non-displayed light that only affects dynamic game models, but does not contribute to lightmaps
-Lights pointed at a target will be spotlights.
+Non-displayed light that only affects dynamic game models, but does not contribute to lightmaps.
+lightJuniors cannot be used as spotlights.
+Negative values of "light" will not darken below _minlight value.
 */
 
 /*QUAKED misc_beam (0 .5 .8) (-8 -8 -8) (8 8 8)
@@ -849,17 +879,15 @@ A complex model with SOLID spawnflag may create (to) complex clipping and this w
 You may target another entity with this entity (eg a script_mover). If so, this entity will be part of the targeted entity. It will move, rotate, hurt, blow etc accordingly. SOLID spawnflag works together with this feature. Both the model and the targeted entity will appear ingame. Any debris will spawn at the brush origin.
 */
 
-/*QUAKED misc_portal_camera (0 0 1) (-8 -8 -8) (8 8 8) SLOWROTATE FASTROTATE
+/*QUAKED misc_portal_camera (0 0 1) (-8 -8 -8) (8 8 8) - -
 The target for a misc_portal_surface.
 -------- KEYS --------
 "angles" this sets the pitch and yaw aiming angles of the portal camera (default 0 0)
 "roll" an angle modifier to orient the camera around the target vector
 -------- SPAWNFLAGS --------
-SLOWROTATE rotates slow
-FASTROTATE rotates fast
+(none)
 -------- NOTES --------
 You can set either angles or target another entity to determine the direction of view.
-The spawnflags does not seem to work
 */
 
 /*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
@@ -871,6 +899,7 @@ Used for mirror and cameras
 -------- NOTES --------
 The portal surface nearest this entity will show a view from the targeted misc_portal_camera, or a mirror view if untargeted.
 This must be within 64 world units of the surface!
+You must specify a general directive "portal" (or sort portal) and a stage directive "alphaGen portal" on last rendering stage in your portal surface shader.
 */
 
 /*QUAKED misc_spawner (.3 .7 .8) (-8 -8 -8) (8 8 8)
@@ -1050,7 +1079,7 @@ shard =
 point entity
 */
 
-/*QUAKED props_decoration (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+/*QUAKED props_decoration (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE - TOUCHACTIVATE LOOPING STARTON
 -------- KEYS --------
 "model2" will specify the model to load
 "skin" optional skin to use with the model
@@ -1066,18 +1095,17 @@ point entity
 "color"	constantLight color
 "light"	constantLight radius
 -------- SPAWNFLAGS --------
-STARTINVIS spawn triggered
-DEBRIS spawns debris when killed
-ANIMATE will be animated
-KEEPBLOCK
-TOUCHACTIVATE killed when touched
-LOOPING 
-STARTON starts enabled
+STARTINVIS isn't visible until toggled.
+DEBRIS spawns debris when killed.
+ANIMATE will be animated.
+TOUCHACTIVATE killed when touched.
+LOOPING animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".
+STARTON starts enabled.
 -------- NOTES --------
 Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to set clipping box. 
 */
 
-/*QUAKED props_decoration_scale (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+/*QUAKED props_decoration_scale (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE - TOUCHACTIVATE LOOPING STARTON
 -------- KEYS --------
 "modelscale" - Scale multiplier (defaults to 1.0 and scales uniformly)
 "modelscale_vec" - Set scale per-axis.  Overrides "modelscale", so if you have both the "modelscale" is ignored
@@ -1095,19 +1123,18 @@ Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to
 "color"	constantLight color
 "light"	constantLight radius
 -------- SPAWNFLAGS --------
-STARTINVIS spawn triggered
-DEBRIS spawns debris when killed
-ANIMATE will be animated
-KEEPBLOCK
-TOUCHACTIVATE killed when touched
-LOOPING 
-STARTON starts enabled
+STARTINVIS isn't visible until toggled.
+DEBRIS spawns debris when killed.
+ANIMATE will be animated.
+TOUCHACTIVATE killed when touched.
+LOOPING animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".
+STARTON starts enabled.
 -------- NOTES --------
 Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to set clipping box.
 Same as props_decoration except has support for modelscaling.
 */
 
-/*QUAKED props_decorBRUSH (.6 .7 .7) ? STARTINVIS DEBRIS ANIMATE KEEPBLOCK TOUCHACTIVATE LOOPING STARTON
+/*QUAKED props_decorBRUSH (.6 .7 .7) ? STARTINVIS DEBRIS ANIMATE - TOUCHACTIVATE LOOPING STARTON
 -------- KEYS --------
 "model2" will specify the model to load
 "skin" optional skin to use with the model
@@ -1121,13 +1148,12 @@ Same as props_decoration except has support for modelscaling.
 "color"	constantLight color
 "light"	constantLight radius
 -------- SPAWNFLAGS --------
-STARTINVIS spawn triggered
-DEBRIS spawns debris when killed
-ANIMATE will be animated
-KEEPBLOCK
-TOUCHACTIVATE killed when touched
-LOOPING 
-STARTON starts enabled
+STARTINVIS isn't visible until toggled.
+DEBRIS spawns debris when killed.
+ANIMATE will be animated.
+TOUCHACTIVATE killed when touched.
+LOOPING animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".
+STARTON starts enabled.
 -------- NOTES --------
 Use origin to specify model spawnpoint.
 Nonsolid and unkillable unless "health" is set.
@@ -1180,7 +1206,6 @@ Seems to always fire towards the entity which activated it.
 
 /*QUAKED props_skyportal (.6 .7 .7) (-8 -8 0) (8 8 16)
 -------- KEYS --------
-"fov" for the skybox default is 90
 "fogcolor" (r g b) (values 0.0-1.0)
 "fognear" distance from entity to start fogging
 "fogfar" distance from entity that fog is opaque
@@ -1188,6 +1213,7 @@ Seems to always fire towards the entity which activated it.
 (none)
 -------- NOTES --------
 Allows you to place a static "far away" looking scene around the map.
+You should place this entity in the exact middle of your skyportal area.
 */
 
 /*QUAKED props_smokedust (.8 .46 .16) (-8 -8 -8) (8 8 8)
@@ -1479,10 +1505,10 @@ Target an info_notnull to angle the smoke.
 -------- SPAWNFLAGS --------
 LOOPED_ON Plays looped at map start until toggled
 LOOPED_OFF Starts off and loops when toggled
-GLOBAL plays at full volume throughout the map.
-ACTIVATOR plays only to the activator
-VIS_MULTIPLE 
-NO_PVS plays even when not in players PVS
+GLOBAL plays whether or not in players PVS. Same as NO_PVS.
+ACTIVATOR plays only to the activator. Note that this results in no sound as it play to the targeting entity, not the player.
+VIS_MULTIPLE plays also in the PVS cluster where the targeted misc_vis_dummy_multiple is.
+NO_PVS plays whether or not in players PVS. Same as GLOBAL.
 -------- NOTES --------
 Global and activator sounds can't be combined with looping.
 Multiple identical looping sounds will just increase volume without any speed cost.
