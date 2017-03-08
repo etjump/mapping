@@ -8,7 +8,7 @@
 "_minlight" Minimum light level throughout the map.
 "_minvertexlight" Minimum light level for vertex-lit surfaces.
 "_mingridlight" Minimum light level for lightgrid.
-"_color" Sets color of ambient lighting. Normalized R G B value. Default 1.0 1.0 1.0. Value of 0.0 0.0 0.0 reverts to default. This affects only _ambient, not _minlight.
+"_color" Sets color of ambient lighting. Normalized R G B value. Default 1.0 1.0 1.0. Value of 0.0 0.0 0.0 reverts to default. This affects both _ambient and _minlight.
 "sun" Shader to use for 'sun' image
 "_blocksize" q3map2 always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
 "gridsize" granularity of the lightgrid created by q3map2. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
