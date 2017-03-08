@@ -5,10 +5,10 @@
 -------- KEYS --------
 "music" wav file to play throughout the map.
 "_ambient" Raises all light values in map by specified amount.
-"_minlight" Minimun light level throughout the map.
+"_minlight" Minimum light level throughout the map.
 "_minvertexlight" Minimum light level for vertex-lit surfaces.
 "_mingridlight" Minimum light level for lightgrid.
-"_color" Sets color of ambient lighting
+"_color" Sets color of ambient lighting. Normalized R G B value. Default 1.0 1.0 1.0. Value of 0.0 0.0 0.0 reverts to default. This affects both _ambient and _minlight.
 "sun" Shader to use for 'sun' image
 "_blocksize" q3map2 always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
 "gridsize" granularity of the lightgrid created by q3map2. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
@@ -708,7 +708,7 @@ Heals for 20 health.
 /*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
 "light" light intensity. Default 300. Negative values darken areas.
-"_color" color of the light. Default 1.0 1.0 1.0 (R G B) If value is set to 0.0 0.0 0.0, will default to 1.0 1.0 1.0.
+"_color" color of the light. Default 1.0 1.0 1.0 (R G B). Value of 0.0 0.0 0.0 will revert to default.
 "radius" overrides the default 64 unit radius of a spotlight at the target point.
 "fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
 "anglescale" scales angle attenuation. Higher values lessens attenuation. Default 1.0.
@@ -732,7 +732,7 @@ For more information about "_deviance", "_samples" and "_filter", see shader dir
 /*QUAKED lightJunior (0 0.7 0.3) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
 "light" light intensity. Default 300. Negative values darken areas.
-"_color" color of the light. Default 1.0 1.0 1.0 (R G B) If value is set to 0.0 0.0 0.0, will default to 1.0 1.0 1.0.
+"_color" color of the light. Default 1.0 1.0 1.0 (R G B). Value of 0.0 0.0 0.0 will revert to default.
 "fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
 "scale" scales light intensity by prescribed factor.
 -------- SPAWNFLAGS --------
