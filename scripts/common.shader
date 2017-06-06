@@ -405,6 +405,9 @@ textures/common/hintskip
 
 //ETJump mapping extras
 
+
+//General useful shaders
+
 textures/common/slickcushion
 {
 	qer_trans 0.3
@@ -423,6 +426,100 @@ textures/common/nosave
     surfaceparm trans
     surfaceparm clusterportal
 }
+
+
+//Cushion shaders with different footsteps
+
+textures/common/cushion_metal
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm metalsteps
+}
+
+textures/common/cushion_wood
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm woodsteps
+}
+
+textures/common/cushion_grass
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm grasssteps
+}
+
+textures/common/cushion_gravel
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm gravelsteps
+}
+
+textures/common/cushion_snow
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm snowsteps
+}
+
+textures/common/cushion_roof
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm roofsteps
+}
+
+textures/common/cushion_carpet
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm carpetsteps
+}
+
+textures/common/cushion_splash
+{
+	qer_nocarve
+	qer_trans 0.5
+	surfaceparm nodamage
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+    surfaceparm splash
+}
+
+
+//Portalsurfaces
 
 textures/common/portalsurface
 {
@@ -459,6 +556,9 @@ textures/common/portalsurface_slickcushion
 	surfaceparm nodamage
     surfaceparm monsterslickeast
 }
+
+
+//Overbounce surfaces
 
 textures/common/overbounce
 {
