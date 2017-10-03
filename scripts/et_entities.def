@@ -2125,7 +2125,7 @@ ONCE only set health once per life.
 (none)
 */
 
-/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_SAVE NO_EXPLOSIVES NO_PG
+/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG
 Starts a timerun.
 -------- KEYS --------
 "name" timerun name.
@@ -2135,7 +2135,7 @@ RESET_TEAM run resets on team change.
 RESET_DEATH run resets on death.
 RESET_END only reset when you reach the end.
 FORCE_PMOVE run does not start if activator has pmove_fixed 0.
-NO_SAVE disabled saves and backups during timerun.
+NO_BACKUPS disables backups and additional save slots during timerun.
 NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
 -------- NOTES --------
