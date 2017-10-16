@@ -282,6 +282,15 @@ textures/common/nodrawwater
 	surfaceparm water
 }
 
+textures/common/nodrawslag
+{
+	qer_trans .5
+	surfaceparm nodraw
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm slag
+}
+
 textures/common/nodrop
 {
 	qer_nocarve
