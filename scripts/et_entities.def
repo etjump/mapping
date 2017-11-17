@@ -1431,7 +1431,7 @@ Pushes the activator in the direction of angles, or towards target_position.
 Speed has no effect when target_position is used as target.
 */
 
-/*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+/*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM TIMERUN_ONLY NO_TIMERUN -
 Fires its targets.
 -------- KEYS --------
 (none)
@@ -1439,6 +1439,8 @@ Fires its targets.
 RED_ONLY only triggers by axis accepted
 BLUE_ONLY only trigger by allied accepted
 RANDOM only one of the targets will be fired, not all of them.
+TIMERUN_ONLY only fires targets if activator is timerunning
+NO_TIMERUN only fires targets if activator is not timerunning
 -------- NOTES --------
 (none)
 */
