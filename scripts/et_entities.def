@@ -1606,7 +1606,7 @@ This entity must have a scriptname.
 This is the clickable spawnpoint flags seen on the commandmap.
 -------- KEYS --------
 "description" short text that shows on the commandmap
-"targetname" target an info_limbo_camera ast this
+"targetname" target an info_limbo_camera at this
 -------- SPAWNFLAGS --------
 DEFAULT_AXIS This spawn region belongs to the Axis at the start of the map
 DEFAULT_ALLIES This spawn region belongs to the Alles at the start of the map
