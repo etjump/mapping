@@ -1531,10 +1531,12 @@ Angle which player faces after being teleported is set from destination.
 "model"	Set model to display in game.
 "message" Name of object in game (ex: the Radar parts).
 "scriptname" name used for scripting purposes.
+"count" how many objectives to spawn. Default 1.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Used for dual objectives in ET.
+Objective pickupable by Axis.
+"count" can be used to make multiple objectives to spawn in same location without having to make multiple entities (eg. gold crates on Goldrush).
 */
 
 /*QUAKED team_CTF_bluespawn (0 0 1) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
@@ -1557,10 +1559,12 @@ If more than 1 of these are used per spawn (team_WOLF_objective), you must use S
 "model" Set model to display in game.
 "message" Name of object in game (ex: the Radar Parts).
 "scriptname" name used for scripting purposes.
+"count" how many objectives to spawn. Default 1.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Used for dual objectives in ET.
+Objective pickupable by Allies.
+"count" can be used to make multiple objectives to spawn in same location without having to make multiple entities (eg. gold crates on Goldrush).
 */
 
 /*QUAKED team_CTF_redspawn (1 0 0) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
@@ -1578,17 +1582,16 @@ If target is set, point spawnpoint toward target activation.
 If more than 1 of these are used per spawn (team_WOLF_objective), you must use STARTACTIVE spawnflag to make them valid spawnpoints.
 */
 
-/*QUAKED team_WOLF_checkpoint (.6 .9 .6) (-16 -16 0) (16 16 128) SPAWNPOINT CP_HOLD AXIS_ONLY ALLIED_ONLY
+/*QUAKED team_WOLF_checkpoint (.6 .9 .6) (-16 -16 0) (16 16 128) SPAWNPOINT - AXIS_ONLY ALLIED_ONLY
 This is the flagpole players touch to gain control of a checkpoint, usually connected to forward spawnpoints.
 -------- KEYS --------
 "model" model to use (will use same animations as flagpole however)
 "scriptname" name of script which contains allied_capture and axis_capture triggers
 -------- SPAWNFLAGS --------
-SPAWNPOINT if spawnpoint flag is set, capture will turn on targeted spawnpoints for capture team and turn *off* targeted spawnpoints for opposing team
-AXIS_ONLY & ALLIED_ONLY for building axis or allied only forward spawns, which can be turned off by the opposing team
+SPAWNPOINT when captured, toggles STARTACTIVE spawnflag of targeted spawnpoints.
+AXIS_ONLY only Axis may capture this, Allies can only turn it off.
+ALLIED_ONLY only Allies may capture this, Axis can only turn it off.
 -------- NOTES --------
-the CP_HOLD spawnflag is leftover from something unfinished in RTCW, so probably does not do anything
-
 This entity will call specific trigger funtions in its script routine.
 When allies capture, it will call "trigger allied_capture".
 When axis capture, it will call "trigger axis_capture".
@@ -1694,8 +1697,7 @@ so, the basic time between firing is a random time between
 "customaxisimage" image to show axis players on the commandmap
 "customalliesimage" image to show allied players on the commandmap
 "track"	Mandatory, this text will be appended to "You are near "
-"target" You may target dynamitable objectives
-"score" If targeting a dynamitable objective, give this score when blown.
+"target" target "misc_commandmap_marker" to display command map icon.
 "shortname" Name to display on the command map
 -------- SPAWNFLAGS --------
 AXIS_OBJECTIVE set if targeting an objective owned by AXIS, then only allied dynamite will blow it up.
