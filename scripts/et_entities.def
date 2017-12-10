@@ -916,8 +916,8 @@ Angle cannot be set; items always spawn towards east.
 /*QUAKED misc_teleporter_dest (1 0 0) (-19 -19 -24) (19 19 -16)
 Point teleporters at these.
 -------- KEYS --------
-angle direction in which player will look when arriving.
-targetname make the trigger_- or target_teleporter point to this.
+"angle" direction in which player will look when arriving.
+"targetname" make the trigger_- or target_teleporter point to this.
 -------- NOTES --------
 Now that we don't have teleport destination pads, this is just an info_notnull.
 */
