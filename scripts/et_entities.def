@@ -1992,7 +1992,7 @@ Fires targets if velocity requirements are met.
 (none)
 -------- NOTES --------
 Starts a death run.
-Death runs will be supported from ETJump 2.3.0 onwards.
+Death runs will be supported in a future release.
 */
 
 /*QUAKED target_deathrun_checkpoint (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
