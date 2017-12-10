@@ -1766,7 +1766,7 @@ BOB bobs constantly.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
 Allied sniperrifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1774,13 +1774,12 @@ Allied sniperrifle.
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
-SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
 Axis sniperrifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1788,13 +1787,12 @@ Axis sniperrifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
-SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
 Axis engy rifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1802,13 +1800,12 @@ Axis engy rifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
-SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
 Allied engy rifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1816,7 +1813,6 @@ Allied engy rifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
-SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
