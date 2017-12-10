@@ -263,7 +263,7 @@ Setting "constructible_class" class sets pre-defined values for various keys.
 Class | Charge Bar Req. | Construct XP | Destruct XP | Health | Weapon Class | Duration (msec) | Icon
 1 | 0.5 | 5 | 5 | 350 | 1 | 2500 | Grenade
 2 | 1 | 7.5 | 7.5 | N/A | 2 | 5000 | Satchel Charge
-3 | 1.5 | 10 | 10 | N/A | 3 | 2500 | Dynamite
+3 | 1.5 | 10 | 10 | N/A | 3 | 7500 | Dynamite
 
 "constructible_weaponclass" definitions:
 0 = Everything
