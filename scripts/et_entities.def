@@ -147,7 +147,7 @@ models/ammo/syringe/syringe.md3
 -------- SPAWNFLAGS --------
 START_OFF starts non-visible
 -------- NOTES --------
-Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
+Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
 */
 
 /*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) - STARTOFF ONETIME
@@ -164,11 +164,11 @@ ONETIME	when the dlight is triggered, it will play through it's cycle once, then
 -------- NOTES --------
 Stylestring characters run at 10 cps in the game (meaning the alphabet, at 24 characters, would take 2.4 seconds to cycle).
 Characters in stylestring represent the intensity of light: a = lowest and z = highest.
-Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
+Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
 If using "sound", make sure you set the key to "sound" instead of "noise"! The sound button sets "noise" key instead of "sound".
 The intensity of dlights cannot be scaled up or down, they have fixed intensity tied to the characters.
 
-styles:
+Pre-defined style strings:
 1 - "mmnmmommommnonmmonqnmmo"
 2 - "abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba"
 3 - "mmmmmaaaaammmmmaaaaaabcdefgabcdefg"
@@ -197,8 +197,6 @@ styles:
 "speed"	seconds to complete a bob cycle (4 default)
 "phase"	the 0.0 to 1.0 offset in the cycle to start at
 "dmg" damage to inflict when blocked (2 default)
-"color"	constantLight color
-"light"	constantLight radius
 -------- SPAWNFLAGS --------
 X_AXIS bobs on the x-axis
 Y_AXIS bobs on the y-axis
@@ -219,34 +217,37 @@ entities that are based around staged construction.
 /*QUAKED func_button (0 .5 .8) ? - - - TOUCH
 When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
 -------- KEYS --------
-"target"	all entities with a matching targetname will be used
+"target" all entities with a matching targetname will be used
 "angle"	does NOT work in ET, use "angles"
-"angles" 	direction to move, x y z (eg 45 45 45)
-"model2"	.md3 model to also draw - use an origin
-"speed"	override the default 40 speed
-"wait"	override the default 1 second wait (-1 = never return)
-"lip"		override the default 4 pixel lip remaining at end of move
-"health"	if set, the button will also open when hurt
-"color"	constantLight color
-"light"	constantLight radius
+"angles" direction to move, x y z (eg 45 45 45)
+"model2" .md3 model to also draw - use an origin
+"speed" override the default 40 speed
+"wait" override the default 1 second wait (-1 = never return)
+"lip" override the default 4 pixel lip remaining at end of move
+"health" if set, the button will also open when hurt
 -------- SPAWNFLAGS --------
-TOUCH 	activates when player is close enough
+TOUCH activates when player is close enough
 -------- NOTES --------
 When activated, plays sound "sound/movers/switches/butn2.wav".
-Bug: does not play the sound on first activation.
 Sound cannot be changed.
 */
 
 /*QUAKED func_constructible (.9 .75 .15) ? START_BUILT INVULNERABLE AXIS_CONSTRUCTIBLE ALLIED_CONSTRUCTIBLE
 -------- KEYS --------
-"track"	functions as a group name. All entities with the same 'track' as the func_constructible will be constructed at the same time.
-"constages"	list of target func_brushmodel entities (up to 3) that make up the construction stages (example: "stage1;stage2;")
-"desstages"	list of target func_brushmodel entities (up to 3) that make up the destruction stages (example: "desstage1;desstage2;")
+"track" functions as a group name. All entities with the same 'track' as the func_constructible will be constructed at the same time.
+"constages" list of target func_brushmodel entities (up to 3) that make up the construction stages (example: "stage1;stage2;")
+"desstages" list of target func_brushmodel entities (up to 3) that make up the destruction stages (example: "desstage1;desstage2;")
+"constructible_class" loads pre-defined values for other constructible keys.
+"constructible_chargebarreq" how much charge constructing requires. Default 1.0, unless constructible_class is set.
+"constructible_constructxpbonus" how much XP is granted for constructing. Default 0, unless constructible_class is set.
+"constructible_destructxpbonus" how much XP is granted for destroying. Default 0, unless constructible_class is set.
+"constructible_weaponclass" defines what weapons can damage this entity. Default 0, unless constructible_class is set.
+"constructible_duration" supposedly how many ms it takes to construct, but doesn't seem to be actual value and also affects charge bar drainig. Default 5000, unless constructible_class is set.
 -------- SPAWNFLAGS --------
-START_BUILT : building starts built
-INVULNERABLE : building can't be destroyed
-AXIS_CONSTRUCTIBLE : building is constructible by axis
-ALLIED_CONSTRUCTIBLE : building is constructible by allies
+START_BUILT building starts built
+INVULNERABLE building can't be destroyed
+AXIS_CONSTRUCTIBLE building is constructible by axis
+ALLIED_CONSTRUCTIBLE building is constructible by allies
 -------- NOTES --------
 A constructible object that functions as target for engineers.
 
@@ -257,6 +258,18 @@ built <X>
 destroyed <X>
 death
 where <X> is stage1, stage2 or final
+
+Setting "constructible_class" class sets pre-defined values for various keys.
+Class | Charge Bar Req. | Construct XP | Destruct XP | Health | Weapon Class | Duration (msec) | Icon
+1 | 0.5 | 5 | 5 | 350 | 1 | 2500 | Grenade
+2 | 1 | 7.5 | 7.5 | N/A | 2 | 5000 | Satchel Charge
+3 | 1.5 | 10 | 10 | N/A | 3 | 2500 | Dynamite
+
+"constructible_weaponclass" definitions:
+0 = Everything
+1 = All Explosives (Dynamite, Satchel Charge, Grenades, Panzerfaust, Mortars, Air Strike, etc.)
+2 = Dynamite, Satchel Charge
+3 = Dynamite Only
 */
 
 /*QUAKED func_door (0 .5 .8) ? START_OPEN TOGGLE CRUSHER TOUCH
@@ -266,22 +279,20 @@ where <X> is stage1, stage2 or final
 "angle" determines the opening direction
 "target" fires target when opened and closed
 "targetname" target the door to open it from a distance
-"speed" movement speed (100 default)
+"speed" movement speed (400 default)
 "closespeed" optional different movement speed for door closing
-"wait" wait before returning (3 default, -1 = never return)
+"wait" wait before returning (2 default, -1 = never return)
 "lip" lip remaining at end of move (8 default)
 "dmg" damage to inflict when blocked (2 default)
-"color" constantLight color
-"light" constantLight radius
 "health" if set, the door will open when shot/ hurt
 "team" team name.  other doors with same team name will open/close in syncronicity
 "type" use sounds based on construction of door
 "allowteams" used to enable a covop with uniform to pass through a one-team-only door
 -------- SPAWNFLAGS --------
 START_OPEN the door to moves to its destination when spawned, and operate in reverse.  It is used to temporarily or permanently close off an area when triggered (not useful for touch doors).
-TOGGLE - requires beeing triggered (by scripting) before closing
-CRUSHER - will hurt a blocking player and keep trying to move
-TOUCH - opens when touched
+TOGGLE requires beeing triggered (by scripting) before closing
+CRUSHER will hurt a blocking player and keep trying to move
+TOUCH opens when touched
 -------- NOTES --------
 if targeted, key is in most cases by default -1 (locked)
 
@@ -306,22 +317,21 @@ Door rotating on an axis.
 "key" -1 for locked, 0 for open. default 0, -1 if door is targeted
 "model2" .md3 model to also draw
 "degrees" determines how many degrees it will turn (90 default)
-"speed" movement speed (100 default)
+"speed" movement speed (400 default)
 "closespeed" optional different movement speed for door closing
+"wait" wait before returning (2 default)
 "time" how many milliseconds it will take to open 1 sec = 1000
 "dmg" damage to inflict when blocked (2 default)
-"color" constantLight color
-"light" constantLight radius
 "type" use sounds based on construction of door:
 "team" team name.  other doors with same team name will open/close in syncronicity
 "allowteams" used to enable a covop with uniform to pass through a one-team-only door
 "target" will fire its targets when opened and closed
 "targetname" target door to open it from a distance
 -------- SPAWNFLAGS --------
-TOGGLE - requires beeing triggered (by scripting) before closing
-FORCE - door opens in one direction only (set with +/- on degrees)
-REVERSE - use with team function to have doors open in the same direction
-STAYOPEN - never closes after opened
+TOGGLE requires beeing triggered (by scripting) before closing
+FORCE door opens in one direction only (set with +/- on degrees)
+REVERSE use with team function to have doors open in the same direction
+STAYOPEN never closes after opened
 -------- NOTES --------
 You need to have an origin brush as part of this entity.
 The center of that brush will be the point around which it is rotated. It will rotate around the Z axis by default.  You can check either the X_AXIS or Y_AXIS box to change that (only one axis allowed. If both X and Y are checked, the default of Z will be used).
@@ -380,7 +390,7 @@ If you want an explosion, set dmg and it will do a radius explosion of that amou
 (none)
 -------- NOTES --------
 Used to group brushes together just for editor convenience.  They are turned into normal brushes by the utilities.
-When using alphamod, group terrain together with alpha brushes to apply alphamod only to terrain brushes.
+Alphamod brushes included in a func_group will only apply alphamod to brushes in that func_group.
 */
 
 /*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE NOT_KICKABLE
@@ -443,13 +453,11 @@ This entity is solid, so it's a good idea to use it as clipping if you attach mo
 "speed"	the number of degrees each way the pendulum swings, (30 default)
 "phase"	the 0.0 to 1.0 offset in the cycle to start at
 "dmg" damage to inflict when blocked (2 default)
-"color"	constantLight color
-"light"	constantLight radius
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
 You need to have an origin brush as part of this entity.
-Pendulums always swing north / south on unrotated models.  Add an angles field to the model to allow rotation in other directions.
+Pendulums always swing north / south on unrotated models. Add an angles field to the model to allow rotation in other directions.
 Pendulum frequency is a physical constant based on the length of the beam and gravity.
 */
 
@@ -461,8 +469,6 @@ Platform which moves up/down when stepped on
 "speed"	overrides default 200.
 "dmg" overrides default 2
 "model2" .md3 model to also draw
-"color"	constantLight color
-"light"	constantLight radius
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -474,8 +480,6 @@ Plats are always drawn in the extended position so they will light correctly.
 "model2" .md3 model to also draw
 "speed" determines how fast it moves; default value is 100. Negative value reverses rotation direction.
 "dmg" damage to inflict when blocked (2 default)
-"color"	constantLight color
-"light"	constantLight radius
 -------- SPAWNFLAGS --------
 X_AXIS rotate around the x-axis
 Y_AXIS rotate around the y-axis
@@ -499,13 +503,11 @@ Secret door which opens inwards, then to the side. No usefield.
 "health" if set, the door will also open when hurt
 "team" doors with the same "team" value will open at the same time
 "model2" .md3 model to also draw
-"color" constantLight color
-"light" constantLight radius
 -------- SPAWNFLAGS --------
-REVERSE - changes sliding direction left/right
-TOUCH - opens when touched or hurt - can't be targeted
+REVERSE changes sliding direction left/right
+TOUCH opens when touched or hurt - can't be targeted
 -------- NOTES --------
-Seems to always be crusher.
+Seems to always be a crusher.
 If TOUCH spawnflag is used, a player standing in the touchfield will halt movement.
 */
 
@@ -514,20 +516,17 @@ A brush model that just sits there, doing nothing.
 Can be used for conditional walls and models.
 -------- KEYS --------
 "model2" .md3 model to also draw
-"color"	constantLight color
-"light"	constantLight radius
 "targetname" If targeted, it will toggle existance when triggered
 "target" may fire targets when hurt, see PAIN
 "delay" time, in seconds, before targets can be fired again when using PAIN default 1
 "health" if set (and _not_ pain spawnflag) damage will turn the entity invisible, when pain flag is set, default health is 9999
-
 -------- SPAWNFLAGS --------
 START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
-PAIN  - will fire its targets when hurt/pain
+PAIN will fire its targets when hurt/pain
 -------- NOTES --------
 When using pain you will need to specify the delay time
-
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
+Even though PAIN will set health to 9999, it seems like it cannot actually die and will function even if it takes more than 9999 damage.
 */
 
 /*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
@@ -552,8 +551,6 @@ The train spawns at the first target it is pointing at.
 "model2" .md3 model to also draw
 "speed" default 100
 "target" next path corner
-"color" constantLight color
-"light" constantLight radius
 -------- SPAWNFLAGS --------
 START_ON starts enabled (default behavior)
 START_OFF starts disabled
@@ -649,7 +646,7 @@ If no team_CTF_bluespawn or team_CTF_redspawn are present, players will also sta
 
 /*QUAKED info_train_spline_control (1 .5 1) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
-"targetname" - the "control" key in a main splinepoint references to this
+"targetname" the "control" key in a main splinepoint references to this
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -747,9 +744,9 @@ If negative lights are used with _ambient, the hue of the light will be inverted
 
 /*QUAKED misc_beam (0 .5 .8) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
-"target"	start of beam
-"message"	end of beam
-"shader"	the shader
+"target" start of beam
+"message" end of beam
+"shader" the shader
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -846,7 +843,7 @@ Needs to have one spawnflag set.
 Make sure it is placed less than 64 units above an appropiate, landmine placement
 compatible surface. It will drop down on spawn and then settle itself.
 
-There is a team limit of 10 landmines. With this entity you can place more landmines for  that team in the map on start, but none of the engineers will be able to place landmines until there are less than 10 left. The counter that limits each team to 10 mines will also look strange.
+There is a team limit of 10 landmines. With this entity you can place more landmines for that team in the map on start, but none of the engineers will be able to place landmines until there are less than 10 left. The counter that limits each team to 10 mines will also look strange.
 */
 
 /*QUAKED misc_mg42 (1 0 0) (-16 -16 -24) (16 16 24) HIGH NOTRIPOD
@@ -866,19 +863,19 @@ Emplaced MG42 weapon.
 -------- KEYS --------
 "angle" sets the angle to the degree (0-360)
 "angles" set model rotation on all axis (0 90 360)
-"model"   arbitrary .md3 file to display
+"model" arbitrary .md3 file to display
 "modelscale" scale multiplier (defaults to 1x)
 "modelscale_vec" scale multiplier (defaults to 1 1 1, scales each axis as requested)
 "modelscale_vec" Set scale per-axis.  Overrides "modelscale", so if you have both, the "modelscale" is ignored
 "_remap" this will force the use of another file for the models skin, keyvalues like this: "*;models/mapobjects/props_sd/snowrock_clip"
 "target" target another entitiy to include this entity into that entity (see notes)
 -------- SPAWNFLAGS --------
-SOLID - will make it solid (read note)
-FORCEMETA - needs Q3Map2 by ydnar to work, forcemeta/lightmapped unless explicitly set as vertex lit in their shader(s). If u dont know what this is, leave it.
+SOLID will make it solid (read note)
+FORCEMETA needs Q3Map2 by ydnar to work, forcemeta/lightmapped unless explicitly set as vertex lit in their shader(s). If you dont know what this is, leave it.
 -------- NOTES --------
 Model that will be compiled into the map.
 
-A complex model with SOLID spawnflag may create (to) complex clipping and this will cause trouble, use with care.
+A complex model with SOLID spawnflag may create (too) complex clipping and this will cause trouble, use with care.
 
 You may target another entity with this entity (eg a script_mover). If so, this entity will be part of the targeted entity. It will move, rotate, hurt, blow etc accordingly. SOLID spawnflag works together with this feature. Both the model and the targeted entity will appear ingame. Any debris will spawn at the brush origin.
 */
@@ -897,7 +894,7 @@ You can set either angles or target another entity to determine the direction of
 /*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
 Used for mirror and cameras
 -------- KEYS --------
-"target" - target a misc_portal_camera for portals, remove key for mirror
+"target" target a misc_portal_camera for portals, remove key for mirror
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -919,8 +916,8 @@ Angle cannot be set; items always spawn towards east.
 /*QUAKED misc_teleporter_dest (1 0 0) (-19 -19 -24) (19 19 -16)
 Point teleporters at these.
 -------- KEYS --------
-angle : direction in which player will look when arriving.
-targetname : make the trigger_- or target_teleporter point to this.
+angle direction in which player will look when arriving.
+targetname make the trigger_- or target_teleporter point to this.
 -------- NOTES --------
 Now that we don't have teleport destination pads, this is just an info_notnull.
 */
@@ -1020,16 +1017,16 @@ shard types:
 /*QUAKED props_chair_chat(.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
-health = default = 10
-wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
-shard =
-	shard_glass = 0,
-	shard_wood = 1,
-	shard_metal = 2,
-	shard_ceramic = 3
+"health" default = 10
+"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+shard types:
+	0 = glass
+	1 = wood
+	2 = metal
+	3 = ceramic
 point entity
 model: models\furniture\chair\chair_chat.mdc
 */
@@ -1037,13 +1034,8 @@ model: models\furniture\chair\chair_chat.mdc
 /*QUAKED props_chair_chatarm(.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
-health = default = 10
-wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
-shard =
-	shard_glass = 0,
-	shard_wood = 1,
-	shard_metal = 2,
-	shard_ceramic = 3
+"health" default = 10
+"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1054,32 +1046,32 @@ model:models\furniture\chair\chair_chatarm.mdc
 /*QUAKED props_chair_hiback (.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
-health = default = 10
-wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
-shard =
-	shard_glass = 0,
-	shard_wood = 1,
-	shard_metal = 2,
-	shard_ceramic = 3
+"health" default = 10
+"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+shard types:
+	0 = glass
+	1 = wood
+	2 = metal
+	3 = ceramic
 point entity
 */
 
 /*QUAKED props_chair_side (.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
-health = default = 10
-wait = defaults to 5 how many shards to spawn ( try not to exceed 20 )
-shard =
-	shard_glass = 0,
-	shard_wood = 1,
-	shard_metal = 2,
-	shard_ceramic = 3
+"health" default = 10
+"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+shard types:
+	0 = glass
+	1 = wood
+	2 = metal
+	3 = ceramic
 point entity
 */
 
@@ -1111,8 +1103,8 @@ Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to
 
 /*QUAKED props_decoration_scale (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE - TOUCHACTIVATE LOOPING STARTON
 -------- KEYS --------
-"modelscale" - Scale multiplier (defaults to 1.0 and scales uniformly)
-"modelscale_vec" - Set scale per-axis.  Overrides "modelscale", so if you have both the "modelscale" is ignored
+"modelscale" Scale multiplier (defaults to 1.0 and scales uniformly)
+"modelscale_vec" Set scale per-axis.  Overrides "modelscale", so if you have both the "modelscale" is ignored
 "model2" will specify the model to load
 "skin" optional skin to use with the model
 "noise" the looping sound entity is to make
@@ -1270,7 +1262,7 @@ Triggering a dead script_mover with resurrectable spawnflag will reset the healt
 
 /*QUAKED script_multiplayer (1.0 0.25 1.0) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
-"scriptname" game_manager  - always use this scriptname
+"scriptname" game_manager - always use this scriptname
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1320,8 +1312,8 @@ Fires off targets after a delay.
 
 /*QUAKED target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT EXPLODE SMOKE - - - -
 -------- KEYS --------
-"mass" defaults to 15.  This determines how much debris is emitted when it explodes.  (number of pieces)
-"dmg" defaults to 0.  damage radius blast when triggered
+"mass" defaults to 15. This determines how much debris is emitted when it explodes.  (number of pieces)
+"dmg" defaults to 0. Damage radius blast when triggered
 "type" rubble mdel type
 -------- SPAWNFLAGS --------
 TNT Big explosion when triggered
@@ -1375,7 +1367,7 @@ Can be used to kill script_movers as well.
 */
 
 /*QUAKED target_laser (0 .5 .8) (-8 -8 -8) (8 8 8) START_ON
-When activated, fires a laser.  You can either set a target or a direction.
+When activated, fires a laser. You can either set a target or a direction.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
@@ -1547,23 +1539,24 @@ Used for dual objectives in ET.
 
 /*QUAKED team_CTF_bluespawn (0 0 1) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
 -------- KEYS --------
-angle - player faces this direction when spawning
-target - fires targets when a player spawns
-targetname - may be targeted by a team_WOLF_checkpoint
+"angle" player faces this direction when spawning.
+"target" fires targets when a player spawns
+"targetname" may be targeted by a team_WOLF_checkpoint
 -------- SPAWNFLAGS --------
 INVULNERABE player always spawn invulnerable, so the usage of this flag
 is unknown. The official ET maps seem to always set it.
 STARTACTIVE this spawn is active at map start
 -------- NOTES --------
-ET spawnpoint
-If target is set, point spawnpoint toward target activation
+ET spawnpoint.
+If target is set, point spawnpoint toward target activation.
+If more than 1 of these are used per spawn (team_WOLF_objective), you must use STARTACTIVE spawnflag to make them valid spawnpoints.
 */
 
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
 -------- KEYS --------
-"model"		Set model to display in game.
-"message"	Name of object in game (ex: the Radar Parts).
-"scriptname"	name used for scripting purposes.
+"model" Set model to display in game.
+"message" Name of object in game (ex: the Radar Parts).
+"scriptname" name used for scripting purposes.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1572,16 +1565,17 @@ Used for dual objectives in ET.
 
 /*QUAKED team_CTF_redspawn (1 0 0) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
 -------- KEYS --------
-angle - player faces this direction when spawning
-target - fires targets when a player spawns
-targetname - may be targeted by a team_WOLF_checkpoint
+"angle" player faces this direction when spawning
+"target" fires targets when a player spawns
+"targetname" may be targeted by a team_WOLF_checkpoint
 -------- SPAWNFLAGS --------
 INVULNERABE player always spawn invulnerable, so the usage of this flag
 is unknown. The official ET maps seem to always set it.
 STARTACTIVE this spawn is active at map start
 -------- NOTES --------
-ET spawnpoint
-If target is set, point spawnpoint toward target activation
+ET spawnpoint.
+If target is set, point spawnpoint toward target activation.
+If more than 1 of these are used per spawn (team_WOLF_objective), you must use STARTACTIVE spawnflag to make them valid spawnpoints.
 */
 
 /*QUAKED team_WOLF_checkpoint (.6 .9 .6) (-16 -16 0) (16 16 128) SPAWNPOINT CP_HOLD AXIS_ONLY ALLIED_ONLY
@@ -1590,8 +1584,8 @@ This is the flagpole players touch to gain control of a checkpoint, usually conn
 "model" model to use (will use same animations as flagpole however)
 "scriptname" name of script which contains allied_capture and axis_capture triggers
 -------- SPAWNFLAGS --------
-SPAWNPOINT - if spawnpoint flag is set, capture will turn on targeted spawnpoints for capture team and turn *off* targeted spawnpoints for opposing team
-AXIS_ONLY & ALLIED_ONLY - for building axis or allie only forward spawns, which can be turned off by the opposing team
+SPAWNPOINT if spawnpoint flag is set, capture will turn on targeted spawnpoints for capture team and turn *off* targeted spawnpoints for opposing team
+AXIS_ONLY & ALLIED_ONLY for building axis or allied only forward spawns, which can be turned off by the opposing team
 -------- NOTES --------
 the CP_HOLD spawnflag is leftover from something unfinished in RTCW, so probably does not do anything
 
@@ -1772,7 +1766,7 @@ BOB bobs constantly.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Allied sniperrifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1780,12 +1774,13 @@ Allied sniperrifle.
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Axis sniperrifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1793,12 +1788,13 @@ Axis sniperrifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Axis engy rifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1806,12 +1802,13 @@ Axis engy rifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Allied engy rifle
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -1819,6 +1816,7 @@ Allied engy rifle
 "count" amount of ammo included, default 0
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
@@ -2010,7 +2008,7 @@ Death runs will be supported from ETJump 2.3.0 onwards.
 (none)
 -------- NOTES --------
 Death run checkpoint.
-Death runs will be supported from ETJump 2.3.0 onwards.
+Death runs will be supported in a future release.
 */
 
 /*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
@@ -2084,7 +2082,7 @@ Saves targets position.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
- Replaces save on slot 0.
+Replaces save on slot 0.
 */
 
 /*QUAKED target_savereset (1 1 1) (-8 -8 -8) (8 8 8)
@@ -2195,7 +2193,7 @@ Resets targets saves.
 Resets saves on every slot.
 */
 
-/*QUAKED trigger_tracker (0 0 0) (-8 -8 -8) (8 8 8)
+/*QUAKED trigger_tracker (.5 .5 .5) ?
 -------- KEYS --------
 "tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
 "tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
@@ -2227,11 +2225,12 @@ Maximum amount of tracker indexes is 50.
 */
 
 /*QUAKED weapon_portalgun (.3 .3 1) (-16 -16 -16) (16 16 16) - SPIN BOB
+Spawns portalgun.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
 SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
-(none)
+This entity never falls to the ground.
 */
