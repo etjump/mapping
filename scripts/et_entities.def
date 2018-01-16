@@ -1978,7 +1978,7 @@ Ident system has been replaced with tracker system. Use that instead.
 "upper_limit" If velocity is over upper_limit, nothing will be activated. 0 to disregard.
 -------- SPAWNFLAGS --------
 HORIZONTAL only horizontal velocity.
-VERICAL only vertical velocity.
+VERTICAL only vertical velocity.
 -------- NOTES --------
 Fires targets if velocity requirements are met.
 */
@@ -2132,7 +2132,7 @@ Starts a timerun.
 RESET_TEAM run resets on team change.
 RESET_DEATH run resets on death.
 RESET_END only reset when you reach the end.
-FORCE_PMOVE run does not start if activator has pmove_fixed 0.
+FORCE_PMOVE run resets if client sets pmove_fixed 0.
 NO_BACKUPS disables backups and additional save slots during timerun.
 NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
