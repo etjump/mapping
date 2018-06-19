@@ -22,19 +22,20 @@
 "_styleNalphaGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "_styleNrgbGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
-"nofalldamage" 0 = fall damage disabled on surfaceparm nodamage. 1 = fall damage enabled on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
+"nofalldamage" 0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
 "nogoto" Disables goto.
-"nojumpdelay" 0 = jump delay disabled on surfaceparm monsterslicknorth. 1 = jump delay enabled on surfaceparm monsterslicknorth. Default 0.
+"nojumpdelay" 0 = jump delay disabled only on surfaceparm monsterslicknorth. 1 = jump delay enabled only on surfaceparm monsterslicknorth. Default 0.
 "nonoclip" Disables noclip.
 "nooverbounce" 0 = cannot overbounce on surfaces with surfaceparm monsterslicksouth. 1 = can only overbounce on surfaces with surfaceparm monsterslicksouth. Default 0.
-"nosave" Disables save.
+"noprone" 0 = cannot prone inside of surfaceparm donotenter. 1 = cannot prone outside of surfaceparm donotenter. Default 0.
+"nosave" 0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal. Default 0.
 "portalgun_spawn" Toggles whether players should spawn with a portal gun.
 "portalsurfaces" 0 = players can only shoot portals to surfaces with surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaces with surfaceparm monsterslickeast. Default 1
 "portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
 "savelimit" If set to higher than 0, saves are limited to the set value.
-"strictsaveload" Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move|dead).
+"strictsaveload" Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).
 -------- SPAWNFLAGS --------
 NO_GT_WOLF regular wolf cannot be played on this map
 NO_STOPWATCH stopwatch cannot be played on this map
