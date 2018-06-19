@@ -1,5 +1,6 @@
 //et_entities.def created for ETJump mapping
-//Version 1.3
+//19.06.2018
+//Updated for ETJump 2.3.0
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -21,9 +22,11 @@
 "_styleNalphaGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "_styleNrgbGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
+"nofalldamage" 0 = fall damage disabled on surfaceparm nodamage. 1 = fall damage enabled on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
 "nogoto" Disables goto.
+"nojumpdelay" 0 = jump delay disabled on surfaceparm monsterslicknorth. 1 = jump delay enabled on surfaceparm monsterslicknorth. Default 0.
 "nonoclip" Disables noclip.
 "nooverbounce" 0 = cannot overbounce on surfaces with surfaceparm monsterslicksouth. 1 = can only overbounce on surfaces with surfaceparm monsterslicksouth. Default 0.
 "nosave" Disables save.
@@ -31,6 +34,7 @@
 "portalsurfaces" 0 = players can only shoot portals to surfaces with surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaces with surfaceparm monsterslickeast. Default 1
 "portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
 "savelimit" If set to higher than 0, saves are limited to the set value.
+"strictsaveload" Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move|dead).
 -------- SPAWNFLAGS --------
 NO_GT_WOLF regular wolf cannot be played on this map
 NO_STOPWATCH stopwatch cannot be played on this map
@@ -242,7 +246,7 @@ Sound cannot be changed.
 "constructible_constructxpbonus" how much XP is granted for constructing. Default 0, unless constructible_class is set.
 "constructible_destructxpbonus" how much XP is granted for destroying. Default 0, unless constructible_class is set.
 "constructible_weaponclass" defines what weapons can damage this entity. Default 0, unless constructible_class is set.
-"constructible_duration" supposedly how many ms it takes to construct, but doesn't seem to be actual value and also affects charge bar drainig. Default 5000, unless constructible_class is set.
+"constructible_duration" supposedly how many ms it takes to construct, but doesn't seem to be actual value and also affects charge bar draining. Default 5000, unless constructible_class is set.
 -------- SPAWNFLAGS --------
 START_BUILT building starts built
 INVULNERABLE building can't be destroyed
@@ -398,6 +402,8 @@ Alphamod brushes included in a func_group will only apply alphamod to brushes in
 "delay" time (in seconds) before it can be used again
 "offnoise" specifies an alternate sound
 "cursorhint" overrides the auto-location of targeted entity (list below)
+"noise" wav file to play
+"volume" volume of activation sound. Default 255.
 -------- SPAWNFLAGS --------
 NO_OFF_NOISE no sound will play if the invis_user is used when 'off'
 NOT_KICKABLE kicking doesn't fire, only player activating
@@ -1413,14 +1419,14 @@ If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
 */
 
-/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8)
+/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) - ADD_XY
 -------- KEYS --------
-"speed"	defaults to 1000
+"speed" push speed. Default to 1000
 -------- SPAWNFLAGS --------
-(none)
+ADD_XY adds activators current horizontal speed to pusher instead of setting it.
 -------- NOTES --------
 Pushes the activator in the direction of angles, or towards target_position.
-Speed has no effect when target_position is used as target.
+Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
 */
 
 /*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM TIMERUN_ONLY NO_TIMERUN -
@@ -1512,16 +1518,18 @@ Global and activator sounds can't be combined with looping.
 Multiple identical looping sounds will just increase volume without any speed cost.
 */
 
-/*QUAKED target_teleporter (1 0 0) (-8 -8 -8) (8 8 8) RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH
+/*QUAKED target_teleporter (1 0 0) (-8 -8 -8) (8 8 8) RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
 The activator will be teleported away.
 Unlike trigger_teleport, this entity must be activated by a trigger.
 -------- KEYS --------
-(none)
+"noise" wav file to play
+"outspeed" fixed speed at which activator exits at destination
 -------- SPAWNFLAGS --------
 RESET_VELOCITY resets player velocity when teleported.
 CONVERT_VELOCITY converts player velocity to match the angle of teleport destination.
 RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
 RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
+KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 */
@@ -1672,7 +1680,7 @@ Targeting the trigger will toggle its on / off state.
 The entity must be used first before it will count down its life
 */
 
-/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY CONSTANT
+/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY CONSTANT - MULTI_ACTIVATOR
 -------- KEYS --------
 "wait" Seconds between triggerings, 0.5 default, -1 = one time only.
 "random" wait variance, default is 0
@@ -1685,10 +1693,12 @@ MEDIC_ONLY only medics may trigger this
 ENGINEER_ONLY only engineers may trigger this
 COVERTOPS_ONLY only covertops may trigger this
 CONSTANT triggers on every frame
+MULTI_ACTIVATOR activates for all players touching the trigger
 -------- NOTES --------
 Variable sized repeatable trigger.  Must be targeted at one or more entities.
 so, the basic time between firing is a random time between
 (wait - random) and (wait + random)
+When MULTI_ACTIVATOR is set, "wait" cycle is unique for each player.
 */
 
 /*QUAKED trigger_objective_info (.5 .5 .5) ? AXIS_OBJECTIVE ALLIED_OBJECTIVE - MOBILE_TANK IS_OBJECTIVE IS_HEALTHAMMOCABINET IS_COMMANDPOST
@@ -1728,16 +1738,29 @@ Must be targeted at one or more entities.
 Once triggered, this entity is destroyed
 (you can actually do the same thing with trigger_multiple with a wait of -1)
 */
+/*QUAKED trigger_push (.5 .5 .5) ? - ADD_XY
+Pushes activator towards targeted target_position or info_notnull, which will be the apex of the push.
+-------- KEYS --------
+"speed" push speed. Default to 1000
+"noise" wav file to play
+-------- SPAWNFLAGS --------
+ADD_XY adds activators current horizontal speed to pusher instead of setting it.
+-------- NOTES --------
+Unlike target_push, this entity is client side predicted.
+Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
+*/
 
-/*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH
+/*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
 Touching this will teleport players to the location of the targeted misc_teleporter_dest entity.
 -------- KEYS --------
-(none)
+"noise" wav file to play
+"outspeed" fixed speed at which activator exits at destination
 -------- SPAWNFLAGS --------
 RESET_VELOCITY resets player velocity when teleported.
 CONVERT_VELOCITY converts player velocity to match the angle of teleport destination.
 RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
 RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
+KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 */
@@ -1983,32 +2006,6 @@ VERTICAL only vertical velocity.
 Fires targets if velocity requirements are met.
 */
 
-/*QUAKED target_deathrun_start (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
--------- KEYS --------
-"message" Start message. [n] will be replaced with the player's name.
-"endMessage" End message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
-"checkpointMessage" Checkpoint message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
-"sound" Path to the sound file. Plays the sound once player hits the entity.
-"location" Print location for the run. console/chat/center/left.
--------- SPAWNFLAGS --------
-(none)
--------- NOTES --------
-Starts a death run.
-Death runs will be supported in a future release.
-*/
-
-/*QUAKED target_deathrun_checkpoint (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
--------- KEYS --------
-"message" Start message. [n] will be replaced with the player's name. [s] will be replaced with the current score.
-"sound" Path to the sound file. Plays the sound once player triggers the entity.
-"location" Print location for the checkpoint. console/chat/center/left.
--------- SPAWNFLAGS --------
-(none)
--------- NOTES --------
-Death run checkpoint.
-Death runs will be supported in a future release.
-*/
-
 /*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
 Decays activators ident value.
 -------- KEYS --------
@@ -2031,6 +2028,17 @@ BLUE_ONLY only trigger by allied accepted
 RANDOM only one of the targets will be fired, not all of them.
 -------- NOTES --------
 Works exactly like target_relay but activates the entities for everyone in the player's current fireteam, not just the player.
+*/
+
+/*QUAKED target_give (0 .5 0) (-8 -8 -8) (8 8 8)
+Gives activator targeted items.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+You must target actual entities with this entity.
+Regular class restrictions apply when giving weapons (eg. cannot give weapon_panzerfaust to a medic).
 */
 
 /*QUAKED target_increase_ident (0.6 0.6 0.6) (-8 -8 -8) (8 8 8)
@@ -2093,13 +2101,15 @@ Resets targets saves when activated.
 Resets saves on every slot.
 */
 
-/*QUAKED target_scale_velocity (0.3 0.3 0) (-8 -8 -8) (8 8 8)
+/*QUAKED target_scale_velocity (0.3 0.3 0) (-8 -8 -8) (8 8 8) BASE
 -------- KEYS --------
 "scale" multiplier to scale with.
+"time" how long in seconds BASE scale is applied for. Default 0 (results in no scaling).
 -------- SPAWNFLAGS --------
-(none)
+BASE scales activators base velocity instead of current
 -------- NOTES --------
 Scales activator's velocity by factor of "scale".
+"time" must be set to higher than 0 when BASE is set, unless you are resetting scale back to 1.
 */
 
 /*QUAKED target_setident (1 0 0) (-8 -8 -8) (8 8 8)
@@ -2123,7 +2133,7 @@ ONCE only set health once per life.
 (none)
 */
 
-/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG
+/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE
 Starts a timerun.
 -------- KEYS --------
 "name" timerun name.
@@ -2136,6 +2146,7 @@ FORCE_PMOVE run resets if client sets pmove_fixed 0.
 NO_BACKUPS disables backups and additional save slots during timerun.
 NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
+NO_SAVE disables save during timerun, load resets the run.
 -------- NOTES --------
 "name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
 */
@@ -2153,6 +2164,7 @@ Ends a timerun.
 /*QUAKED target_tracker (0 0 0) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
 "tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
+"tracker_not_eq" Tracker activates targets if specified tracker value(s) do not match the player's tracker value.
 "tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
 "tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
 "tracker_set" Tracker sets player's tracker value to the specified value.
@@ -2194,6 +2206,7 @@ Resets saves on every slot.
 /*QUAKED trigger_tracker (.5 .5 .5) ?
 -------- KEYS --------
 "tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
+"tracker_not_eq" Tracker activates targets if specified tracker value(s) do not match the player's tracker value.
 "tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
 "tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
 "tracker_set" Tracker sets player's tracker value to the specified value.
