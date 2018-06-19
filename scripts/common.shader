@@ -167,12 +167,12 @@ textures/common/clipweap_metal
 // Don't ask...
 textures/common/clipweapmetal
 {
-    qer_editorimage "textures/common/clip_metal.tga"
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm nomarks
-    surfaceparm trans
-    surfaceparm metalsteps
+	qer_editorimage "textures/common/clip_metal.tga"
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+	surfaceparm metalsteps
 }
 
 textures/common/clipweap_wood
@@ -429,11 +429,28 @@ textures/common/slickcushion
 
 textures/common/nosave
 {
-    qer_nocarve
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
-    surfaceparm clusterportal
+	qer_nocarve
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
+	surfaceparm clusterportal
+}
+
+textures/common/nodelay
+{
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
+	surfaceparm monsterslicknorth
+}
+
+textures/common/noprone
+{
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm donotenter
 }
 
 
@@ -447,7 +464,7 @@ textures/common/cushion_metal
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm metalsteps
+	surfaceparm metalsteps
 }
 
 textures/common/cushion_wood
@@ -458,7 +475,7 @@ textures/common/cushion_wood
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm woodsteps
+	surfaceparm woodsteps
 }
 
 textures/common/cushion_grass
@@ -469,7 +486,7 @@ textures/common/cushion_grass
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm grasssteps
+	surfaceparm grasssteps
 }
 
 textures/common/cushion_gravel
@@ -480,7 +497,7 @@ textures/common/cushion_gravel
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm gravelsteps
+	surfaceparm gravelsteps
 }
 
 textures/common/cushion_snow
@@ -491,7 +508,7 @@ textures/common/cushion_snow
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm snowsteps
+	surfaceparm snowsteps
 }
 
 textures/common/cushion_roof
@@ -502,7 +519,7 @@ textures/common/cushion_roof
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm roofsteps
+	surfaceparm roofsteps
 }
 
 textures/common/cushion_carpet
@@ -513,7 +530,7 @@ textures/common/cushion_carpet
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm carpetsteps
+	surfaceparm carpetsteps
 }
 
 textures/common/cushion_splash
@@ -524,7 +541,41 @@ textures/common/cushion_splash
 	surfaceparm nodraw
 	surfaceparm nomarks
 	surfaceparm trans
-    surfaceparm splash
+	surfaceparm splash
+}
+
+
+// Extra clip brushes
+
+textures/common/clip_metal2		// Without clipmissile
+{
+	qer_editorImage textures/common/clip_metal_proper.tga
+	qer_trans 0.3
+	surfaceparm metalsteps
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm playerclip
+	surfaceparm trans
+}
+
+textures/common/clipweap_glass
+{
+	qer_editorImage textures/common/clipweapglass.tga
+	qer_trans 0.3
+	surfaceparm glass
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
+}
+
+textures/common/clipweap_carpet
+{
+	qer_editorImage textures/common/clipweapcarpet.tga
+	qer_trans 0.3
+	surfaceparm carpetsteps
+	surfaceparm nodraw
+	surfaceparm nomarks
+	surfaceparm trans
 }
 
 
@@ -532,38 +583,38 @@ textures/common/cushion_splash
 
 textures/common/portalsurface
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
-    surfaceparm monsterslickeast
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
+	surfaceparm monsterslickeast
 }
 
 textures/common/portalsurface_slick
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm slick
-    surfaceparm monsterslickeast
+	surfaceparm monsterslickeast
 }
 
 textures/common/portalsurface_cushion
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm nodamage
-    surfaceparm monsterslickeast
+	surfaceparm monsterslickeast
 }
 
 textures/common/portalsurface_slickcushion
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm slick
 	surfaceparm nodamage
-    surfaceparm monsterslickeast
+	surfaceparm monsterslickeast
 }
 
 
@@ -571,38 +622,38 @@ textures/common/portalsurface_slickcushion
 
 textures/common/overbounce
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
-    surfaceparm monsterslicksouth
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
+	surfaceparm monsterslicksouth
 }
 
 textures/common/overbounce_slick
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm slick
-    surfaceparm monsterslicksouth
+	surfaceparm monsterslicksouth
 }
 
 textures/common/overbounce_cushion
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm nodamage
-    surfaceparm monsterslicksouth
+	surfaceparm monsterslicksouth
 }
 
 textures/common/overbounce_slickcushion
 {
-    qer_trans 0.3
-    surfaceparm nodraw
-    surfaceparm trans
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm trans
 	surfaceparm slick
 	surfaceparm nodamage
-    surfaceparm monsterslicksouth
+	surfaceparm monsterslicksouth
 }
 
 
