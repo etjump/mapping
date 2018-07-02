@@ -927,6 +927,7 @@ Point teleporters at these.
 "targetname" make the trigger_- or target_teleporter point to this.
 -------- NOTES --------
 Now that we don't have teleport destination pads, this is just an info_notnull.
+Teleportation event adds 1 unit to your Z origin, so player origin is always 1 unit above this entitys origin (feet are 23 units below).
 */
 
 /*QUAKED misc_vis_dummy (1 .5 0) (-8 -8 -8) (8 8 8)
