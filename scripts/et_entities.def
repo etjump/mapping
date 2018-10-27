@@ -1270,7 +1270,7 @@ Triggering a dead script_mover with resurrectable spawnflag will reset the healt
 
 /*QUAKED script_multiplayer (1.0 0.25 1.0) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
-"scriptname" game_manager - always use this scriptname
+(none)
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
