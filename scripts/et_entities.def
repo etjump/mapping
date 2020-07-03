@@ -1622,7 +1622,7 @@ When active, this will make a player spawn at the team_CTF spawnpoint closest to
 The description key is also used for 'setautospawn' scripting command.
 */
 
-/*QUAKED trigger_always (.5 .5 .5) (-8 -8 -8) (8 8 8)
+/*QUAKED trigger_always (.5 .5 .5) ?
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
@@ -2195,7 +2195,7 @@ tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 Maximum amount of tracker indexes is 50.
 */
 
-/*QUAKED trigger_savereset (1 1 1) (-8 -8 -8) (8 8 8)
+/*QUAKED trigger_savereset (.5 .5 .5) ?
 Resets targets saves.
 -------- KEYS --------
 (none)
