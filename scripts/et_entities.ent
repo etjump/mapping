@@ -5,7 +5,7 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 2.3.0.
- Version: 1.0.0
+ Version: 1.0.1
  Updated: 13.07.2020
 -->
 
@@ -65,7 +65,7 @@ WORLDSPAWN
 <portalteam key="portalteam" name="Portal Team">0 = players can only go through their own portals. 1 = players can also go through fireteam members portals. 2 = players can go through everyones portals.</portalteam>
 <integer key="savelimit" name="Savelimit">Limits saves to set amount.</integer>
 <strictsaveload key="strictsaveload" name="Strict save/load">Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).</strictsaveload>
-<texture key="sun" name="Sun shader">Shader to use for 'sun' image</texture>
+<texture key="sun" name="Sun shader">Shader to use for 'sun' image.</texture>
 -------- Q3MAP2 KEYS --------
 <real key="_ambient" name="Ambient">Raises all light values in map by specified amount.</real>
 <real key="_minlight" name="Minlight">Sets minimum light intensity, level wide.</real>
@@ -91,9 +91,9 @@ WORLDSPAWN
 <integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
 <integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
 -------- SPAWNFLAGS --------
-<flag key="NO_GT_WOLF" name="No campaign" bit="0">Campaign cannot be played on this map</flag>
-<flag key="NO_STOPWATCH" name="No stopwatch" bit="1">Stopwatch cannot be played on this map</flag>
-<flag key="NO_LMS" name="No LMS" bit="3">Last Man Standing cannot be played on this map</flag>
+<flag key="NO_GT_WOLF" name="No campaign" bit="0">Campaign cannot be played on this map.</flag>
+<flag key="NO_STOPWATCH" name="No stopwatch" bit="1">Stopwatch cannot be played on this map.</flag>
+<flag key="NO_LMS" name="No LMS" bit="3">Last Man Standing cannot be played on this map.</flag>
 -------- NOTES --------
 Every map should have exactly one worldspawn.
 </group>
@@ -106,11 +106,12 @@ Q3MAP2 ENTITIES
 
 <group name="_decal" color="0 1.0 0">
 -------- KEYS --------
-<target key="target" name="Target">the name of the entity targeted at for projection</target>
+<target key="target" name="Target">The name of the entity targeted at for projection.</target>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Compiler-only entity that specifies a decal to be projected. Should contain 1 or more patch meshes (curves) and target an info_null entity. The distance between the center of the _decal entity and the target is the axis and distance of projection.
+Compiler-only entity that specifies a decal to be projected. Should contain 1 or more patch meshes (curves) and target an info_null entity.
+The distance between the center of the "_decal" entity and the target is the axis and distance of projection.
 </group>
 
 <!--
@@ -119,8 +120,8 @@ Compiler-only entity that specifies a decal to be projected. Should contain 1 or
 
 <point name="_skybox" color="0.6 0.7 0.7" box="-8 -8 0 8 8 16">
 -------- KEYS --------
-<angle key="angle" name="Yaw Angle">rotation angle of the sky surfaces.</angle>
-<angles key="angles" name="Pitch Yaw Roll">Individual control of PITCH, YAW, and ROLL (default 0 0 0).</angles>
+<angle key="angle" name="Angle">Rotation angle of the sky surfaces.</angle>
+<angles key="angles" name="Angles">Individual control of angles.</angles>
 <real key="_scale" name="Scale" value="64.0">Scaling factor for the skybox. Extremely low values can cause the skybox to be rendered inside the map.</real>
 -------- SPAWNFLAGS --------
 (none)
@@ -140,13 +141,13 @@ ALARM_BOX
 <group name="alarm_box" color="1 0 1">
 -------- KEYS --------
 <integer key="health" name="Health" value="10">Entitys health.</integer>
-<sound key="noise" name="Sound">The sound to play over the system (this would be the siren sound)</sound>
-<string key="team" name="Team">Team name. Teamed alarm_boxes work in tandem (switches/lights syncronize)</string>
-<target key="target" name="Target">Targetname of dlights to activate with the system</target>
-<targetname key="targetname" name="Target Name">When fired, activates the alarm</targetname>
+<sound key="noise" name="Sound">The sound to play over the system (this would be the siren sound).</sound>
+<string key="team" name="Team">Team name. Teamed alarm_boxes work in tandem (switches/lights syncronize).</string>
+<target key="target" name="Target">Targetname of dlights to activate with the system.</target>
+<targetname key="targetname" name="Target Name">When fired, activates the alarm.</targetname>
 <model key="model" name="Model" value="models/mapobjects/electronics/alarmbox.md3">The model to use instead of the default.</model>
 -------- SPAWNFLAGS --------
-<flag key="START_ON" name="Start On" bit="0">Means the button is pushed in, any dlights are cycling, and alarms are sounding</flag>
+<flag key="START_ON" name="Start On" bit="0">Means the button is pushed in, any dlights are cycling, and alarms are sounding.</flag>
 -------- NOTES --------
 You need to have an origin brush as part of this entity.
 Place the origin at the center of your trigger box.
@@ -154,7 +155,7 @@ Current alarm box model is (8 x 16 x 28).
 The sound is tied to the targeted dlight(s) cycles (starts at the beginning of the cycle), therefore you MUST target a dlight with this entity.
 Team name is an arbitary key to group alarm_boxes together (not allied/axis).
 
-Target a box to dlights to have them activate/deactivate with the system (use a stylestring that matches the cycletime for the alarmbox sound)
+Target a box to dlights to have them activate/deactivate with the system (use a stylestring that matches the cycletime for the alarmbox sound).
 Alarm sound locations are also placed in the dlights, so wherever you place an attached dlight, you will hear the alarm.
 </group>
 
@@ -241,9 +242,9 @@ CORONA
 <point name="corona" color="0 1 0" box="-4 -4 -4 4 4 4">
 -------- KEYS --------
 <real key="scale" name="Scale">Scaling factor of the size of corona.</real>
-<color key="color" name="Corona color">Weighted RGB value of light color</color>
+<color key="color" name="Corona color">Weighted RGB value of light color.</color>
 -------- SPAWNFLAGS --------
-<flag key="START_OFF" name="Start off" bit="0">Starts non-visible</flag>
+<flag key="START_OFF" name="Start off" bit="0">Starts non-visible.</flag>
 -------- NOTES --------
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (RGB).
 </point>
@@ -254,43 +255,44 @@ DLIGHT
 ========================================
 -->
 
+<list name="dlight_styles">
+  <item name="mmnmmommommnonmmonqnmmo" value="1"/>
+  <item name="abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba" value="2"/>
+  <item name="mmmmmaaaaammmmmaaaaaabcdefgabcdefg" value="3"/>
+  <item name="ma" value="4"/>
+  <item name="jklmnopqrstuvwxyzyxwvutsrqponmlkj" value="5"/>
+  <item name="nmonqnmomnmomomono" value="6"/>
+  <item name="mmmaaaabcdefgmmmmaaaammmaamm" value="7"/>
+  <item name="aaaaaaaazzzzzzzz" value="8"/>
+  <item name="mmamammmmammamamaaamammma" value="9"/>
+  <item name="abcdefghijklmnopqrrqponmlkjihgfedcba" value="10"/>
+  <item name="mmnommomhkmmomnonmmonqnmmo" value="11"/>
+  <item name="kmamaamakmmmaakmamakmakmmmma" value="12"/>
+  <item name="kmmmakakmmaaamammamkmamakmmmma" value="13"/>
+  <item name="mmnnoonnmmmmmmmmmnmmmmnonmmmmmmm" value="14"/>
+  <item name="mmmmnonmmmmnmmmmmnonmmmmmnmmmmmmm" value="15"/>
+  <item name="zzzzzzzzaaaaaaaa" value="16"/>
+  <item name="zzzzzzzzaaaaaaaaaaaaaaaa" value="17"/>
+  <item name="aaaaaaaazzzzzzzzaaaaaaaa" value="18"/>
+  <item name="aaaaaaaaaaaaaaaazzzzzzzz" value="19"/>
+</list>
+
 <point name="dlight" color="0 1 0" box="-12 -12 -12 12 12 12">
 -------- KEYS --------
-<integer key="style" name="Style">Integer between 1-19 that contains a pre-defined 'flicker' string.</integer>
+<dlight_styles key="style" name="Style">Integer between 1-19 that contains a pre-defined 'flicker' string.</dlight_styles>
 <string key="stylestring" name="Style string">Set your own 'flicker' string, e.g. "klmnmlk". NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.</string>
 <integer key="offset" name="Offset">Change the initial index in a style string. Value of 3 in the above example would start this light at "N" (used to get dlights using the same style out of sync).</integer>
-<integer key="atten" name="Attenuation">Offset the values of the stylestring. Stylestring of "ddeeffzz" with an "atten" of -1 would result in "ccddeeyy"</integer>
+<integer key="atten" name="Attenuation">Offset the values of the stylestring. Stylestring of "ddeeffzz" with an "atten" of -1 would result in "ccddeeyy".</integer>
 <string key="shader" name="Shader">Name of shader to apply.</string>
 <sound key="sound" name="Sound">Sound to loop every cycle (this actually just plays the sound at the beginning of each cycle).</sound>
 -------- SPAWNFLAGS --------
 <flag key="STARTOFF" name="Start off" bit="1">Doesn't spawn until triggered.</flag>
-<flag key="ONETIME" name="One time" bit="2">When the dlight is triggered, it will play through it's cycle once, then shut down until triggered again</flag>
+<flag key="ONETIME" name="One time" bit="2">When the dlight is triggered, it will play through it's cycle once, then shut down until triggered again.</flag>
 -------- NOTES --------
 Stylestring characters run at 10 cps in the game (meaning the alphabet, at 24 characters, would take 2.4 seconds to cycle).
 Characters in stylestring represent the intensity of light: a = lowest and z = highest.
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
 The intensity of dlights cannot be scaled up or down, they have fixed intensity tied to the characters.
-
-styles:
-1 - "mmnmmommommnonmmonqnmmo"
-2 - "abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba"
-3 - "mmmmmaaaaammmmmaaaaaabcdefgabcdefg"
-4 - "ma"
-5 - "jklmnopqrstuvwxyzyxwvutsrqponmlkj"
-6 - "nmonqnmomnmomomono"
-7 - "mmmaaaabcdefgmmmmaaaammmaamm"
-8 - "aaaaaaaazzzzzzzz"
-9 - "mmamammmmammamamaaamammma"
-10 - "abcdefghijklmnopqrrqponmlkjihgfedcba"
-11 - "mmnommomhkmmomnonmmonqnmmo"
-12 - "kmamaamakmmmaakmamakmakmmmma"
-13 - "kmmmakakmmaaamammamkmamakmmmma"
-14 - "mmnnoonnmmmmmmmmmnmmmmnonmmmmmmm"
-15 - "mmmmnonmmmmnmmmmmnonmmmmmnmmmmmmm"
-16 - "zzzzzzzzaaaaaaaa"
-17 - "zzzzzzzzaaaaaaaaaaaaaaaa"
-18 - "aaaaaaaazzzzzzzzaaaaaaaa"
-19 - "aaaaaaaaaaaaaaaazzzzzzzz"
 </point>
 
 <!--
@@ -408,10 +410,10 @@ Sound cannot be changed.
 <integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
 <integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
 -------- SPAWNFLAGS --------
-<flag key="START_BUILT" name="Start built" bit="0">Starts built</flag>
-<flag key="INVULNERABLE" name="Invulnerable" bit="1">Indestructible</flag>
-<flag key="AXIS_CONSTRUCTIBLE" name="Axis constructible" bit="2">Axis can build this, if not invulnerable Allies can damage it</flag>
-<flag key="ALLIED_CONSTRUCTIBLE" name="Allied constructible" bit="3">Allies can build this, if not invulnerable Axis can damage it</flag>
+<flag key="START_BUILT" name="Start built" bit="0">Starts built.</flag>
+<flag key="INVULNERABLE" name="Invulnerable" bit="1">Indestructible.</flag>
+<flag key="AXIS_CONSTRUCTIBLE" name="Axis constructible" bit="2">Axis can build this, if not invulnerable Allies can damage it.</flag>
+<flag key="ALLIED_CONSTRUCTIBLE" name="Allied constructible" bit="3">Allies can build this, if not invulnerable Axis can damage it.</flag>
 -------- NOTES --------
 A constructible object that functions as target for engineers.
 
@@ -705,7 +707,7 @@ This entity is solid, so it's a good idea to use it as clipping if you attach mo
 <real key="speed" name="Arc" value="30">The number of degrees each way the pendulum swings.</real>
 <real key="phase" name="Phase">The 0.0 to 1.0 offset in the cycle to start at.</real>
 <integer key="dmg" name="Damage" value="2">Damage to inflict when blocked.</integer>
-<angles key="angles" name="Angles">Specify Pitch/Yaw/Roll for the pendulum to swing in a different direction to the default north-south</angles>
+<angles key="angles" name="Angles">Specify Pitch/Yaw/Roll for the pendulum to swing in a different direction to the default north-south.</angles>
 -------- Q3MAP2 KEYS --------
 <integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
 <integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
@@ -881,7 +883,7 @@ Use like you would use trigger_multiple.
 Repeatedly fires its targets.
 Can be turned on or off by using.
 
-So, the basic time between firing is a random time between (wait - random) and (wait + random)
+So, the basic time between firing is a random time between (wait - random) and (wait + random).
 </point>
 
 <!--
@@ -941,7 +943,7 @@ Used as a positional target for calculations in the utilities (spotlights, etc),
 -------- KEYS ---------
 <integer key="objective" name="Objective number">A number starting from 0 possibly going anywhere up to 8, but maybe more later. (only required for objectives, not spawns). A value of 0 corresponds to the default, non-objective view in the limbo screen.</integer>
 -------- SPAWNFLAGS --------
-<flag key="LMS_ONLY" name="LMS only" bit="0">Camera only appears in LMS mode</flag>
+<flag key="LMS_ONLY" name="LMS only" bit="0">Camera only appears in LMS mode.</flag>
 <flag key="ALL_MODES" name="All modes" bit="1">Camera appears in all modes including LMS.</flag>
 -------- NOTES --------
 Target an "info_notnull" entity EXCEPT for cameras overlooking SPAWNS (which target the team_WOLF_objective).
@@ -995,7 +997,7 @@ Used as a positional target for calculations in the utilities (spotlights, etc),
 <point name="info_player_deathmatch" color="1 0 1" box="-18 -18 -24 18 18 48">
 -------- KEYS --------
 <angle key="angle" name="Angle">Specs will face this direction when spawning here.</angle>
-<angle key="angles" name="Angles">Specs will face this direction when spawning here.</angle>
+<angles key="angles" name="Angles">Specs will face this direction when spawning here.</angles>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -1015,8 +1017,8 @@ If the start position is targeting positional entity (such as info_notnull), the
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
-<flag key="AXIS" name="Axis" bit="0">This intermission point will be used if Axis win the match</flag>
-<flag key="ALLIED" name="Allied" bit="1"> This intermission point will be used if Allies win the match</flag>
+<flag key="AXIS" name="Axis" bit="0">This intermission point will be used if Axis win the match.</flag>
+<flag key="ALLIED" name="Allied" bit="1"> This intermission point will be used if Allies win the match.</flag>
 -------- NOTES --------
 The intermission will be viewed from this point.
 Target an info_notnull for the view direction.
@@ -1029,7 +1031,7 @@ Target an info_notnull for the view direction.
 <point name="info_player_start" color="1 0 0" box="-18 -18 -24 18 18 48">
 -------- KEYS --------
 <angle key="angle" name="Angle">Specs will face this direction when spawning here.</angle>
-<angle key="angles" name="Angles">Specs will face this direction when spawning here.</angle>
+<angles key="angles" name="Angles">Specs will face this direction when spawning here.</angles>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -1060,9 +1062,9 @@ Defines a control point for a spline curve.
 
 <point name="info_train_spline_main" color="0 1 0" box="-8 -8 -8 8 8 8">
 -------- KEYS --------
-<targetname key="targetname" name="Targetname">The name of this point</targetname>
-<target key="target" name="Target">Target spline point</target>
-<string key="control" name="Control"> sets a control point for this spline</string>
+<targetname key="targetname" name="Targetname">The name of this point.</targetname>
+<target key="target" name="Target">Target spline point.</target>
+<string key="control" name="Control"> sets a control point for this spline.</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1126,8 +1128,6 @@ A what once was a hot meal of turkey, now just the remaining plate.
 -------- NOTES --------
 Heals for 20 health (even though the turkey is gone).
 </point>
-
-
 
 <!--
 ========================================
@@ -1227,7 +1227,7 @@ Used by the cranes in Railgun.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Entity to link trigger_heal entity to, for visual display.
+Entity to link "trigger_heal" entity to, for visual display.
 </point>
 
 <!--
@@ -1240,7 +1240,7 @@ Entity to link trigger_heal entity to, for visual display.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Entity to link trigger_ammo entity to, for visual display.
+Entity to link "trigger_ammo" entity to, for visual display.
 </point>
 
 <!--
@@ -1329,7 +1329,7 @@ Landmine entity.
 -------- NOTES --------
 Needs to have one spawnflag set.
 
-Make sure it is placed less than 64 units above an appropiate, landmine placement
+Make sure it is placed less than 64 units above an appropriate, landmine placement
 compatible surface. It will drop down on spawn and then settle itself.
 
 There is a team limit of 10 landmines. With this entity you can place more landmines for that team in the map on start,
@@ -1425,14 +1425,14 @@ EXTRUDE_UPWARDS+AXIAL_BACKPLANE
 <point name="misc_portal_camera" color="0 0 1" box="-8 -8 -8 8 8 8">
 Portal camera. This camera is used to project its view onto a portal surface in the level through the intermediary of a misc_portal_surface entity. Use the "angles" key or target a target_position or info_notnull entity to set the camera's pointing direction.
 -------- KEYS --------
-<angles key="angles" name="Angles">this sets the pitch and yaw aiming angles of the portal camera (default 0 0). Use "roll" key to set roll angle.</angles>
+<angles key="angles" name="Angles">This sets the pitch and yaw aiming angles of the portal camera (default 0 0). Use "roll" key to set roll angle.</angles>
 <target key="target" name="Target">Point this to a target_position entity to set the camera's pointing direction.</target>
-<targetname key="targetname" name="Target Name">A "misc_portal_surface" portal surface indicator must point to this.</targetname>
-<real key="roll" name="Roll">roll angle of camera. A value of 0 is upside down and 180 is the same as the player's view.</real>
+<targetname key="targetname" name="Targetname">A "misc_portal_surface" portal surface indicator must point to this.</targetname>
+<real key="roll" name="Roll">Roll angle of camera. A value of 0 is upside down and 180 is the same as the player's view.</real>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Both the setting "angles" key or "targeting a target_position" methods can be used to aim the camera. However, the target_position method is simpler. In both cases, the "roll" key must be used to set the roll angle.
+Both the setting "angles" key or targeting a "target_position" methods can be used to aim the camera. However, the target_position method is simpler. In both cases, the "roll" key must be used to set the roll angle.
 </point>
 
 <!--
@@ -1440,7 +1440,7 @@ Both the setting "angles" key or "targeting a target_position" methods can be us
 -->
 
 <point name="misc_portal_surface" color="0 0 1" box="-8 -8 -8 8 8 8">
-Portal surface indicator. This will "lock on" the brush face closest to it and identify as a portal. The view displayed on the portal surface is the view of the "misc_portal_camera" that this entity targets. Also used for mirrors (see Notes).
+Portal surface indicator. This will "lock on" the brush face closest to it and identify as a portal. The view displayed on the portal surface is the view of the "misc_portal_camera" that this entity targets. Also used for mirrors (see motes).
 -------- KEYS --------
 <target key="target" name="Target">Point this to a misc_portal_camera that "sees" the view you want to display on the portal.</target>
 -------- SPAWNFLAGS --------
@@ -1474,7 +1474,7 @@ Teleport destination location point for teleporters.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-This is technically just an info_notnull, but with adjusted entity size to match player BBox.
+This is technically just an "info_notnull", but with adjusted entity size to match player BBox.
 Teleportation event adds 1 unit to your Z origin, so player origin is always 1 unit above this entitys origin (feet are 23 units below).
 </point>
 
@@ -1511,7 +1511,7 @@ This entity was created to have multiple speakers targeting it.
 <!--
 =============================================================================
 
-PATH_CORNER* ENTITIES
+PATH_* ENTITIES
 
 =============================================================================
 -->
@@ -1692,9 +1692,9 @@ However it can be used to define the sound it makes when broken.
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
-<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated</flag>
+<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated.</flag>
 <flag key="DEBRIS" name="Debris" bit="1">Spawns debris when killed.</flag>
-<flag key="ANIMATE" name="Animate" bit="2">Will be animated</flag>
+<flag key="ANIMATE" name="Animate" bit="2">Will be animated.</flag>
 <flag key="TOUCHACTIVATE" name="Touch activate" bit="4">Dies when touched.</flag>
 <flag key="LOOPING" name="Looping" bit="5">Animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".</flag>
 <flag key="STARTON" name="Start on" bit="6">Starts enabled.</flag>
@@ -1725,9 +1725,9 @@ Nonsolid and unkillable unless "health" is set. When set, use "wide" and "high" 
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
-<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated</flag>
+<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated.</flag>
 <flag key="DEBRIS" name="Debris" bit="1">Spawns debris when killed.</flag>
-<flag key="ANIMATE" name="Animate" bit="2">Will be animated</flag>
+<flag key="ANIMATE" name="Animate" bit="2">Will be animated.</flag>
 <flag key="TOUCHACTIVATE" name="Touch activate" bit="4">Dies when touched.</flag>
 <flag key="LOOPING" name="Looping" bit="5">Animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".</flag>
 <flag key="STARTON" name="Start on" bit="6">Starts enabled.</flag>
@@ -1757,16 +1757,16 @@ Same as props_decoration except has support for modelscaling.
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
-<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated</flag>
+<flag key="STARTINVIS" name="Start Invisible" bit="0">Won't spawn until activated.</flag>
 <flag key="DEBRIS" name="Debris" bit="1">Spawns debris when killed.</flag>
-<flag key="ANIMATE" name="Animate" bit="2">Will be animated</flag>
+<flag key="ANIMATE" name="Animate" bit="2">Will be animated.</flag>
 <flag key="TOUCHACTIVATE" name="Touch activate" bit="4">Dies when touched.</flag>
 <flag key="LOOPING" name="Looping" bit="5">Animation will loop from value of "loop" to "frames". Default behavior is to loop for the duration of "frames", starting from "loop".</flag>
 <flag key="STARTON" name="Start on" bit="6">Starts enabled.</flag>
 -------- NOTES --------
 Use origin to specify model spawnpoint.
 Nonsolid and unkillable unless "health" is set.
-Use on brushwok. Useful if you attach a complex model to it and need to make more accurate clipping.
+Use on brushwork. Useful if you attach a complex model to it and need to make more accurate clipping.
 </group>
 
 <!--
@@ -1905,7 +1905,7 @@ SCRIPT_* ENTITIES
 <string key="scriptname" name="Scriptname">Name used for scripting purposes.</string>
 <integer key="health" name="Health">Optionally make this entity damagable.</integer>
 <string key="tagent" name="Tag Ent">Target entity a mounted gun will be attached to.</string>
-<string key="gun" name="Gun">Variable gun type, only other option other than default MG42 is "browning"</string>
+<string key="gun" name="Gun">Variable gun type, only other option other than default MG42 is "browning".</string>
 -------- SPAWNFLAGS --------
 <flag key="TRIGGERSPAWN" name="Triggered Spawn" bit="0">Won't spawn until activated.</flag>
 <flag key="SOLID" name="Solid" bit="1">Non-solid unless set.</flag>
@@ -1917,7 +1917,7 @@ SCRIPT_* ENTITIES
 <flag key="MOUNTED_GUN" name="Mounted Gun" bit="7">Has a mounted gun attached to it.</flag>
 -------- NOTES --------
 Scripted brush entity. A simplified means of moving brushes around based on events.
-Health needs to be set for MOUNTED_GUN to work
+Health needs to be set for MOUNTED_GUN to work.
 The health can be updated via scripting with the constructible_health command (regardless of being constructible or not).
 Triggering a dead "script_mover" with resurrectable spawnflag will reset the health.
 </group>
@@ -1951,7 +1951,7 @@ SHOOTER_* ENTITIES
 <flag key="SMOKE_FX" name="Smoke FX" bit="0">A smoke effect will play at the origin of this entity.</flag>
 <flag key="FLASH_FX" name="Flash FX" bit="1">A muzzle flash effect will play at the origin of this entity.</flag>
 -------- NOTES --------
-Lobs a mortar so that it will pass through the info_notnull targeted by this entity
+Lobs a mortar so that it will pass through the "info_notnull" targeted by this entity.
 </point>
 
 <!--
@@ -1991,6 +1991,10 @@ Simple counter that fires its targets when "count" reaches 0.
 When activated, decreases count by 1.
 Does not reset, so effectively one-time use.
 </point>
+
+<!--
+=============================================================================
+-->
 
 <point name="target_delay" color="1 1 0" box="-8 -8 -8 8 8 8">
 -------- KEYS --------
@@ -2139,7 +2143,7 @@ Prints out text in centerprint when activated.
 <flag key="AXIS_ONLY" name="Axis Only" bit="0">Only the axis players will see the message.</flag>
 <flag key="ALLIED_ONLY" name="Allied Only" bit="1">Only allied team players will see the message.</flag>
 <flag key="PRIVATE" name="Activator Only" bit="2">Only the player that activates the target will see the message.</flag>
-<flag key="CPM" name="CPM" bit="3">Prints in cpm rather than centerprint.</flag>
+<flag key="CPM" name="CPM" bit="3">Prints in cpm (popup) rather than centerprint.</flag>
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
@@ -2153,7 +2157,7 @@ Color codes can be used in the message.
 -------- KEYS --------
 <real key="speed" name="Speed" value="1000">Push speed.</real>
 -------- SPAWNFLAGS --------
-<flag key="ADD_XY" name="Add XY" bit="1">adds activators current horizontal speed to pusher instead of setting it.</flag>
+<flag key="ADD_XY" name="Add XY" bit="1">Adds activators current horizontal speed to pusher instead of setting it.</flag>
 -------- NOTES --------
 Pushes the activator in the direction of angles, or towards target_position.
 The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
@@ -2205,9 +2209,9 @@ This is a relic from Q3, used to remove players powerups, but reutilized in ET f
 <real key="yaw" name="Yaw" value="5">Value from 1 to 10.</real>
 <real key="rampup" name="Ramp up">How much time it will take to reach maximum pitch and yaw in seconds.</real>
 <real key="rampdown" name="Ramp down">How long till effect ends after rampup is reached in seconds.</real>
-<sound key="startnoise" name="Start noise">Sound played at start of effect</sound>
-<sound key="noise" name="Looping noise">Sound that loops during effect</sound>
-<sound key="endnoise" name="End noise">Sound played at end of effect</sound>
+<sound key="startnoise" name="Start noise">Sound played at start of effect.</sound>
+<sound key="noise" name="Looping noise">Sound that loops during effect.</sound>
+<sound key="endnoise" name="End noise">Sound played at end of effect.</sound>
 <real key="duration" name="Duration">The amount of time the effect is to last in seconds.</real>
 -------- SPAWNFLAGS --------
 <flag key="STARTOFF" name="Start off" bit="0">Not activated unless triggered.</flag>
@@ -2239,7 +2243,7 @@ Must have a target. When used it will run the trigger event relating to it's tar
 <point name="target_smoke" color="1 0 0" box="-32 -32 -16 32 32 16">
 A particle emmiter.
 -------- KEYS --------
-<real key="delay" name="Delay" value="100">Delay in milliseconds between spawning smoke particles</real>
+<real key="delay" name="Delay" value="100">Delay in milliseconds between spawning smoke particles.</real>
 <real key="duration" name="Fade start" value="2000">Time in milliseconds before the smoke starts to fade.</real>
 <real key="time" name="Fade end">Time in milliseconds before the smoke disappears completely.</real>
 <integer key="start_size" name="Start size" value="24">Starting size of the particle.</integer>
@@ -2328,14 +2332,14 @@ Objective pickupable by Axis.
 <point name="team_CTF_bluespawn" color="0 0 1" box="-18 -18 -24 18 18 48">
 -------- KEYS --------
 <angle key="angle" name="Angle">Players will face this direction when spawning here.</angle>
-<angle key="angles" name="Angles">Players will face this direction when spawning here.</angle>
+<angles key="angles" name="Angles">Players will face this direction when spawning here.</angles>
 <target key="target" name="Target">Targets to fire when a player spawns here.</target>
 <targetname key="targetname" name="Targetname">May be targeted by a "team_WOLF_checkpoint".</targetname>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="INVULNERABLE" name="Invulnerable" bit="0">Players always spawn invulnerable, so the usage of this flag is unknown. The official ET maps seem to always set it.</flag>
-<flag key="STARTACTIVE" name="Start active" bit="1">This spawn is active at map start</flag>
+<flag key="STARTACTIVE" name="Start active" bit="1">This spawn is active at map start.</flag>
 -------- NOTES --------
 Allied spawnpoint.
 "info_notnull" cannot be used to set viewangles upon spawning, must use "angle" or "angles" key.
@@ -2366,14 +2370,14 @@ Objective pickupable by Allies.
 <point name="team_CTF_redspawn" color="1 0 0" box="-18 -18 -24 18 18 48">
 -------- KEYS --------
 <angle key="angle" name="Angle">Players will face this direction when spawning here.</angle>
-<angle key="angles" name="Angles">Players will face this direction when spawning here.</angle>
+<angles key="angles" name="Angles">Players will face this direction when spawning here.</angles>
 <target key="target" name="Target">Targets to fire when a player spawns here.</target>
 <targetname key="targetname" name="Targetname">May be targeted by a "team_WOLF_checkpoint".</targetname>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="INVULNERABLE" name="Invulnerable" bit="0">Players always spawn invulnerable, so the usage of this flag is unknown. The official ET maps seem to always set it.</flag>
-<flag key="STARTACTIVE" name="Start active" bit="1">This spawn is active at map start</flag>
+<flag key="STARTACTIVE" name="Start active" bit="1">This spawn is active at map start.</flag>
 -------- NOTES --------
 Axis spawnpoint.
 "info_notnull" cannot be used to set viewangles upon spawning, must use "angle" or "angles" key.
@@ -2496,7 +2500,7 @@ Any entity that touches this will be healed at a specified rate up to a specifie
 -------- NOTES --------
 Any entity that touches this will be hurt.
 It does "dmg" points of damage each server frame.
-Note that if both the server and player have nofatigue enabled, it will do half damage (nofatigue enables constant adernaline).
+Note that if both the server and player have nofatigue enabled, it will do half damage (nofatigue enables constant adrenaline).
 Max damage before gibbing player is 190.
 Targeting the trigger will toggle its on / off state.
 The entity must be used first before it will count down its life.
@@ -2587,8 +2591,25 @@ The order at which the spawnflags are listed is the priority order, any "_ONLY" 
 =============================================================================
 -->
 
+<group name="trigger_push" color="0.5 0.5 0.5">
+Pushes activator towards targeted target_position or info_notnull, which will be the apex of the push.
+-------- KEYS --------
+<real key="speed" name="Speed" value="1000">Push speed.</real>
+<sound key="noise" name="Noise">WAV file to play.</sound>
+-------- SPAWNFLAGS --------
+<flag key="ADD_XY" name="Add XY" bit="1">adds activators current horizontal speed to pusher instead of setting it.</flag>
+-------- NOTES --------
+Unlike target_push, this entity is client side predicted.
+The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
+Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
+</group>
+
+<!--
+=============================================================================
+-->
+
 <group name="trigger_teleport" color="0.5 0.5 0.5">
-Touching this will teleport players to the location of the targeted misc_teleporter_dest entity.
+Touching this will teleport players to the location of the targeted "misc_teleporter_dest" entity.
 -------- KEYS --------
 <sound key="noise" name="Noise">WAV file to play upon teleporting.</sound>
 <real key="outspeed" name="Outspeed">Fixed speed at which activator exits at destination.</real>
@@ -2956,6 +2977,7 @@ Ident system has been replaced with tracker system. Use that instead.
 -->
 
 <point name="target_activate_if_velocity" color="0.2 0.2 0.2" box="-8 -8 -8 8 8 8">
+Fires target if velocity requirements are met.
 -------- KEYS --------
 <real key="lower_limit" name="Lower limit" value="0">Minimum speed required for targets to fire. 0 to ignore.</real>
 <real key="upper_limit" name="Lower limit" value="0">Maximum allowed speed for targets to fire. 0 to ignore.</real>
@@ -2963,7 +2985,7 @@ Ident system has been replaced with tracker system. Use that instead.
 <flag key="HORIZONTAL" name="Horizontal" bit="0">Only horizontal velocity.</flag>
 <flag key="VERTICAL" name="Vertical" bit="1">Only vertical velocity.</flag>
 -------- NOTES --------
-Fires targets if velocity requirements are met.
+If targeting multiple entities, picks a random target and fires that.
 </point>
 
 <!--
@@ -3017,7 +3039,7 @@ Regular class restrictions apply when giving weapons (eg. cannot give weapon_pan
 -->
 
 <point name="target_increase_ident" color="0.6 0.6 0.6" box="-8 -8 -8 8 8 8">
-Increase target client's map ident by the value of "inc"
+Increase target client's map ident by the value of "inc".
 -------- KEYS --------
 <integer key="inc" name="Inc">Increase value.</integer>
 -------- SPAWNFLAGS --------
