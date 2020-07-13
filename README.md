@@ -24,7 +24,7 @@ All avaible ETJump cvar and mapping entity descriptions can be found in [ETJump 
 Some useful assets that present in originals maps, but not inlcuded in Radiant installation, can be found in [this repository](https://github.com/Aciz/ET-extra-assets).
 
 ## Missing assets
-There are few missing assets linked to some entities. These can be found in either RTCW or shipped along GtkRadiant in folder`installs\WolfPack\install\main`
+There are few missing assets linked to some entities. These can be found in either RTCW or shipped along GtkRadiant in folder `installs\WolfPack\install\main`
 
 * alarm_box
   * *models/mapobjects/electronics/alarmbox.mdc*
