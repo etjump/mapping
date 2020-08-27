@@ -5,8 +5,8 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 2.3.0.
- Version: 1.0.1
- Updated: 13.07.2020
+ Version: 1.0.2
+ Last updated on: 27.08.2020
 -->
 
 <classes>
@@ -127,8 +127,7 @@ The distance between the center of the "_decal" entity and the target is the axi
 (none)
 -------- NOTES --------
 Allows you to place a static "far away" looking scene around the map.
-You should place this entity in the exact middle of your skybox area.
-This skybox entity is drawn a bit differently from "props_skyportal", as the scenery moves with the player and is not affected by viewing angles.
+The placement of this entity corresponds to the position your map is placed within the skybox area.
 This entity does not work well if player has "r_fastsky 1".
 </point>
 
@@ -841,7 +840,7 @@ Can be used for conditional walls and models.
 <targetname key="targetname" name="Targetname">If targeted, it will toggle existence when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when hurt when PAIN is used.</target>
 <real key="delay" name="Delay" value="1">Time in seconds before targets can be fired again.</real>
-<integer key="health" name="Health">If set (and _not_ PAIN spawnflag) damage will turn the entity invisible.</integer>
+<integer key="health" name="Health">If set (and _not_ PAIN spawnflag) damage will turn the entity invisible (arbitary value; any non-zero value enables this behavior).</integer>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- Q3MAP2 KEYS --------
@@ -860,9 +859,9 @@ Can be used for conditional walls and models.
 <flag key="START_INVIS" name="Start invisible" bit="0">Start the entity as non-existent, if targeted, it will toggle existence when triggered.</flag>
 <flag key="PAIN" name="Pain" bit="1">Will fire its targets when hurt.</flag>
 -------- NOTES --------
-When using pain you will need to specify the delay time
+When using pain you will need to specify the delay time.
+When PAIN is used, the entity will have 9999 health, and will stop functioning once enough damage has been dealt to it.
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
-Even though PAIN will set health to 9999, it seems like it cannot actually die and will function even if it takes more than 9999 damage.
 </group>
 
 <!--
@@ -1618,6 +1617,23 @@ However it can be used to define the sound it makes when broken.
 =============================================================================
 -->
 
+<point name="props_chair_chat" color="0.8 0.6 0.2" box="-16 -16 0 16 16 32" model="models/furniture/chair/chair_chat.mdc">
+Shootable, pusheable chair.
+-------- KEYS --------
+<integer key="health" name="health" value="10">How much health it has.</integer>
+<props_chair_shard key="shard" name="Break sound">Type of sound to make when broken.</props_chair_shard>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Model is found in RTCW.
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+</point>
+
+<!--
+=============================================================================
+-->
+
 <point name="props_chair_chatarm" color="0.8 0.6 0.2" box="-16 -16 0 16 16 32" model="models/furniture/chair/chair_chatarm.mdc">
 Shootable, pusheable chair.
 -------- KEYS --------
@@ -1856,7 +1872,7 @@ Default direction is up. Seems to fire in the exact opposite direction of its ta
 (none)
 -------- NOTES --------
 Allows you to place a static "far away" looking scene around the map.
-You should place this entity in the exact middle of your skyportal area.
+The placement of this entity corresponds to the position your map is placed within the skybox area.
 </point>
 
 <!--
@@ -2154,14 +2170,19 @@ Color codes can be used in the message.
 -->
 
 <point name="target_push" color="0.5 0.5 0.5" box="-8 -8 -8 8 8 8">
+Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 <real key="speed" name="Speed" value="1000">Push speed.</real>
+<target key="target" name="Target">"target_position" to aim at.</target>
+<angle key="angle" name="Angle">Push angle.</angle>
+<angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
-<flag key="ADD_XY" name="Add XY" bit="1">Adds activators current horizontal speed to pusher instead of setting it.</flag>
+<flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
 -------- NOTES --------
-Pushes the activator in the direction of angles, or towards target_position.
+"speed" has no effect when aimed at "target_position".
+When combining aiming to "target_position" &amp; spawnflags 2, the amount of speed required
+to reach the target is added to activators horizontal speed.
 The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
-Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
 </point>
 
 <!--
@@ -2592,16 +2613,21 @@ The order at which the spawnflags are listed is the priority order, any "_ONLY" 
 -->
 
 <group name="trigger_push" color="0.5 0.5 0.5">
-Pushes activator towards targeted target_position or info_notnull, which will be the apex of the push.
+Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 <real key="speed" name="Speed" value="1000">Push speed.</real>
 <sound key="noise" name="Noise">WAV file to play.</sound>
+<target key="target" name="Target">"target_position" to aim at.</target>
+<angle key="angle" name="Angle">Push angle.</angle>
+<angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
-<flag key="ADD_XY" name="Add XY" bit="1">adds activators current horizontal speed to pusher instead of setting it.</flag>
+<flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
 -------- NOTES --------
-Unlike target_push, this entity is client side predicted.
+Unlike "target_push", this entity is client side predicted.
+"speed" has no effect when aimed at "target_position".
+When combining aiming to "target_position" &amp; spawnflags 2, the amount of speed required
+to reach the target is added to activators horizontal speed.
 The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
-Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
 </group>
 
 <!--
