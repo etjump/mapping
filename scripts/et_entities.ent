@@ -4,8 +4,7 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 2.3.0.
- Version: 1.0.2
+ Updated for ETJump 2.3.0
  Last updated on: 27.08.2020
 -->
 
@@ -354,6 +353,8 @@ When a button is used, it moves some distance in the direction of it's angles, t
 <real key="wait" name="Wait" value="1">Time until button returns to starting position (-1 = never return).</real>
 <real key="lip" name="Lip" value="4">Override the amount of lip remaining at the end position.</real>
 <integer key="health" name="Health">If set, the button will also activate when hurt (it cannot be killed; any non-zero value enables this behavior).</integer>
+<texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
+<texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- Q3MAP2 KEYS --------
 <integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
 <integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
@@ -392,7 +393,7 @@ Sound cannot be changed.
 <integer key="constructible_class" name="Constructible Class">Loads pre-defined values for other "constructible_*" keys.</integer>
 <real key="constructible_chargebarreq" name="Charge Bar Requirement" value="1.0">How much charge constructing requires.</real>
 <real key="constructible_constructxpbonus" name="Construct XP Bonus" value="0.0">How much XP is granted for constructing.</real>
-<real key="constructible_constructxpbonus" name="Destruct XP Bonus" value="0.0">How much XP is granted for destroying.</real>
+<real key="constructible_destructxpbonus" name="Destruct XP Bonus" value="0.0">How much XP is granted for destroying.</real>
 <integer key="constructible_health" name="Health" value="100">How much health entity has.</integer>
 <constructible_weaponclass key="constructible_weaponclass" name="Weapon Class">Defines which weapons can damage this entity.</constructible_weaponclass>
 <integer key="constructible_duration" name="Construct Duration" value="5000">Supposedly how many milliseconds it takes to construct, but doesn't seem to be an actual value and also affects charge bar draining.</integer>
@@ -664,6 +665,8 @@ Alphamod brushes included in a "func_group" will only apply alphamod to brushes 
 <real key="delay" name="Delay">Time in seconds before it can be used again.</real>
 <sound key="offnoise" name="Offnoise">Specifies an alternate 'off' sound.</sound>
 <cursorhint_func_invis key="cursorhint" name="Cursorhint">Sets the cursorhint to show when near.</cursorhint_func_invis>
+<sound key="noise" name="Noise">WAV file to play when activated.</sound>
+<integer key="volume" name="Volume" value="255">Volume of the activation sound.</integer>
 <target key="target" name="Target">Targets to fire when activated.</target>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
@@ -679,6 +682,8 @@ When used, calls standard scripting functions:
 
 Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate it.
 The sound defaults to "sound/movers/doors/default_door_locked.wav"
+
+"noise" is currently bugged in ETJump 2.3.0 and plays sound at world origin, unless you attach an origin brush to this entity.
 </group>
 
 <!--
@@ -940,7 +945,7 @@ Used as a positional target for calculations in the utilities (spotlights, etc),
 
 <point name="info_limbo_camera" color="0.5 0 0" box="-8 -8 -8 8 8 8">
 -------- KEYS ---------
-<integer key="objective" name="Objective number">A number starting from 0 possibly going anywhere up to 8, but maybe more later. (only required for objectives, not spawns). A value of 0 corresponds to the default, non-objective view in the limbo screen.</integer>
+<integer key="objective" name="Objective number" value="-1">A number starting from 0 possibly going anywhere up to 8, but maybe more later. (only required for objectives, not spawns). A value of 0 corresponds to the default, non-objective view in the limbo screen.</integer>
 -------- SPAWNFLAGS --------
 <flag key="LMS_ONLY" name="LMS only" bit="0">Camera only appears in LMS mode.</flag>
 <flag key="ALL_MODES" name="All modes" bit="1">Camera appears in all modes including LMS.</flag>
@@ -1395,7 +1400,7 @@ being lower than the actual visible model.
 <flag key="AXIAL_BACKPLANE" name="AXIAL_BACKPLANE" bit="12">Use axial back plane for clipping brushes to effectively reduce bsp size; might cause unwanted collisions, make sure to -debugclip; negative _clipdepth / -clipdepth limits max thickness of resulting brushes (making non-axial backplane, if hit the limit).</flag>
 -------- NOTES --------
 Model that will be compiled into the map.
-Any key starting with "_remap" will work for remapping, to allow for multiple remappings (_remap2, _remap3, _remap 4 etc).
+Any key starting with "_remap" will work for remapping, to allow for multiple remappings (_remap2, _remap3, _remap4 etc).
 
 You may target another entity with this entity (eg a script_mover). If so, this entity will be part of the targeted entity.
 It will move, rotate, hurt, blow etc accordingly. SOLID spawnflag works together with this feature.
@@ -1447,6 +1452,7 @@ Portal surface indicator. This will "lock on" the brush face closest to it and i
 -------- NOTES --------
 The entity must be no farther than 64 units away from the portal surface to lock onto it.
 You must specify a general directive "portal" (or sort portal) and a stage directive "alphaGen portal" on last rendering stage in your portal surface shader.
+If "target" isn't specified, will act as a mirror.
 </point>
 
 <!--
@@ -1459,6 +1465,8 @@ Spawns item at entitys location when activated. Must use pickup name.
 <string key="spawnitem" name="Item To Spawn">Which item to spawn.</string>
 -------- SPAWNFLAGS --------
 (none)
+-------- NOTES --------
+Angle cannot be set; items always spawn towards east.
 </point>
 
 <!--
@@ -1798,7 +1806,7 @@ A brief streak of dust.
 <flag key="WHITE" name="White" bit="0">Spawn white dust instead of brown.</flag>
 -------- NOTES --------
 Must be activated.
-Use info_not_null as target to make the streak longer. "angles" can be used as well
+Use info_notnull as target to make the streak longer. "angles" can be used as well
 but the change is barely noticeable.
 </point>
 
@@ -1963,11 +1971,12 @@ SHOOTER_* ENTITIES
 <point name="shooter_mortar" color="1 0 0" box="-16 -16 -16 16 16 16">
 -------- KEYS --------
 <real key="random" name="Random" value="1.0">The number of degrees of deviance from the target.</real>
+<target key="target" name="Target">Fire towards this target.</target>
 -------- SPAWNFLAGS --------
-<flag key="SMOKE_FX" name="Smoke FX" bit="0">A smoke effect will play at the origin of this entity.</flag>
-<flag key="FLASH_FX" name="Flash FX" bit="1">A muzzle flash effect will play at the origin of this entity.</flag>
+(none)
 -------- NOTES --------
 Lobs a mortar so that it will pass through the "info_notnull" targeted by this entity.
+Must use "target"; "angle(s)" will not work.
 </point>
 
 <!--
@@ -2493,6 +2502,10 @@ It will call the "death" function in the object's script.
 Axis carries blueflags, Allies redflags.
 </group>
 
+<!--
+=============================================================================
+-->
+
 <group name="trigger_heal" color="0.5 0.5 0.5">
 -------- KEYS --------
 <integer key="healrate" name="Heal rate" value="20">Rate of healing per second.</integer>
@@ -2591,6 +2604,8 @@ You can have a maximum of 18 "trigger_objective_info" entities.
 <group name="trigger_once" color="0.5 0.5 0.5">
 -------- KEYS --------
 <target key="target" name="Target">Targets to fire.</target>
+<texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
+<texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="AXIS_ONLY" name="Axis only" bit="0">Only Axis may trigger this.</flag>
 <flag key="ALLIED_ONLY" name="Allied only" bit="1">Only Allies may trigger this.</flag>
@@ -2670,7 +2685,7 @@ FG42 rifle.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2690,7 +2705,7 @@ Flamethrower.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2711,7 +2726,7 @@ Allied sniper rifle.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2732,7 +2747,7 @@ Axis sniper rifle.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2753,7 +2768,7 @@ Axis engy rifle.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2774,7 +2789,7 @@ Allied engy rifle.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2794,7 +2809,7 @@ Ammo pack.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2814,7 +2829,7 @@ Mega ammo pack.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 
 This doesn't have more ammo in it by default, you need to set it manually.
@@ -2836,7 +2851,7 @@ Mobile MG42.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2856,7 +2871,7 @@ Mortar.
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2877,7 +2892,7 @@ MP40 submachine gun.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2898,7 +2913,7 @@ Panzerfaust rocketlauncher.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2919,7 +2934,7 @@ Sten submachine gun.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -2940,7 +2955,7 @@ Thompson submachine gun.
 <flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
-Weapons must be triggered before they spawn.
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 </point>
 
@@ -3331,7 +3346,7 @@ Portalgun.
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 This entity never falls to the ground.
-Unlike other weapon_ entities, this will spawn on map start automatically, and doesn't need to be respawned after pickup.
+Unlike other weapon_ entities, this entity doesn't need to be respawned after pickup.
 </point>
 
 </classes>

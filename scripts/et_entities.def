@@ -1,26 +1,17 @@
-//et_entities.def created for ETJump mapping
-//19.06.2018
-//Updated for ETJump 2.3.0
+// Enemy Territory entity definition file for ETJump mod.
+// Made for GtkRadiant.
+// Updated for ETJump 2.3.0
+// Last updated on: 27.08.2020
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
 "music" wav file to play throughout the map.
-"_ambient" Raises all light values in map by specified amount.
-"_minlight" Minimum light level throughout the map.
-"_minvertexlight" Minimum light level for vertex-lit surfaces.
-"_mingridlight" Minimum light level for lightgrid.
-"_color" Sets color of ambient lighting. Normalized R G B value. Default 1.0 1.0 1.0. Value of 0.0 0.0 0.0 reverts to default. This affects both _ambient and _minlight.
 "sun" Shader to use for 'sun' image
-"_blocksize" q3map2 always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
 "gridsize" granularity of the lightgrid created by q3map2. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Default gridsize is 128 128 256. Use larger powers of 2 to reduce BSP size and compile time on very large maps.
-"_fog" fog shader to apply throughout the map.
 "fogclip" Determines how far world is drawn. Note that this is not actual game units, but rather calculates distance between PVS clusters, therefore _blocksize will affect this key.
-"_farplanedist" Same as "fogclip", just with proper "_" compiler prefix.
 "atmosphere" specifies the atmosphere (rain/snow) in map. You must generate tracemap for atmosphere to work.
 "mapcoordsmins" Top left corner coordinate. Example "-256 256".
 "mapcoordsmaxs" Lower right corner coordinate. Example "256 -256". Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.
-"_styleNalphaGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
-"_styleNrgbGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
 "noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
 "nofalldamage" 0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
 "noghost" Disables player ghosting.
@@ -36,6 +27,25 @@
 "portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
 "savelimit" If set to higher than 0, saves are limited to the set value.
 "strictsaveload" Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).
+-------- Q3MAP2 KEYS --------
+"_ambient" Raises all light values in map by specified amount.
+"_minlight" Minimum light level throughout the map.
+"_minvertexlight" Minimum light level for vertex-lit surfaces.
+"_mingridlight" Minimum light level for lightgrid.
+"_color" Sets color of ambient lighting. Normalized R G B value. Default 1.0 1.0 1.0. Value of 0.0 0.0 0.0 reverts to default. This affects both _ambient and _minlight.
+"_floodlight" Enables level wide floodlighting. Parameters are R G B (0-255 or 0.0-1.0) Distance (units) Intensity (float). More natural looking ambient lighting as it simulates ambient occlusion by producing darker lights in tight corners and brighter lights in open areas.
+"_blocksize" q3map2 always splits the BSP tree along the planes X=blocksize*n and Y=_blocksize*n. Default _blocksize value is 1024. Increase the _blocksize using larger powers of 2 to reduce compile times on very large maps with low structural brush density.
+"_fog" fog shader to apply throughout the map.
+"_farplanedist" Same as "fogclip", just with proper "_" compiler prefix.
+"_styleNalphaGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
+"_styleNrgbGen" accepts standard waveform functions. Used in conjunction with light entities and light-emitting shaders where N is the index value for "style" or "q3map_lightStyle". Valid index range is 1-31.
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_ignoreleaks" When set, no leak test is peformed.
+"_keeplights" When set, light entities are kept in BSP after compilation.
+"_noshadersun" When set, sunlight from shaders is not calculated.
 -------- SPAWNFLAGS --------
 NO_GT_WOLF regular wolf cannot be played on this map
 NO_STOPWATCH stopwatch cannot be played on this map
@@ -62,9 +72,8 @@ Compiler-only entity that specifies a decal to be projected. Should contain 1 or
 (none)
 -------- NOTES --------
 Allows you to place a static "far away" looking scene around the map.
-You should place this entity in the exact middle of your skybox area.
-This skybox entity is drawn a bit differently from "props_skyportal", as the scenery moves with the player and is not affected by viewing angles.
-This entity does not work well if player has r_fastsky 1.
+The placement of this entity corresponds to the position your map is placed within the skybox area.
+This entity does not work well if player has "r_fastsky 1".
 */
 
 /*QUAKED alarm_box (1 0 1) START_ON
@@ -73,6 +82,9 @@ A model with a toggleable button and a soundalarm.
 "health" defaults to 10
 "noise" the sound to play over the system (this would be the siren sound)
 "team" key/value is valid for teamed alarm boxes
+"target" targetname of dlights to activate with the system
+"targetname" when fired, activates the alarm
+"model" the model to use instead of the default model
 -------- SPAWNFLAGS --------
 START_ON means the button is pushed in, any dlights are cycling, and alarms are sounding
 -------- NOTES --------
@@ -202,6 +214,13 @@ Pre-defined style strings:
 "speed"	seconds to complete a bob cycle (4 default)
 "phase"	the 0.0 to 1.0 offset in the cycle to start at
 "dmg" damage to inflict when blocked (2 default)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 X_AXIS bobs on the x-axis
 Y_AXIS bobs on the y-axis
@@ -223,13 +242,21 @@ entities that are based around staged construction.
 When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
 -------- KEYS --------
 "target" all entities with a matching targetname will be used
-"angle"	does NOT work in ET, use "angles"
-"angles" direction to move, x y z (eg 45 45 45)
+"angles" direction to move, x y z (eg 45 45 45). "angle" does not work, must use "angles"
 "model2" .md3 model to also draw - use an origin
 "speed" override the default 40 speed
 "wait" override the default 1 second wait (-1 = never return)
 "lip" override the default 4 pixel lip remaining at end of move
 "health" if set, the button will also open when hurt
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 TOUCH activates when player is close enough
 -------- NOTES --------
@@ -246,8 +273,16 @@ Sound cannot be changed.
 "constructible_chargebarreq" how much charge constructing requires. Default 1.0, unless constructible_class is set.
 "constructible_constructxpbonus" how much XP is granted for constructing. Default 0, unless constructible_class is set.
 "constructible_destructxpbonus" how much XP is granted for destroying. Default 0, unless constructible_class is set.
+"constructible_health" how much health the entity has.
 "constructible_weaponclass" defines what weapons can damage this entity. Default 0, unless constructible_class is set.
 "constructible_duration" supposedly how many ms it takes to construct, but doesn't seem to be actual value and also affects charge bar draining. Default 5000, unless constructible_class is set.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 START_BUILT building starts built
 INVULNERABLE building can't be destroyed
@@ -284,7 +319,7 @@ Class | Charge Bar Req. | Construct XP | Destruct XP | Health | Weapon Class | D
 "angle" determines the opening direction
 "target" fires target when opened and closed
 "targetname" target the door to open it from a distance
-"speed" movement speed (400 default)
+"speed" movement speed (100 default)
 "closespeed" optional different movement speed for door closing
 "wait" wait before returning (2 default, -1 = never return)
 "lip" lip remaining at end of move (8 default)
@@ -293,6 +328,15 @@ Class | Charge Bar Req. | Construct XP | Destruct XP | Health | Weapon Class | D
 "team" team name.  other doors with same team name will open/close in syncronicity
 "type" use sounds based on construction of door
 "allowteams" used to enable a covop with uniform to pass through a one-team-only door
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 START_OPEN the door to moves to its destination when spawned, and operate in reverse.  It is used to temporarily or permanently close off an area when triggered (not useful for touch doors).
 TOGGLE requires beeing triggered (by scripting) before closing
@@ -332,16 +376,28 @@ Door rotating on an axis.
 "allowteams" used to enable a covop with uniform to pass through a one-team-only door
 "target" will fire its targets when opened and closed
 "targetname" target door to open it from a distance
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 TOGGLE requires beeing triggered (by scripting) before closing
+X_AXIS door rotates around X axis instead of Z axis
+Y_AXIS door rotates around Y axis instead of Z axis
 FORCE door opens in one direction only (set with +/- on degrees)
 REVERSE use with team function to have doors open in the same direction
 STAYOPEN never closes after opened
 -------- NOTES --------
 You need to have an origin brush as part of this entity.
-The center of that brush will be the point around which it is rotated. It will rotate around the Z axis by default.  You can check either the X_AXIS or Y_AXIS box to change that (only one axis allowed. If both X and Y are checked, the default of Z will be used).
+The center of that brush will be the point around which it is rotated. It will rotate around the Z axis by default. 
+You can check either the X_AXIS or Y_AXIS box to change that (only one axis allowed. If both X and Y are checked, the default of Z will be used).
 
-if targeted, key is in most cases by default -1 (locked)
+Targeted doors always have a "key" value of -1.
 
 allowteams: possible values are:
 "axis" - only axis
@@ -369,11 +425,21 @@ sound types:
 "type" type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric") default is "wood"
 "mass" defaults to 75.  This determines how much debris is emitted when it explodes.  You get one large chunk per 100 of mass (up to 8) and one small chunk per 25 of mass (up to 16).  So 800 gives the most.
 "noise" sound to play when triggered.  The explosive will default to a sound that matches it's 'type'.  Use the sound name "nosound" (case in-sensitive) if you want it silent.
+"target" Targets to fire when activated.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
+START_INVIS spawn trigger
 TOUCHABLE means automatic use on player contact.
 USESHADER will apply the shader used on the brush model to the debris.
 LOWGRAV specifies that the debris will /always/ fall slowly
-START_INVIS spawn trigger
 TANK Will show as a tank on a command map if linked to by a trigger_objective_info
 -------- NOTES --------
 the default sounds are:
@@ -391,24 +457,38 @@ If you want an explosion, set dmg and it will do a radius explosion of that amou
 /*QUAKED func_group (0 .5 .8) ?
 -------- KEYS --------
 (none)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- Q3MAP2 TERRAIN KEYS --------
+"_indexmap" Path/name for the art file used to guide the mapping of textures on the terrain surface.
+"_layers" Integer value is the number unique root shaders that will be use on the terrain.
+"_offsets" Space separated list of Z offsets for root shaders (visual offset only - collision is unaffected).
+"_shader" Path to the metashader used to assign textures to the terrain entity. Note: Omit the "textures/" prefix.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Used to group brushes together just for editor convenience.  They are turned into normal brushes by the utilities.
+Used to group brushes together just for editor convenience. They are turned into normal brushes during compile and don't count towards entity limits.
 Alphamod brushes included in a func_group will only apply alphamod to brushes in that func_group.
 */
 
-/*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE NOT_KICKABLE
+/*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE -
 -------- KEYS --------
 "delay" time (in seconds) before it can be used again
 "offnoise" specifies an alternate sound
 "cursorhint" overrides the auto-location of targeted entity (list below)
-"noise" wav file to play
+"noise" wav file to play when activated
 "volume" volume of activation sound. Default 255.
+"target" Targets to fire when activated.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
-NO_OFF_NOISE no sound will play if the invis_user is used when 'off'
-NOT_KICKABLE kicking doesn't fire, only player activating
 STARTOFF isn't functional till toggled
+NO_OFF_NOISE no sound will play if the invis_user is used when 'off'
 -------- NOTES --------
 when activated will use its target
 
@@ -438,9 +518,10 @@ activate allies - if used by allies
 activate axis - if used by axis
 activate - when used
 
-Probably outdated info:
-Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate the user.
-The sound defaults to "sound/movers/invis_user_off.wav"
+Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate it.
+The sound defaults to "sound/movers/doors/default_door_locked.wav"
+
+"noise" is currently bugged in ETJump 2.3.0 and plays sound at world origin, unless you attach an origin brush to this entity.
 */
 
 /*QUAKED func_leaky (0 .5 .8) ?
@@ -460,6 +541,14 @@ This entity is solid, so it's a good idea to use it as clipping if you attach mo
 "speed"	the number of degrees each way the pendulum swings, (30 default)
 "phase"	the 0.0 to 1.0 offset in the cycle to start at
 "dmg" damage to inflict when blocked (2 default)
+"angles" Specify Pitch/Yaw/Roll for the pendulum to swing in a different direction to the default north-south.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -476,6 +565,13 @@ Platform which moves up/down when stepped on
 "speed"	overrides default 200.
 "dmg" overrides default 2
 "model2" .md3 model to also draw
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -487,11 +583,18 @@ Plats are always drawn in the extended position so they will light correctly.
 "model2" .md3 model to also draw
 "speed" determines how fast it moves; default value is 100. Negative value reverses rotation direction.
 "dmg" damage to inflict when blocked (2 default)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
+START_ON Initially turning upon start of map
+STARTINVIS Spawn triggered
 X_AXIS rotate around the x-axis
 Y_AXIS rotate around the y-axis
-STARTINVIS Spawn triggered
-START_ON Initially turning upon start of map
 -------- NOTES --------
 You need to have an origin brush as part of this entity.
 The center of that brush will be the point around which it is rotated.
@@ -502,7 +605,7 @@ It will rotate around the Z axis by default.
 Secret door which opens inwards, then to the side. No usefield.
 -------- KEYS --------
 "key" -1 for locked, 0 for open.  default '0' unless door is targeted.
-"angle" determines the opening direction
+"angle" determines the opening direction. Use -1 for up, -2 for down.
 "targetname" target this entity to open it
 "speed"	movement speed (100 default)
 "wait" wait before returning (2 default, -1 = never return)
@@ -510,6 +613,16 @@ Secret door which opens inwards, then to the side. No usefield.
 "health" if set, the door will also open when hurt
 "team" doors with the same "team" value will open at the same time
 "model2" .md3 model to also draw
+"target" Targets to fire when end position is reached.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 REVERSE changes sliding direction left/right
 TOUCH opens when touched or hurt - can't be targeted
@@ -526,20 +639,32 @@ Can be used for conditional walls and models.
 "targetname" If targeted, it will toggle existance when triggered
 "target" may fire targets when hurt, see PAIN
 "delay" time, in seconds, before targets can be fired again when using PAIN default 1
-"health" if set (and _not_ pain spawnflag) damage will turn the entity invisible, when pain flag is set, default health is 9999
+"health" if set (and _not_ PAIN spawnflag) damage will turn the entity invisible (arbitary value; any non-zero value enables this behavior)
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
 PAIN will fire its targets when hurt/pain
 -------- NOTES --------
-When using pain you will need to specify the delay time
+When using pain you will need to specify the delay time.
+When PAIN is used, the entity will have 9999 health, and will stop functioning once enough damage has been dealt to it.
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
-Even though PAIN will set health to 9999, it seems like it cannot actually die and will function even if it takes more than 9999 damage.
 */
 
 /*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
 -------- KEYS --------
 "wait" base time between triggering all targets, default is 1
 "random" wait variance, default is 0
+"target" Targets to fire when activated.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 START_ON starts enabled
 -------- NOTES --------
@@ -557,7 +682,15 @@ The train spawns at the first target it is pointing at.
 -------- KEYS --------
 "model2" .md3 model to also draw
 "speed" default 100
-"target" next path corner
+"target" next path_corner
+"dmg" Damage to inflict when blocked (no damage is inflicted when BLOCK_STOPS is used). Default 2.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
 -------- SPAWNFLAGS --------
 START_ON starts enabled (default behavior)
 START_OFF starts disabled
@@ -579,13 +712,13 @@ Used as a positional target for calculations in the utilities (spotlights, etc),
 /*QUAKED info_limbo_camera (0.5 0 0) (-8 -8 -8) (8 8 8) LMS_ONLY ALL_MODES
 -------- KEYS ---------
 "objective" a number starting from 0 possibly going anywhere up to 8, but maybe more later. (only required for objectives, not spawns)
-a value of 0 corresponds to the default, non-objective view in the limbo screen
+a value of 0 corresponds to the default, non-objective view in the limbo screen. Default is -1.
 -------- SPAWNFLAGS --------
-DEFAULT is all modes NOT including LMS mode.
 LMS_ONLY is used for limbo cameras that only appear in LMS mode.
 ALL_MODES is used for limbo cameras that appear in all modes including LMS.
 -------- NOTES --------
 Target an "info_notnull" entity EXCEPT for cameras overlooking SPAWNS (which target the "yellow blob", AKA team_WOLF_objective).
+If no spawnflags are set the camera appears in all modes EXCEPT LMS mode.
 */
 
 /*QUAKED info_notnull (0 0.5 0) (-4 -4 -4) (4 4 4)
@@ -620,11 +753,15 @@ Used as a positional target for calculations in the utilities (spotlights, etc),
 -------- KEYS --------
 "angle" specs will face this direction when spawning here
 "angles" specs will face this direction when spawning here, eg (45 0 30)
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
 Spectators spawnpoint, always include one in a map.
 If no team_CTF_bluespawn or team_CTF_redspawn are present, players will also start from this spawnpoint.
+Targets will be fired when someone spawns in on them (as a player).
+If the start position is targeting positional entity (such as info_notnull), the players camera will start out facing that entity.
 */
 
 /*QUAKED info_player_intermission (1 0 1) (-16 -16 -24) (16 16 32) AXIS ALLIED
@@ -644,11 +781,15 @@ Equivelant to info_player_deathmatch
 -------- KEYS --------
 "angle" specs will face this direction when spawning here
 "angles" specs will face this direction when spawning here, eg (45 0 30)
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
 Spectators spawnpoint, always include one in a map.
 If no team_CTF_bluespawn or team_CTF_redspawn are present, players will also start from this spawnpoint.
+Targets will be fired when someone spawns in on them (as a player).
+If the start position is targeting positional entity (such as info_notnull), the players camera will start out facing that entity.
 */
 
 /*QUAKED info_train_spline_control (1 .5 1) (-8 -8 -8) (8 8 8)
@@ -676,7 +817,9 @@ The spline between this point and next point is named after this point, ie use t
 /*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Med pack.
 -------- KEYS --------
-(none)
+"target" Targets to fire when picked up.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
@@ -688,7 +831,9 @@ Heals for 20 health.
 /*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Med pack.
 -------- KEYS --------
-(none)
+"target" Targets to fire when picked up.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
@@ -698,26 +843,32 @@ Heals for 50 health.
 */
 
 /*QUAKED item_health_turkey (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
-A hot meal of turkey.
+A what once was a hot meal of turkey, now just the remaining plate.
 -------- KEYS --------
-(none)
+"target" Targets to fire when picked up.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
-Heals for 20 health.
+Heals for 20 health (even though the turkey is gone).
 */
 
 /*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
 "light" light intensity. Default 300. Negative values darken areas.
 "_color" color of the light. Default 1.0 1.0 1.0 (R G B). Value of 0.0 0.0 0.0 will revert to default.
 "radius" overrides the default 64 unit radius of a spotlight at the target point.
 "fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
 "anglescale" scales angle attenuation. Higher values lessens attenuation. Default 1.0.
 "scale" scales light intensity by prescribed factor.
+"target" Lights pointed at a target will be spotlights.
 "style" applies style index N defined in worldspawn to this light. Only affects lightmapped surfaces.
+"_sun" Set this key to 1 on a spotlight to make an infinite sun light.
 "_deviance" width of the light entity in degrees for penumbra ("half-shadow") effect. Default 0.0.
 "_samples" random jitters distributed over solid arc. Default 1.
 "_filter" or "_filterRadius" filters (blurs) shadows produced by light from this entity by N world units. Default 0.0.
@@ -726,7 +877,6 @@ NONLINEAR inverse square falloff instead of linear.
 ANGLE adds angle attenuation calculations. Not valid if NONLINEAR is set.
 -------- NOTES --------
 Non-displayed light.
-Lights pointed at a target will be spotlights.
 Negative values of "light" will not darken below _minlight value.
 If negative lights are used with _ambient, the hue of the light will be inverted.
 Styled lights are always excluded from lightgrid.
@@ -735,18 +885,27 @@ For more information about "_deviance", "_samples" and "_filter", see shader dir
 
 /*QUAKED lightJunior (0 0.7 0.3) (-8 -8 -8) (8 8 8) NONLINEAR ANGLE - - -
 -------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
 "light" light intensity. Default 300. Negative values darken areas.
 "_color" color of the light. Default 1.0 1.0 1.0 (R G B). Value of 0.0 0.0 0.0 will revert to default.
 "fade" falloff/radius adjustment value. Lower values result in bigger radius and more smoother falloff. Default 1.0. Not valid if NONLINEAR is set.
 "scale" scales light intensity by prescribed factor.
+"target" Lights pointed at a target will be spotlights.
+"radius" overrides the default 64 unit radius of a spotlight at the target point.
+"anglescale" scales angle attenuation. Higher values lessens attenuation. Default 1.0.
+"_deviance" width of the light entity in degrees for penumbra ("half-shadow") effect. Default 0.0.
+"_samples" random jitters distributed over solid arc. Default 1.
+"_filter" or "_filterRadius" filters (blurs) shadows produced by light from this entity by N world units. Default 0.0.
 -------- SPAWNFLAGS --------
 NONLINEAR inverse square falloff instead of linear.
 ANGLE adds angle attenuation calculations. Not valid if NONLINEAR is set.
 -------- NOTES --------
 Non-displayed light that only affects dynamic game models, but does not contribute to lightmaps.
-lightJuniors cannot be used as spotlights.
-Negative values of "light" will not darken below _minlight value.
+Negative values of "light" will not darken below _minlight or _mingridlight values.
+lightJuniors cannot be used as sunlights.
 If negative lights are used with _ambient, the hue of the light will be inverted.
+For more information about "_deviance", "_samples" and "_filterRadius", see shader directives q3map_sunExt and q3map_lightmapFilterRadius.
 */
 
 /*QUAKED misc_beam (0 .5 .8) (-8 -8 -8) (8 8 8)
@@ -757,8 +916,8 @@ If negative lights are used with _ambient, the hue of the light will be inverted
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-When on, displays a electric beam from target to target2.
-Used by the cranes in railgun.
+When on, displays a electric beam from "target" to "message".
+Used by the cranes in Railgun.
 */
 
 /*QUAKED misc_cabinet_health (.5 .5 .5) (-20 -20 0) (20 20 60)
@@ -800,8 +959,7 @@ Command map marker entity. When set to state default it shows, any other state a
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-The entity has to target the trigger_objective_info entity
-belonging to the constructible.
+The entity has to target the trigger_objective_info entity belonging to the constructible.
 Not used any more in the game.
 If used will behave like a func_static entity.
 */
@@ -821,14 +979,15 @@ Use scripting to tag or attach.
 -------- KEYS --------
 "model"	arbitrary .md3 file to display
 "modelscale" scale multiplier (defaults to 1x, and scales uniformly)
-"modelscale_vec" scale multiplier (defaults to 1 1 1, scales each axis as requested)
+"modelscale_vec" Set scale per-axis. Overrides "modelscale", so if you have both, the "modelscale" is ignored
+"angle" Model orientation.
+"angles" Angles for the model.
 "skin" .skin file used to define shaders for model
-"trunk" diameter of solid core (used for trace visibility and collision (not ai pathing))
+"trunk" diameter of solid core (used for trace visibility and collision)
 "trunkheight" height of trunk
 "frames" number of animation frames
 "start" frame to start on
 "fps" fps to animate with
-"modelscale_vec" Set scale per-axis. Overrides "modelscale", so if you have both, the "modelscale" is ignored
 -------- SPAWNFLAGS --------
 ORIENT_LOD the entity will yaw towards the player when the LOD switches (digibob: non-functional?)
 START_ANIMATE the entity will spawn animating
@@ -860,10 +1019,14 @@ There is a team limit of 10 landmines. With this entity you can place more landm
 "health" how much damage can it take, default 50
 "damage" determines how much the weapon will inflict if a non player uses it
 "accuracy" all guns are 100% accurate an entry of 0.5 would make it 50%
+"angle" sets the angle at which the MG42 (and tripod) will spawn at
 -------- SPAWNFLAGS --------
-(none)
+HIGH offset bullet origin 24 units upwards.
+NOTRIPOD spawns without a tripod.
 -------- NOTES --------
 Emplaced MG42 weapon.
+HIGH should be used when mounting the gun on top of a wall (Railgun bunker for example), due to the guns origin
+being lower than the actual visible model.
 */
 
 /*QUAKED misc_model (1 0 0) (-16 -16 -16) (16 16 16) - SOLID FORCEMETA
@@ -872,15 +1035,24 @@ Emplaced MG42 weapon.
 "angles" set model rotation on all axis (0 90 360)
 "model" arbitrary .md3 file to display
 "modelscale" scale multiplier (defaults to 1x)
-"modelscale_vec" scale multiplier (defaults to 1 1 1, scales each axis as requested)
 "modelscale_vec" Set scale per-axis.  Overrides "modelscale", so if you have both, the "modelscale" is ignored
-"_remap" this will force the use of another file for the models skin, keyvalues like this: "*;models/mapobjects/props_sd/snowrock_clip"
 "target" target another entitiy to include this entity into that entity (see notes)
+-------- Q3MAP2 KEYS --------
+"_remap" Remaps given shader to specified shader. Syntax: "oldshader;newshader", special case "*;newshader" remaps all surfaces.
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+"_frame" Frame of the model to load.
+"_skin" .skin file used to define shaders for model.
 -------- SPAWNFLAGS --------
 SOLID will make it solid (read note)
-FORCEMETA needs Q3Map2 by ydnar to work, forcemeta/lightmapped unless explicitly set as vertex lit in their shader(s). If you dont know what this is, leave it.
+FORCEMETA forces lightmap calculations on this model, unless explicitly set to be vertex lit via shader.
 -------- NOTES --------
 Model that will be compiled into the map.
+Any key starting with "_remap" will work for remapping, to allow for multiple remappings (_remap2, _remap3, _remap4 etc).
 
 A complex model with SOLID spawnflag may create (too) complex clipping and this will cause trouble, use with care.
 
@@ -891,11 +1063,13 @@ You may target another entity with this entity (eg a script_mover). If so, this 
 The target for a misc_portal_surface.
 -------- KEYS --------
 "angles" this sets the pitch and yaw aiming angles of the portal camera (default 0 0)
+"target" point this to a target_position entity to set the cameras pointing direction
+"targetname" a "misc_portal_surface" portal surface indicator must point to this
 "roll" an angle modifier to orient the camera around the target vector
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-You can set either angles or target another entity to determine the direction of view.
+Both the setting "angles" key or targeting a "target_position" methods can be used to aim the camera. However, the target_position method is simpler. In both cases, the "roll" key must be used to set the roll angle.
 */
 
 /*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
@@ -925,8 +1099,10 @@ Point teleporters at these.
 -------- KEYS --------
 "angle" direction in which player will look when arriving.
 "targetname" make the trigger_- or target_teleporter point to this.
+-------- SPAWNFLAGS --------
+(none)
 -------- NOTES --------
-Now that we don't have teleport destination pads, this is just an info_notnull.
+This is technically just an "info_notnull", but with adjusted entity size to match player BBox.
 Teleportation event adds 1 unit to your Z origin, so player origin is always 1 unit above this entitys origin (feet are 23 units below).
 */
 
@@ -1010,32 +1186,36 @@ You must create a dummy texture for remapshader to work.
 /*QUAKED props_chair (.8 .6 .2) (-16 -16 0) (16 16 32)
 -------- KEYS --------
 "health" default 10
-"wait" default 5, how many shards to spawn ( try not to exceed 20 )
-"shard" type of shard to spawn
+"shard" type of sound to make when broken
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+
 shard types:
 	0 = glass
 	1 = wood
 	2 = metal
-	3 = ceramic
 */
 
 /*QUAKED props_chair_chat(.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
 "health" default = 10
-"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
+"shard" type of sound to make when broken
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+Model is found in RTCW.
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+
 shard types:
 	0 = glass
 	1 = wood
 	2 = metal
-	3 = ceramic
-point entity
+
 model: models\furniture\chair\chair_chat.mdc
 */
 
@@ -1043,44 +1223,57 @@ model: models\furniture\chair\chair_chat.mdc
 Shootable, pusheable chair
 -------- KEYS --------
 "health" default = 10
-"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
+"shard" type of sound to make when broken
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-point entity
-model:models\furniture\chair\chair_chatarm.mdc
+Model is found in RTCW.
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+
+shard types:
+	0 = glass
+	1 = wood
+	2 = metal
+
+model: models\furniture\chair\chair_chatarm.mdc
 */
 
 /*QUAKED props_chair_hiback (.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
 "health" default = 10
-"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
+"shard" type of sound to make when broken
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+Model is found in RTCW.
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+
 shard types:
 	0 = glass
 	1 = wood
 	2 = metal
-	3 = ceramic
-point entity
+
+model: models/furniture/chair/hiback5.mdc
 */
 
 /*QUAKED props_chair_side (.8 .6 .2) (-16 -16 0) (16 16 32)
 Shootable, pusheable chair
 -------- KEYS --------
 "health" default = 10
-"wait" defaults to 5 how many shards to spawn ( try not to exceed 20 )
+"shard" type of sound to make when broken
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
+"shard" key should define the types of shards to spawn when broken, but shard spawning is not functional in ET.
+However it can be used to define the sound it makes when broken.
+
 shard types:
 	0 = glass
 	1 = wood
 	2 = metal
-	3 = ceramic
-point entity
 */
 
 /*QUAKED props_decoration (.6 .7 .7) (-8 -8 0) (8 8 16) STARTINVIS DEBRIS ANIMATE - TOUCHACTIVATE LOOPING STARTON
@@ -1096,8 +1289,9 @@ point entity
 "frames" how many frames of animation to play
 "loop" when the animation is done start again on this frame
 "startonframe" on what frame do you want to start the animation
-"color"	constantLight color
-"light"	constantLight radius
+"target" Targets to fire when entity dies.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 STARTINVIS isn't visible until toggled.
 DEBRIS spawns debris when killed.
@@ -1124,8 +1318,9 @@ Nonsolid and unkillable unless "health" is set. When set, use "wide" & "high" to
 "frames" how many frames of animation to play
 "loop" when the animation is done start again on this frame
 "startonframe" on what frame do you want to start the animation
-"color"	constantLight color
-"light"	constantLight radius
+"target" Targets to fire when entity dies.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 STARTINVIS isn't visible until toggled.
 DEBRIS spawns debris when killed.
@@ -1149,8 +1344,9 @@ Same as props_decoration except has support for modelscaling.
 "frames" how many frames of animation to play
 "loop" when the animation is done start again on this frame
 "startonframe" on what frame do you want to start the animation
-"color"	constantLight color
-"light"	constantLight radius
+"target" Targets to fire when entity dies.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 STARTINVIS isn't visible until toggled.
 DEBRIS spawns debris when killed.
@@ -1167,12 +1363,13 @@ Use on brushwok. Useful if you attach a complex model to it and need to make mor
 /*QUAKED props_dust (.7 .3 .16) (-8 -8 -8) (8 8 8) WHITE
 A brief streak of dust.
 -------- KEYS --------
-(none)
+"target" Fires towards targeted target_position or info_notnull.
+"angles" Sets the angles to fire at.
 -------- SPAWNFLAGS --------
-WHITE spawn white dust
+WHITE spawn white dust instead of brown
 -------- NOTES --------
 Must be activated.
-Use info_not_null as target to make the streak longer. "angles" can be used as well
+Use info_notnull as target to make the streak longer. "angles" can be used as well
 but the change is barely noticeable.
 */
 
@@ -1180,12 +1377,22 @@ but the change is barely noticeable.
 Exploding barrel.
 -------- KEYS --------
 "health" default 20
+"angle" determines which way the lid will fly off when it explodes
+"target" Targets to fire when entity dies.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SMOKING spawns smoke after killed
 NOLID lid won't fly when killed
 OIL spills oil after taking damage
 -------- NOTES --------
-Angle will determine which way the lid will fly off when it explodes.
+Models are from RTCW; they vary depending on the spawnflags used.
+Required models are:
+"models/furniture/barrel/barrel_b.mdc" (default)
+"models/furniture/barrel/barrel_c.mdc" (spawnflags 4)
+"models/furniture/barrel/barrel_d.mdc" (spawnflags 1)
+
+Oil will spill underneath the barrel.
 */
 
 /*QUAKED props_flamethrower (.6 .7 .3) (-8 -8 -8) (8 8 8)
@@ -1202,10 +1409,12 @@ Some tiny gunsparks.
 -------- KEYS --------
 "speed" default is 20
 "health" number to spawn default is 4
+"target" sets the direction to fire in (see notes)
+"targetname" when fired, activates the sparks
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Seems to always fire towards the entity which activated it.
+Default direction is up. Seems to fire in the exact opposite direction of its target.
 */
 
 /*QUAKED props_skyportal (.6 .7 .7) (-8 -8 0) (8 8 16)
@@ -1217,10 +1426,11 @@ Seems to always fire towards the entity which activated it.
 (none)
 -------- NOTES --------
 Allows you to place a static "far away" looking scene around the map.
-You should place this entity in the exact middle of your skyportal area.
+The placement of this entity corresponds to the position your map is placed within the skybox area.
 */
 
 /*QUAKED props_smokedust (.8 .46 .16) (-8 -8 -8) (8 8 8)
+Spawns smoke clouds.
 -------- KEYS --------
 "health" how many pieces 16 is default
 -------- SPAWNFLAGS --------
@@ -1274,37 +1484,44 @@ Triggering a dead script_mover with resurrectable spawnflag will reset the healt
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-This is used for scripting.  Entity not displayed in game.
+This is used for scripting. Entity not displayed in game.
 You MUST have one, and one only, of these in your map for it to function correctly.
 */
 
-/*QUAKED shooter_mortar (1 0 0) (-16 -16 -16) (16 16 16) SMOKE_FX FLASH_FX
+/*QUAKED shooter_mortar (1 0 0) (-16 -16 -16) (16 16 16) - -
 -------- KEYS --------
 "random" the number of degrees of deviance from the target. (1.0 default)
+"target" fires towards this target.
 -------- SPAWNFLAGS --------
-LAUNCH_FX a smoke effect will play at the origin of this entity.
-FLASH_FX a muzzle flash effect will play at the origin of this entity.
+(none)
 -------- NOTES --------
-Lobs a mortar so that it will pass through the info_notnull targeted by this entity
+Lobs a mortar so that it will pass through the "info_notnull" targeted by this entity.
+Must use "target"; "angle(s)" will not work.
 */
 
 /*QUAKED shooter_rocket (1 0 0) (-16 -16 -16) (16 16 16)
 -------- KEYS --------
 "random" the number of degrees of deviance from the target. (1.0 default)
+"target" fires towards this target.
+"angle" sets the angle to fire at.
+"angles" sets the angles to fire at.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Fires (a panzerfaust) at either the target or the current direction.
+Fires a rocket (panzerfaust) at either the target or towards angle(s).
 */
 
 /*QUAKED target_counter (1 1 0) (-8 -8 -8) (8 8 8)
-Simple counter that fires its targets when "count" is reached.
+Simple counter that fires its targets when "count" reaches 0.
 -------- KEYS --------
-"count" target count value
+"count" starting count value
+"target" Targets to fire when count is 0.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-When activated, increases count by 1. Starts from 0.
+When activated, decreases count by 1.
 Does not reset, so effectively one-time use.
 */
 
@@ -1312,45 +1529,53 @@ Does not reset, so effectively one-time use.
 -------- KEYS --------
 "wait" seconds to pause before firing targets.
 "random" delay variance, total delay = delay +/- random seconds
+"target" Targets to fire.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
 Fires off targets after a delay.
 */
 
-/*QUAKED target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT EXPLODE SMOKE - - - -
+/*QUAKED target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT EXPLODE SMOKE RUBBLE - - TRAILS
 -------- KEYS --------
-"mass" defaults to 15. This determines how much debris is emitted when it explodes.  (number of pieces)
+"mass" defaults to 15. This determines how much debris is emitted when it explodes. (number of pieces)
 "dmg" defaults to 0. Damage radius blast when triggered
 "type" rubble mdel type
+"target" Targets to fire when activated.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 TNT Big explosion when triggered
 EXPLODE explosion when triggered
 SMOKE Produces smoke when triggered
+RUBBLE spawns rubble upon explosion
+TRAILS adds only explosion trails
 -------- NOTES --------
 rubble types:
+	"wood"
 	"glass"
-	"wood" (default)
 	"metal"
-	"gibs"
-	"brick"
-	"rock"
+	"brick" (default)
 */
 
 /*QUAKED target_explosion (0 .5 .8) (-32 -32 -32) (32 32 32) LOWGRAV
 -------- KEYS --------
 "type" type of debris
+"mass" defaults to 75. This determines how much debris is emitted when it explodes. (number of pieces)
+"dmg" defaults to 0. Damage radius blast when triggered
+"target" Targets to fire when activated.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 LOWGRAV the explosive debris will move with low gravity
 -------- NOTES --------
 debris types:
+	"wood"
 	"glass"
-	"wood" (default)
 	"metal"
-	"gibs"
-	"brick"
-	"rock"
-	"fabric"
+	"brick" (default)
 */
 
 /*QUAKED target_fog (1 1 0) (-8 -8 -8) (8 8 8)
@@ -1361,7 +1586,7 @@ debris types:
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Distance must be set. Distance is always calculated from players PVS.
+Distance must be set. Distance is always calculated from players POV.
 */
 
 /*QUAKED target_kill (.5 .5 .5) (-8 -8 -8) (8 8 8) KILL_USER_TOO
@@ -1377,7 +1602,9 @@ Can be used to kill script_movers as well.
 /*QUAKED target_laser (0 .5 .8) (-8 -8 -8) (8 8 8) START_ON
 When activated, fires a laser. You can either set a target or a direction.
 -------- KEYS --------
-(none)
+"target" fires towards this target.
+"angle" sets the angle to fire at.
+"angles" sets the angles to fire at.
 -------- SPAWNFLAGS --------
 START_ON starts on.
 -------- NOTES --------
@@ -1390,6 +1617,7 @@ Does not damage players or entities.
 Used to lock/unlock doors.
 -------- KEYS --------
 "key" 0 to unlock, -1 to lock
+"target" the door to lock/unlock
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1408,7 +1636,7 @@ Used as a positional target for in-game calculation, like jumppad targets.
 Position of this entity will determine the apex of the jump when used as jumppad target.
 */
 
-/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE CPM
 Prints out text in centerprint when activated.
 -------- KEYS --------
 "message" text to print
@@ -1416,25 +1644,34 @@ Prints out text in centerprint when activated.
 AXIS_ONLY axis only.
 ALLIED_ONLY allies only.
 PRIVATE only the activator gets the message.
+CPM prints in cpm (popup) instead of centerprint
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
 */
 
 /*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) - ADD_XY
+Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 "speed" push speed. Default to 1000
+"target" aim at "target_position"
+"angle" push angle
+"angles" push angles
 -------- SPAWNFLAGS --------
-ADD_XY adds activators current horizontal speed to pusher instead of setting it.
+ADD_XY the speed from the pusher is added to players current horizontal speed.
 -------- NOTES --------
-Pushes the activator in the direction of angles, or towards target_position.
-Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
+"speed" has no effect when aimed at "target_position".
+When combining aiming to "target_position" & spawnflags 2, the amount of speed required
+to reach the target is added to activators horizontal speed.
+The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
 */
 
 /*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM TIMERUN_ONLY NO_TIMERUN -
 Fires its targets.
 -------- KEYS --------
-(none)
+"target" Targets to fire.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 RED_ONLY only triggers by axis accepted
 BLUE_ONLY only trigger by allied accepted
@@ -1442,16 +1679,17 @@ RANDOM only one of the targets will be fired, not all of them.
 TIMERUN_ONLY only fires targets if activator is timerunning
 NO_TIMERUN only fires targets if activator is not timerunning
 -------- NOTES --------
-(none)
+This entity can be used to trigger different events depending on spawnflags used using a single trigger.
 */
 
 /*QUAKED target_remove_powerups (1 0 0) (-8 -8 -8) (8 8 8)
+Returns objective carried by player instantly to its original location when activated.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-Returns objective carried by player instantly to its original location when activated.
+This is a relic from Q3, used to remove players powerups, but reutilized in ET for objective returning, hence the odd name.
 */
 
 /*QUAKED target_rumble (0 0.75 0.8) (-8 -8 -8) (8 8 8) STARTOFF
@@ -1476,6 +1714,8 @@ Will cause an error if triggered again before finished rumbling
 -------- KEYS --------
 "target" The name of the trigger
 "scriptname" Name of the script routine to use
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1485,7 +1725,7 @@ When used it will run the trigger event relating to it's target within it's rout
 
 /*QUAKED target_smoke (1 0 0) (-32 -32 -16) (32 32 16) BLACK WHITE SMOKEON GRAVITY
 -------- KEYS --------
-"delay" this is the maximum smoke that will show up, default 100ms
+"delay" time in milliseconds between spawning smoke particles (default 100)
 "time" time before the smoke disipates, default 5000ms
 "duration" time before the smoke starts to alpha, default 2000ms
 "start_size" default 24
@@ -1493,7 +1733,7 @@ When used it will run the trigger event relating to it's target within it's rout
 "wait" the rate at which it will travel up, default 50
 "shader" custom shader to use, overrides spawnflags
 -------- SPAWNFLAGS --------
-BLACK black smoke
+BLACK black smoke (default)
 WHITE white/grey smoke
 SMOKEON starts on
 GRAVITY check this to move smoke downwards
@@ -1518,6 +1758,8 @@ NO_PVS plays whether or not in players PVS. Same as GLOBAL.
 -------- NOTES --------
 Global and activator sounds can't be combined with looping.
 Multiple identical looping sounds will just increase volume without any speed cost.
+Speaker radius is fixed, increasing/decreasing volume only scales the volume level within the radius.
+Use in-game speaker editor if you want to control radius of a speaker.
 */
 
 /*QUAKED target_teleporter (1 0 0) (-8 -8 -8) (8 8 8) RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
@@ -1534,6 +1776,7 @@ RELATIVE_PITCH converts player velocity and angles to be relative to destination
 KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
+"noise" plays only for the activator.
 */
 
 /*QUAKED team_CTF_blueflag (0 0 1) (-16 -16 -16) (16 16 16)
@@ -1552,8 +1795,11 @@ Objective pickupable by Axis.
 /*QUAKED team_CTF_bluespawn (0 0 1) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
 -------- KEYS --------
 "angle" player faces this direction when spawning.
+"angles" player faces this direction when spawning.
 "target" fires targets when a player spawns
 "targetname" may be targeted by a team_WOLF_checkpoint
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 INVULNERABE player always spawn invulnerable, so the usage of this flag
 is unknown. The official ET maps seem to always set it.
@@ -1580,8 +1826,11 @@ Objective pickupable by Allies.
 /*QUAKED team_CTF_redspawn (1 0 0) (-18 -18 -24) (18 18 48) INVULNERABLE STARTACTIVE
 -------- KEYS --------
 "angle" player faces this direction when spawning
+"angles" player faces this direction when spawning
 "target" fires targets when a player spawns
 "targetname" may be targeted by a team_WOLF_checkpoint
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 INVULNERABE player always spawn invulnerable, so the usage of this flag
 is unknown. The official ET maps seem to always set it.
@@ -1624,7 +1873,9 @@ The description key is also used for 'setautospawn' scripting command.
 
 /*QUAKED trigger_always (.5 .5 .5) ?
 -------- KEYS --------
-(none)
+"target" Targets to fire.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -1672,12 +1923,13 @@ Any entity that touches this will be healed at a specified rate up to a specifie
 -------- SPAWNFLAGS --------
 START_OFF isn't functional until toggled.
 SILENT supresses playing the sound.
-SLOW changes the damage rate to once per second.
 NO_PROTECTION *nothing* stops the damage.
+SLOW changes the damage rate to once per second.
 ONCE damages once and turns off. Must be toggled on again.
 -------- NOTES --------
 Any entity that touches this will be hurt.
 It does dmg points of damage each server frame
+Note that if both the server and player have nofatigue enabled, it will do half damage (nofatigue enables constant adrenaline).
 Targeting the trigger will toggle its on / off state.
 The entity must be used first before it will count down its life
 */
@@ -1686,6 +1938,9 @@ The entity must be used first before it will count down its life
 -------- KEYS --------
 "wait" Seconds between triggerings, 0.5 default, -1 = one time only.
 "random" wait variance, default is 0
+"target" Targets to fire.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 AXIS_ONLY only axis may trigger this
 ALLIED_ONLY only allies may trigger this
@@ -1700,7 +1955,12 @@ MULTI_ACTIVATOR activates for all players touching the trigger
 Variable sized repeatable trigger.  Must be targeted at one or more entities.
 so, the basic time between firing is a random time between
 (wait - random) and (wait + random)
+
 When MULTI_ACTIVATOR is set, "wait" cycle is unique for each player.
+
+You can only set one of the "_ONLY" spawnflags, they cannot be combined.
+For example, "AXIS_ONLY" + "MEDIC_ONLY" results in AXIS_ONLY.
+The order at which the spawnflags are listed is the priority order, any "_ONLY" flags set after another are ignored.
 */
 
 /*QUAKED trigger_objective_info (.5 .5 .5) ? AXIS_OBJECTIVE ALLIED_OBJECTIVE - MOBILE_TANK IS_OBJECTIVE IS_HEALTHAMMOCABINET IS_COMMANDPOST
@@ -1722,11 +1982,14 @@ IS_COMMANDPOST Will use a command post icon on the command map
 Players in this field will see a message saying that they are near an objective.
 Also, if targeting a dynamitable objective, the dynamite must be armed inside
 of the trigger to blow up the objective.
+You can have a maximum of 18 "trigger_objective_info" entities.
 */
 
 /*QUAKED trigger_once (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY
 -------- KEYS --------
-(none)
+"target" Targets to fire.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 AXIS_ONLY only axis may trigger this
 ALLIED_ONLY only allies may trigger this
@@ -1739,17 +2002,28 @@ COVERTOPS_ONLY only covertops may trigger this
 Must be targeted at one or more entities.
 Once triggered, this entity is destroyed
 (you can actually do the same thing with trigger_multiple with a wait of -1)
+
+You can only set one of the "_ONLY" spawnflags, they cannot be combined.
+For example, "AXIS_ONLY" + "MEDIC_ONLY" results in AXIS_ONLY.
+The order at which the spawnflags are listed is the priority order, any "_ONLY" flags set after another are ignored.
 */
+
 /*QUAKED trigger_push (.5 .5 .5) ? - ADD_XY
-Pushes activator towards targeted target_position or info_notnull, which will be the apex of the push.
+Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 "speed" push speed. Default to 1000
 "noise" wav file to play
+"target" aim at "target_position"
+"angle" push angle
+"angles" push angles
 -------- SPAWNFLAGS --------
-ADD_XY adds activators current horizontal speed to pusher instead of setting it.
+ADD_XY The speed from the pusher is added to players current horizontal speed.
 -------- NOTES --------
-Unlike target_push, this entity is client side predicted.
-Speed has no effect when target_position is used as target (unless spawnflags 2 is also used).
+Unlike "target_push", this entity is client side predicted.
+"speed" has no effect when aimed at "target_position".
+When combining aiming to "target_position" & spawnflags 2, the amount of speed required
+to reach the target is added to activators horizontal speed.
+The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
 */
 
 /*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
@@ -1765,223 +2039,268 @@ RELATIVE_PITCH converts player velocity and angles to be relative to destination
 KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
+"noise" plays only for the activator.
 */
 
 /*QUAKED weapon_fg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-A weapon you can pick up.
+FG42 rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_flamethrower (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-A weapon you can pick up.
+Flamethrower.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Allied sniperrifle.
+/*QUAKED weapon_garandRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Allied sniper rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Axis sniperrifle
+/*QUAKED weapon_kar43 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Axis sniper rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Axis engy rifle
+/*QUAKED weapon_kar98Rifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Axis engy rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Allied engy rifle
+/*QUAKED weapon_M1CarbineRifle(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
+Allied engy rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Pickup Ammo pack
+Ammo pack.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo-packs included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_magicammo2 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Pickup Mega Ammo pack
+Mega Ammo pack.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo-packs included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 
 This doesn't have more ammo in it by default, you need to set it manually.
 */
 
 /*QUAKED weapon_mobile_mg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-Pickup weapon
+Mobile MG42.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
-A weapon you can pick up
+Mortar.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_mp40 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
-A weapon you can pick up
+MP40 submachine gun.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_panzerfaust (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
-A weapon you can pick up
+Panzerfaust rocketlauncher.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_sten (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
-A weapon you can pick up
+Sten submachine gun.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 /*QUAKED weapon_thompson (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
-A weapon you can pick up
+Thompson submachine gun.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
 SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
 
 //ETJump Entities
 
-/*QUAKED etjump203_target_relay (0 1 1) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
-Fires its targets.
+/*QUAKED etjump203_target_relay (0 1 1) (-8 -8 -8) (8 8 8) - - - - - -
+Fires a random target.
 -------- KEYS --------
-(none)
+"target" targets to fire.
 -------- SPAWNFLAGS --------
-RED_ONLY only triggers by axis accepted
-BLUE_ONLY only trigger by allied accepted
-RANDOM only one of the targets will be fired, not all of them.
+(none)
 -------- NOTES --------
-Works exactly like target_relay.
-Used for version checking, preventing a map for working on <ETjump 2.0.3. You should probably not use this.
+Works exactly like "target_relay" with RANDOM spawnflag.
+Fires once and dies afterwards.
+Used for version checking, preventing a map for working on < ETjump 2.0.3. You should probably not use this.
 */
 
-/*QUAKED etjump2_target_relay (0 1 1) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
-Fires its targets.
+/*QUAKED etjump2_target_relay (0 1 1) (-8 -8 -8) (8 8 8) - - - - - -
+Fires a random target.
 -------- KEYS --------
-(none)
+"target" targets to fire.
 -------- SPAWNFLAGS --------
-RED_ONLY only triggers by axis accepted
-BLUE_ONLY only trigger by allied accepted
-RANDOM only one of the targets will be fired, not all of them.
+(none)
 -------- NOTES --------
-Works exactly like target_relay.
-Used for version checking, preventing a map for working on <ETjump 2.0.0. You should probably not use this.
+Works exactly like "target_relay" with RANDOM spawnflag.
+Fires once and dies afterwards.
+Used for version checking, preventing a map for working on < ETjump 2.0.0. You should probably not use this.
 */
 
 /*QUAKED target_activate (0 1 0) (-8 -8 -8) (8 8 8) TRIGGER_IF_GT TRIGGER_IF_NOT TRIGGER_IF_LT
@@ -1989,15 +2308,17 @@ Fires its targets if ident requirement is met.
 -------- KEYS --------
 "reqident" ident value
 -------- SPAWNFLAGS --------
-no spawnflag = trigger if equals to
 TRIGGER_IF_GT triggers if greater than specified ident value.
 TRIGGER_IF_NOT triggers if not the specified ident value.
 TRIGGER_IF_LT triggers if lower than specified ident value.
 -------- NOTES --------
+By default fires when activators ident is equal to "reqident".
+If targeting multiple entities, picks a random target and fires that.
 Ident system has been replaced with tracker system. Use that instead.
 */
 
 /*QUAKED target_activate_if_velocity (0.2 0.2 0.2) (-8 -8 -8) (8 8 8) HORIZONTAL VERTICAL
+Fires target if velocity requirements are met.
 -------- KEYS --------
 "lower_limit" If velocity is under lower_limit, nothing will be activated. 0 to disregard.
 "upper_limit" If velocity is over upper_limit, nothing will be activated. 0 to disregard.
@@ -2005,7 +2326,7 @@ Ident system has been replaced with tracker system. Use that instead.
 HORIZONTAL only horizontal velocity.
 VERTICAL only vertical velocity.
 -------- NOTES --------
-Fires targets if velocity requirements are met.
+If targeting multiple entities, picks a random target and fires that.
 */
 
 /*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
@@ -2023,19 +2344,18 @@ Ident system has been replaced with tracker system. Use that instead.
 /*QUAKED target_ftrelay (0.7 0.7 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
 Fires its targets.
 -------- KEYS --------
-(none)
+"target" targets to fire.
 -------- SPAWNFLAGS --------
-RED_ONLY only triggers by axis accepted
-BLUE_ONLY only trigger by allied accepted
-RANDOM only one of the targets will be fired, not all of them.
+(none)
 -------- NOTES --------
-Works exactly like target_relay but activates the entities for everyone in the player's current fireteam, not just the player.
+Works exactly like "target_relay" with RANDOM spawnflag, except also fires for all members in activators fireteam.
+Activates a random target for each fireteam member.
 */
 
 /*QUAKED target_give (0 .5 0) (-8 -8 -8) (8 8 8)
 Gives activator targeted items.
 -------- KEYS --------
-(none)
+"target" item(s) to give.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -2071,7 +2391,9 @@ AXIS_ONLY axis only.
 ALLIED_ONLY allies only.
 PRIVATE only the activator gets the message.
 -------- NOTES --------
-Prints text on left print.
+If no spawnflag is checked, all clients get the message, including spectators.
+Color codes can be used in the message.
+Prints to CPM (popups).
 */
 
 /*QUAKED target_remove_portals (0.3 0.3 0.3) (-8 -8 -8) (8 8 8) SILENT
@@ -2127,12 +2449,13 @@ Ident system has been replaced with tracker system. Use that instead.
 /*QUAKED target_set_health (1 0 0) (-8 -8 -8) (8 8 8) ONCE
 Sets activators health to specified value.
 -------- KEYS --------
-"health" value which health is set to.
+"health" value which health is set to. Must be over 0.
 "wait" how long in milliseconds before next activation by same player.
 -------- SPAWNFLAGS --------
 ONCE only set health once per life.
 -------- NOTES --------
-(none)
+Cannot be used to kill player by setting health to less or equal to 0.
+Can be used to set health higher than normal max health.
 */
 
 /*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE
@@ -2151,6 +2474,12 @@ NO_PG cannot pickup portalgun during timerun.
 NO_SAVE disables save during timerun, load resets the run.
 -------- NOTES --------
 "name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
+
+Starting a timerun performs the following actions to the activating player:
+- Removes explosive weapons and flamethrower
+- Removes portalgun
+- Resets portals
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
 */
 
 /*QUAKED target_stoptimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
@@ -2192,7 +2521,7 @@ tracker_eq  1                   tracker on index 1 has to be 1
 tracker_eq  2,1                 tracker on index 2 has to be 1
 tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 
-Maximum amount of tracker indexes is 50.
+Maximum amount of tracker indices is 50.
 */
 
 /*QUAKED trigger_savereset (.5 .5 .5) ?
@@ -2234,7 +2563,7 @@ tracker_eq  1                   tracker on index 1 has to be 1
 tracker_eq  2,1                 tracker on index 2 has to be 1
 tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 
-Maximum amount of tracker indexes is 50.
+Maximum amount of tracker indices is 50.
 */
 
 /*QUAKED weapon_portalgun (.3 .3 1) (-16 -16 -16) (16 16 16) - SPIN BOB
