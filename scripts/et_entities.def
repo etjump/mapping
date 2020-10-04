@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 2.3.0
-// Last updated on: 27.08.2020
+// Updated for ETJump 2.4.0
+// Last updated on: 30.08.2020
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -520,8 +520,6 @@ activate - when used
 
 Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate it.
 The sound defaults to "sound/movers/doors/default_door_locked.wav"
-
-"noise" is currently bugged in ETJump 2.3.0 and plays sound at world origin, unless you attach an origin brush to this entity.
 */
 
 /*QUAKED func_leaky (0 .5 .8) ?
@@ -1650,7 +1648,7 @@ If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
 */
 
-/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) - ADD_XY
+/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) - ADD_XY ADD_Z
 Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 "speed" push speed. Default to 1000
@@ -1659,11 +1657,11 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 "angles" push angles
 -------- SPAWNFLAGS --------
 ADD_XY the speed from the pusher is added to players current horizontal speed.
+ADD_Z the speed from the pusher is added to players current vertical speed.
 -------- NOTES --------
 "speed" has no effect when aimed at "target_position".
-When combining aiming to "target_position" & spawnflags 2, the amount of speed required
-to reach the target is added to activators horizontal speed.
-The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
+When combining aiming to "target_position" & spawnflags 2/4, the amount of speed required
+to reach the target (in relevant axes) is added to activators horizontal/vertical speed.
 */
 
 /*QUAKED target_relay (1 1 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM TIMERUN_ONLY NO_TIMERUN -
@@ -2008,7 +2006,7 @@ For example, "AXIS_ONLY" + "MEDIC_ONLY" results in AXIS_ONLY.
 The order at which the spawnflags are listed is the priority order, any "_ONLY" flags set after another are ignored.
 */
 
-/*QUAKED trigger_push (.5 .5 .5) ? - ADD_XY
+/*QUAKED trigger_push (.5 .5 .5) ? - ADD_XY ADD_Z
 Pushes activator towards targeted "target_position" or "info_notnull", which will be the apex of the push.
 -------- KEYS --------
 "speed" push speed. Default to 1000
@@ -2018,12 +2016,12 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 "angles" push angles
 -------- SPAWNFLAGS --------
 ADD_XY The speed from the pusher is added to players current horizontal speed.
+ADD_Z The speed from the pusher is added to players current vertical speed.
 -------- NOTES --------
 Unlike "target_push", this entity is client side predicted.
 "speed" has no effect when aimed at "target_position".
-When combining aiming to "target_position" & spawnflags 2, the amount of speed required
-to reach the target is added to activators horizontal speed.
-The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
+When combining aiming to "target_position" & spawnflags 2/4, the amount of speed required
+to reach the target (in relevant axes) is added to activators horizontal/vertical speed.
 */
 
 /*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
@@ -2415,12 +2413,12 @@ Saves targets position.
 Replaces save on slot 0.
 */
 
-/*QUAKED target_savereset (1 1 1) (-8 -8 -8) (8 8 8)
+/*QUAKED target_savereset (1 1 1) (-8 -8 -8) (8 8 8) SILENT
 Resets targets saves when activated.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
-(none)
+SILENT does not print text when saves are reset.
 -------- NOTES --------
 Resets saves on every slot.
 */
@@ -2477,6 +2475,7 @@ NO_SAVE disables save during timerun, load resets the run.
 
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
+- Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
 - Clears all save slots and backups (unless NO_SAVE spawnflag is used)
@@ -2524,12 +2523,12 @@ tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 Maximum amount of tracker indices is 50.
 */
 
-/*QUAKED trigger_savereset (.5 .5 .5) ?
+/*QUAKED trigger_savereset (.5 .5 .5) ? SILENT
 Resets targets saves.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
-(none)
+SILENT does not print text when saves are reset.
 -------- NOTES --------
 Resets saves on every slot.
 */
