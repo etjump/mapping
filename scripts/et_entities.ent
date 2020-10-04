@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 2.3.0
- Last updated on: 27.08.2020
+ Updated for ETJump 2.4.0
+ Last updated on: 31.08.2020
 -->
 
 <classes>
@@ -46,8 +46,8 @@ WORLDSPAWN
 -------- KEYS --------
 <string key="atmosphere" name="Atmosphere">Specifies the atmosphere (rain/snow) in map. You must generate a tracemap for atmosphere to work.</string>
 <integer key="gridsize" name="Gridsize" value="64 64 128">Granularity of the lightgrid created by q3map2. Values of three intergers by spaces, represents number of units between grid points in X, Y and Z. Automatically adjusted during compilation if maximum lightgrid size is exceeded.</integer>
-<integer key="mapcoordsmaxs" name="MapCoordsMaxs">Top left map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
-<integer key="mapcoordsmins" name="MapCoordsMins">Bottom right map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
+<integer key="mapcoordsmaxs" name="MapCoordsMaxs">Bottom right map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
+<integer key="mapcoordsmins" name="MapCoordsMins">Top left map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
 <sound key="music" name="Music">WAV file to play throughout the map.</sound>
 <noexplosives key="noexplosives" name="No Explosives">Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite.</noexplosives>
 <nofalldamage key="nofalldamage" name="No FallDamage">0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere.</nofalldamage>
@@ -682,8 +682,6 @@ When used, calls standard scripting functions:
 
 Normally when a player 'activates' this entity, if the entity has been turned 'off' (by a scripted command) you will hear a sound to indicate that you cannot activate it.
 The sound defaults to "sound/movers/doors/default_door_locked.wav"
-
-"noise" is currently bugged in ETJump 2.3.0 and plays sound at world origin, unless you attach an origin brush to this entity.
 </group>
 
 <!--
@@ -2187,11 +2185,11 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 <angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
 <flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
+<flag key="ADD_Z" name="Add Z" bit="2">The speed from the pusher is added to players current vertical speed.</flag>
 -------- NOTES --------
 "speed" has no effect when aimed at "target_position".
-When combining aiming to "target_position" &amp; spawnflags 2, the amount of speed required
-to reach the target is added to activators horizontal speed.
-The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
+When combining aiming to "target_position" &amp; spawnflags 2/4, the amount of speed required
+to reach the target (in relevant axes) is added to activators horizontal/vertical speed.
 </point>
 
 <!--
@@ -2637,12 +2635,12 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 <angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
 <flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
+<flag key="ADD_Z" name="Add Z" bit="2">The speed from the pusher is added to players current vertical speed.</flag>
 -------- NOTES --------
 Unlike "target_push", this entity is client side predicted.
 "speed" has no effect when aimed at "target_position".
-When combining aiming to "target_position" &amp; spawnflags 2, the amount of speed required
-to reach the target is added to activators horizontal speed.
-The math for "ADD_XY" is currently broken in ETJump 2.3.0 and should not be used.
+When combining aiming to "target_position" &amp; spawnflags 2/4, the amount of speed required
+to reach the target (in relevant axes) is added to activators horizontal/vertical speed.
 </group>
 
 <!--
@@ -3156,7 +3154,7 @@ Resets activators saves.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
-(none)
+<flag key="SILENT" name="Silent" bit="0">Does not print text when saves are reset.</flag>
 -------- NOTES --------
 Resets saves on every slot.
 </point>
@@ -3228,6 +3226,7 @@ Starts a timerun.
 "target_starttimer" and "target_stoptimer" must have matching names.
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
+- Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
 - Clears all save slots and backups (unless NO_SAVE spawnflag is used)
@@ -3292,7 +3291,7 @@ Resets targets saves.
 -------- KEYS --------
 (none)
 -------- SPAWNFLAGS --------
-(none)
+<flag key="SILENT" name="Silent" bit="0">Does not print text when saves are reset.</flag>
 -------- NOTES --------
 Resets saves on every slot.
 </group>
