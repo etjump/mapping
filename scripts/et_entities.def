@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 2.4.0
-// Last updated on: 30.08.2020
+// Updated for ETJump 2.5.0
+// Last updated on: 22.09.2022
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -242,12 +242,14 @@ entities that are based around staged construction.
 When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
 -------- KEYS --------
 "target" all entities with a matching targetname will be used
-"angles" direction to move, x y z (eg 45 45 45). "angle" does not work, must use "angles"
+"angle" direction to move, use -1 for up, -2 for down
+"angles" direction to move, x y z (eg 45 45 45).
 "model2" .md3 model to also draw - use an origin
 "speed" override the default 40 speed
 "wait" override the default 1 second wait (-1 = never return)
 "lip" override the default 4 pixel lip remaining at end of move
 "health" if set, the button will also open when hurt
+"noise" sound to play when activated. Use the sound name "nosound" (case in-sensitive) to remove sound completely
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- Q3MAP2 KEYS --------
@@ -261,7 +263,7 @@ When a button is used, it moves some distance in the direction of it's angles, t
 TOUCH activates when player is close enough
 -------- NOTES --------
 When activated, plays sound "sound/movers/switches/butn2.wav".
-Sound cannot be changed.
+The volume of the activation sound cannot be changed.
 */
 
 /*QUAKED func_constructible (.9 .75 .15) ? START_BUILT INVULNERABLE AXIS_CONSTRUCTIBLE ALLIED_CONSTRUCTIBLE
@@ -629,7 +631,7 @@ Seems to always be a crusher.
 If TOUCH spawnflag is used, a player standing in the touchfield will halt movement.
 */
 
-/*QUAKED func_static (0 .5 .8) ? START_INVIS PAIN
+/*QUAKED func_static (0 .5 .8) ? START_INVIS PAIN - NO_RAND_DELAY
 A brush model that just sits there, doing nothing.
 Can be used for conditional walls and models.
 -------- KEYS --------
@@ -650,10 +652,12 @@ Can be used for conditional walls and models.
 -------- SPAWNFLAGS --------
 START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
 PAIN will fire its targets when hurt/pain
+NO_RAND_DELAY removes random 500-1000ms delay between actvations
 -------- NOTES --------
 When using pain you will need to specify the delay time.
 When PAIN is used, the entity will have 9999 health, and will stop functioning once enough damage has been dealt to it.
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
+Minimum re-activation delay when using NO_RAND_DELAY is 100ms.
 */
 
 /*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
@@ -1501,7 +1505,7 @@ Must use "target"; "angle(s)" will not work.
 -------- KEYS --------
 "random" the number of degrees of deviance from the target. (1.0 default)
 "target" fires towards this target.
-"angle" sets the angle to fire at.
+"angle" sets the angle to fire at. Use -1 for up, -2 for down.
 "angles" sets the angles to fire at.
 -------- SPAWNFLAGS --------
 (none)
@@ -1601,7 +1605,7 @@ Can be used to kill script_movers as well.
 When activated, fires a laser. You can either set a target or a direction.
 -------- KEYS --------
 "target" fires towards this target.
-"angle" sets the angle to fire at.
+"angle" sets the angle to fire at. Use -1 for up, -2 for down.
 "angles" sets the angles to fire at.
 -------- SPAWNFLAGS --------
 START_ON starts on.
@@ -1653,7 +1657,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 -------- KEYS --------
 "speed" push speed. Default to 1000
 "target" aim at "target_position"
-"angle" push angle
+"angle" push angle, use -1 for up, -2 for down
 "angles" push angles
 -------- SPAWNFLAGS --------
 ADD_XY the speed from the pusher is added to players current horizontal speed.
@@ -2012,7 +2016,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 "speed" push speed. Default to 1000
 "noise" wav file to play
 "target" aim at "target_position"
-"angle" push angle
+"angle" push angle, use -1 for up, -2 for down
 "angles" push angles
 -------- SPAWNFLAGS --------
 ADD_XY The speed from the pusher is added to players current horizontal speed.
@@ -2371,6 +2375,23 @@ Increase target client's map ident by the value of "inc"
 Ident system has been replaced with tracker system. Use that instead.
 */
 
+/*QUAKED target_init (1 0 0) (-8 -8 -8) (8 8 8) KEEPHEALTH KEEPAMMO KEEPWEAPONS KEEPPORTALGUN KEEPHOLDABLE KEEPIDENT KEEPTRACKER REMOVESTARTINGWEAPONS
+Initalizes player to a freshly spawned state.
+-------- KEYS --------
+(none(
+-------- SPAWNFLAGS --------
+KEEPHEALTH Keep current health.
+KEEPAMMO Keep current ammo.
+KEEPWEAPONS Keep current weapons.
+KEEPPORTALGUN Keep portalgun.
+KEEPHOLDABLE Keep holdable items (objectives).
+KEEPIDENT Keep current ident value.
+KEEPTRACKER Keep current tracker values.
+REMOVESTARTINGWEAPONS Remove starting weapons, only knife and utilities are kept.
+-------- NOTES --------
+REMOVESTARTINGWEAPONS has no effect if KEEPWEAPONS is set.
+*/
+
 /*QUAKED target_interrupt_timerun (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
 Stops a timerun without setting a record.
 -------- KEYS --------
@@ -2432,6 +2453,7 @@ BASE scales activators base velocity instead of current
 -------- NOTES --------
 Scales activator's velocity by factor of "scale".
 "time" must be set to higher than 0 when BASE is set, unless you are resetting scale back to 1.
+When using BASE, "scale" is limited to 0.25 - 3.0
 */
 
 /*QUAKED target_setident (1 0 0) (-8 -8 -8) (8 8 8)

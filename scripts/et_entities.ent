@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 2.4.0
- Last updated on: 31.08.2020
+ Updated for ETJump 2.5.0
+ Last updated on: 22.09.2022
 -->
 
 <classes>
@@ -347,12 +347,14 @@ We use this to hijack it's brushmodel in func_constructible entities that are ba
 When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
 -------- KEYS --------
 <target key="target" name="Target">Entities to trigger when activated.</target>
-<angles key="angles" name="Angles">Movement direction (must use "angles", "angle" does not work).</angles>
+<angle key="angle" name="Angle">Movement direction. Use -1 for up, -2 for down.</angle>
+<angles key="angles" name="Angles">Movement direction.</angles>
 <model key="model2" name="Model File">Optional model to include.</model>
 <real key="speed" name="Speed" value="40">Movement speed.</real>
 <real key="wait" name="Wait" value="1">Time until button returns to starting position (-1 = never return).</real>
 <real key="lip" name="Lip" value="4">Override the amount of lip remaining at the end position.</real>
 <integer key="health" name="Health">If set, the button will also activate when hurt (it cannot be killed; any non-zero value enables this behavior).</integer>
+<sound key="noise" name="Sound" value="sound/movers/switches/butn2.wav">Sound to play when activated. Use the sound name "nosound" (case in-sensitive) to remove sound completely.</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- Q3MAP2 KEYS --------
@@ -370,8 +372,7 @@ When a button is used, it moves some distance in the direction of it's angles, t
 -------- SPAWNFLAGS --------
 <flag key="TOUCH" name="Touch" bit="3">Activates when player is close enough.</flag>
 -------- NOTES --------
-When activated, plays sound "sound/movers/switches/butn2.wav".
-Sound cannot be changed.
+The volume of the activation sound cannot be changed.
 </group>
 
 <!--
@@ -861,10 +862,12 @@ Can be used for conditional walls and models.
 -------- SPAWNFLAGS --------
 <flag key="START_INVIS" name="Start invisible" bit="0">Start the entity as non-existent, if targeted, it will toggle existence when triggered.</flag>
 <flag key="PAIN" name="Pain" bit="1">Will fire its targets when hurt.</flag>
+<flag key="NO_RAND_DELAY" name="No random delay" bit="3">Removes the random 500-1000ms delay normally applied between activations.</flag>
 -------- NOTES --------
 When using pain you will need to specify the delay time.
 When PAIN is used, the entity will have 9999 health, and will stop functioning once enough damage has been dealt to it.
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
+Minimum re-activation delay when using NO_RAND_DELAY is 100ms.
 </group>
 
 <!--
@@ -1985,7 +1988,7 @@ Must use "target"; "angle(s)" will not work.
 -------- KEYS --------
 <real key="random" name="Random" value="1.0">The number of degrees of deviance from the target.</real>
 <target key="target" name="Target">Fire towards this target.</target>
-<angle key="angle" name="Angle">Sets the angle to fire at.</angle>
+<angle key="angle" name="Angle">Sets the angle to fire at. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Sets the angles to fire at.</angles>
 -------- SPAWNFLAGS --------
 (none)
@@ -2113,7 +2116,7 @@ Can be used to kill script_movers as well.
 When activated, fires a laser. You can either set a target or a direction.
 -------- KEYS --------
 <target key="target" name="Target">Fire towards this target.</target>
-<angle key="angle" name="Angle">Sets the angle to fire at.</angle>
+<angle key="angle" name="Angle">Sets the angle to fire at. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Sets the angles to fire at.</angles>
 -------- SPAWNFLAGS --------
 <flag key="START_ON" name="Start on" bit="0">Starts enabled.</flag>
@@ -2181,7 +2184,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 -------- KEYS --------
 <real key="speed" name="Speed" value="1000">Push speed.</real>
 <target key="target" name="Target">"target_position" to aim at.</target>
-<angle key="angle" name="Angle">Push angle.</angle>
+<angle key="angle" name="Angle">Push angle. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
 <flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
@@ -2631,7 +2634,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 <real key="speed" name="Speed" value="1000">Push speed.</real>
 <sound key="noise" name="Noise">WAV file to play.</sound>
 <target key="target" name="Target">"target_position" to aim at.</target>
-<angle key="angle" name="Angle">Push angle.</angle>
+<angle key="angle" name="Angle">Push angle. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
 <flag key="ADD_XY" name="Add XY" bit="1">The speed from the pusher is added to players current horizontal speed.</flag>
@@ -3091,6 +3094,27 @@ Ident system has been replaced with tracker system. Use that instead.
 =============================================================================
 -->
 
+<point name="target_init" color="1 0 0" box="-8 -8 -8 8 8 8">
+Initalizes player to a freshly spawned state.
+-------- KEYS --------
+(none)
+-------- SPAWNFLAGS --------
+<flag key="KEEPHEALTH" name="Keep health" bit="0">Keep current health.</flag>
+<flag key="KEEPAMMO" name="Keep ammo" bit="1">Keep current ammo.</flag>
+<flag key="KEEPWEAPONS" name="Keep weapons" bit="2">Keep current weapons.</flag>
+<flag key="KEEPPORTALGUN" name="Keep portalgun" bit="3">Keep portalgun.</flag>
+<flag key="KEEPHOLDABLE" name="Keep holdable" bit="4">Keep holdable items (objectives).</flag>
+<flag key="KEEPIDENT" name="Keep ident" bit="5">Keep current ident value.</flag>
+<flag key="KEEPTRACKER" name="Keep tracker" bit="6">Keep current tracker values.</flag>
+<flag key="REMOVESTARTINGWEAPONS" name="Remove starting weapons" bit="7">Remove starting weapons, only knife and utilities are kept.</flag>
+-------- NOTES --------
+REMOVESTARTINGWEAPONS has no effect if KEEPWEAPONS is set.
+</point>
+
+<!--
+=============================================================================
+-->
+
 <point name="target_interrupt_timerun" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
 Stops a timerun without setting a record.
 -------- KEYS --------
@@ -3172,6 +3196,7 @@ Scales activators velocity.
 <flag key="BASE" name="Base" bit="0">Scales activators base velocity instead of current velocity.</flag>
 -------- NOTES --------
 "time" must be set to higher than 0 when BASE is set, unless you are resetting "scale" back to 1.
+When using BASE, "scale" is limited to 0.25 - 3.0.
 </point>
 
 <!--
