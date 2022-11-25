@@ -62,7 +62,7 @@ WORLDSPAWN
 <integer key="portalgun_spawn" name="Spawn with portalgun" value="1">Toggles whether players will spawn with a portalgun.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
 <integer key="portalsurfaces" name="Portal Surfaces" value="1">0 = players can only shoot portals to surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaceparm monsterslickeast.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
 <portalteam key="portalteam" name="Portal Team">0 = players can only go through their own portals. 1 = players can also go through fireteam members portals. 2 = players can go through everyones portals.</portalteam>
-<integer key="savelimit" name="Savelimit">Limits saves to set amount.</integer>
+<integer key="limitedsaves" name="Limited Saves">Limits saves to set amount, 0 = no limit.</integer>
 <strictsaveload key="strictsaveload" name="Strict save/load">Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).</strictsaveload>
 <texture key="sun" name="Sun shader">Shader to use for 'sun' image.</texture>
 -------- Q3MAP2 KEYS --------
