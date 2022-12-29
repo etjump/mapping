@@ -18,6 +18,7 @@ All avaible ETJump cvar and mapping entity descriptions can be found in [ETJump 
 * Download repository as a zip file
 * Extract archive in your `etmain` folder of your `mapping directory`
 * Move `et_entities.ent` into `path\to\radiant\et.game\etmain`
+  * Note: recent releases of netradiant-custom have moved game folders to `gamepacks` directory, so the path is `radiant\gamepacks\et.game\etmain`
 * Add `lightblock` to your `shaderlist.txt`
 
 ## Extra assets
