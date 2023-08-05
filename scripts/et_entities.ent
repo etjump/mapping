@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 2.5.0
- Last updated on: 22.09.2022
+ Updated for ETJump 2.6.0
+ Last updated on: 05.08.2023
 -->
 
 <classes>
@@ -49,6 +49,7 @@ WORLDSPAWN
 <integer key="mapcoordsmaxs" name="MapCoordsMaxs">Bottom right map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
 <integer key="mapcoordsmins" name="MapCoordsMins">Top left map corner coordinate. Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.</integer>
 <sound key="music" name="Music">WAV file to play throughout the map.</sound>
+<boolean key="nodrop" name="No Drop">0 = items are only dropped outside of surfaceparm nodrop 1 = items are only dropped inside of surfaceparm nodrop.</boolean>
 <noexplosives key="noexplosives" name="No Explosives">Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite.</noexplosives>
 <nofalldamage key="nofalldamage" name="No FallDamage">0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere.</nofalldamage>
 <boolean key="noghost" name="No Ghost">Disables player ghosting. Overrides g_ghostPlayers server cvar.</boolean>

@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 2.5.0
-// Last updated on: 22.09.2022
+// Updated for ETJump 2.6.0
+// Last updated on: 05.08.2023
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -12,7 +12,8 @@
 "atmosphere" specifies the atmosphere (rain/snow) in map. You must generate tracemap for atmosphere to work.
 "mapcoordsmins" Top left corner coordinate. Example "-256 256".
 "mapcoordsmaxs" Lower right corner coordinate. Example "256 -256". Both mapcoordsmins and mapcoordsmaxs must be set for command map and auto map to work properly.
-"noexplosives" Disables explosives. 0 explosives are allowed. 1 no explosive weapons. 2 no dynamite.
+"nodrop" 0 = items are only dropped outside of surfaceparm nodrop 1 = items are only dropped inside of surfaceparm nodrop. Default 0.
+"noexplosives" Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite. Default 0.
 "nofalldamage" 0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
