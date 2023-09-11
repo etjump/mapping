@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 2.6.0
-// Last updated on: 05.08.2023
+// Updated for ETJump 3.0.0
+// Last updated on: 11.09.2023
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -2332,6 +2332,16 @@ VERTICAL only vertical velocity.
 If targeting multiple entities, picks a random target and fires that.
 */
 
+/*QUAKED target_checkpoint (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
+Timerun checkpoint.
+-------- KEYS --------
+"name" Run name.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+"name" is case sensitive. A timerun can have a maximum of 16 checkpoints.
+*/
+
 /*QUAKED target_decay (0.7 0.7 0) (-8 -8 -8) (8 8 8)
 Decays activators ident value.
 -------- KEYS --------
@@ -2546,6 +2556,16 @@ tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 Maximum amount of tracker indices is 50.
 */
 
+/*QUAKED trigger_checkpoint (.5 .5 .5) ?
+Timerun checkpoint
+-------- KEYS --------
+"name" timerun name.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+"name" is case sensitive. A timerun cna have a maximum of 16 checkpoints.
+*/
+
 /*QUAKED trigger_savereset (.5 .5 .5) ? SILENT
 Resets targets saves.
 -------- KEYS --------
@@ -2554,6 +2574,41 @@ Resets targets saves.
 SILENT does not print text when saves are reset.
 -------- NOTES --------
 Resets saves on every slot.
+*/
+
+/*QUAKED trigger_starttimer (.5 .5 .5) ? RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE
+Starts a timerun.
+-------- KEYS --------
+"name" timerun name.
+"speed_limit" maximum allowed speed at which timerun can be started.
+-------- SPAWNFLAGS --------
+RESET_TEAM run resets on team change.
+RESET_DEATH run resets on death.
+RESET_END only reset when you reach the end.
+FORCE_PMOVE run resets if client sets pmove_fixed 0.
+NO_BACKUPS disables backups and additional save slots during timerun.
+NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
+NO_PG cannot pickup portalgun during timerun.
+NO_SAVE disables save during timerun, load resets the run.
+-------- NOTES --------
+"name" is case sensitive. target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+
+Starting a timerun performs the following actions to the activating player:
+- Removes explosive weapons and flamethrower
+- Removes all projectiles and mines of the activator
+- Removes portalgun
+- Resets portals
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+*/
+
+/*QUAKED trigger_stoptimer (.5 .5 .5) ?
+Ends a timerun.
+-------- KEYS --------
+"name" timerun name.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+"name" is case sensitive. target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 */
 
 /*QUAKED trigger_tracker (.5 .5 .5) ?
