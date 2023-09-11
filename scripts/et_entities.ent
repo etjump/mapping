@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 2.6.0
- Last updated on: 05.08.2023
+ Updated for ETJump 3.0.0
+ Last updated on: 11.09.2023
 -->
 
 <classes>
@@ -3035,6 +3035,20 @@ If targeting multiple entities, picks a random target and fires that.
 =============================================================================
 -->
 
+<point name="target_checkpoint" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
+Timerun checkpoint.
+-------- KEYS --------
+<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+A timerun can have a maximum of 16 checkpoints.
+</point>
+
+<!--
+=============================================================================
+-->
+
 <point name="target_decay" color="0.7 0.7 0" box="-8 -8 -8 8 8 8">
 Decays activators ident value
 -------- KEYS --------
@@ -3249,7 +3263,7 @@ Starts a timerun.
 <flag key="NO_PG" name="No portalgun" bit="6">Cannot pickup portalgun during the timerun.</flag>
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
 -------- NOTES --------
-"target_starttimer" and "target_stoptimer" must have matching names.
+"target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
@@ -3263,13 +3277,13 @@ Starting a timerun performs the following actions to the activating player:
 -->
 
 <point name="target_stoptimer" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
-Starts a timerun.
+Stops a timerun.
 -------- KEYS --------
 <string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-"target_starttimer" and "target_stoptimer" must have matching names.
+"target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 </point>
 
 <!--
@@ -3312,6 +3326,20 @@ Maximum amount of tracker indices is 50.
 =============================================================================
 -->
 
+<group name="trigger_checkpoint" color="0.5 0.5 0.5">
+Timerun checkpoint.
+-------- KEYS --------
+<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+A timerun can have a maximum of 16 checkpoints.
+</group>
+
+<!--
+=============================================================================
+-->
+
 <group name="trigger_savereset" color="0.5 0.5 0.5">
 Resets targets saves.
 -------- KEYS --------
@@ -3320,6 +3348,48 @@ Resets targets saves.
 <flag key="SILENT" name="Silent" bit="0">Does not print text when saves are reset.</flag>
 -------- NOTES --------
 Resets saves on every slot.
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_starttimer" color="0.5 0.5 0.5">
+Starts a timerun.
+-------- KEYS --------
+<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+<real key="speed_limit" name="Speed limit">Maximum speed activator can have at the start of the run.</real>
+-------- SPAWNFLAGS --------
+<flag key="RESET_TEAM" name="Reset team" bit="0">Run resets on team change.</flag>
+<flag key="RESET_DEATH" name="Reset death" bit="1">Run resets on death.</flag>
+<flag key="RESET_END" name="Reset end" bit="2">Only reset when you reach the end.</flag>
+<flag key="FORCE_PMOVE" name="Force pmove" bit="3">Run resets if client sets "pmove_fixed 0".</flag>
+<flag key="NO_BACKUPS" name="No backups" bit="4">Disables backups and additional save slots during the timerun.</flag>
+<flag key="NO_EXPLOSIVES" name="No explosives" bit="5">Cannot pickup explosive weapons during the timerun.</flag>
+<flag key="NO_PG" name="No portalgun" bit="6">Cannot pickup portalgun during the timerun.</flag>
+<flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
+-------- NOTES --------
+"target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
+Starting a timerun performs the following actions to the activating player:
+- Removes explosive weapons and flamethrower
+- Removes all projectiles and mines of the activator
+- Removes portalgun
+- Resets portals
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_stoptimer" color="0.5 0.5 0.5">
+Stops a timerun.
+-------- KEYS --------
+<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+"target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 </group>
 
 <!--
