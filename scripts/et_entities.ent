@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.0.0
- Last updated on: 11.09.2023
+ Updated for ETJump 3.0.1
+ Last updated on: 01.10.2023
 -->
 
 <classes>
@@ -2171,6 +2171,7 @@ Prints out text in centerprint when activated.
 <flag key="ALLIED_ONLY" name="Allied Only" bit="1">Only allied team players will see the message.</flag>
 <flag key="PRIVATE" name="Activator Only" bit="2">Only the player that activates the target will see the message.</flag>
 <flag key="CPM" name="CPM" bit="3">Prints in cpm (popup) rather than centerprint.</flag>
+<flag key="NAME_SHORTCUT" name="Name shortcut" bit="4">Replace "[n]" in the message with activators name.</flag>
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.

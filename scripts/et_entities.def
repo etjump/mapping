@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.0.0
-// Last updated on: 11.09.2023
+// Updated for ETJump 3.0.1
+// Last updated on: 01.10.2023
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -1639,7 +1639,7 @@ Used as a positional target for in-game calculation, like jumppad targets.
 Position of this entity will determine the apex of the jump when used as jumppad target.
 */
 
-/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE CPM
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE CPM NAME_SHORTCUT
 Prints out text in centerprint when activated.
 -------- KEYS --------
 "message" text to print
@@ -1648,6 +1648,7 @@ AXIS_ONLY axis only.
 ALLIED_ONLY allies only.
 PRIVATE only the activator gets the message.
 CPM prints in cpm (popup) instead of centerprint
+NAME_SHORTCUT replace "[n]" in the message with the activators name
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
