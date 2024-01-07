@@ -427,6 +427,16 @@ textures/common/slickcushion
 	surfaceparm nodamage
 }
 
+textures/common/nonoclip
+{
+	qer_nocarve
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm donotenterlarge
+}
+
 textures/common/nosave
 {
 	qer_nocarve

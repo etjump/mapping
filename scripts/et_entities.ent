@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.0.1
- Last updated on: 01.10.2023
+ Updated for ETJump 3.1.0
+ Last updated on: 07.01.2024
 -->
 
 <classes>
@@ -56,11 +56,12 @@ WORLDSPAWN
 <boolean key="nogod" name="No God">Disables god mode.</boolean>
 <boolean key="nogoto" name="No Goto">Disables goto.</boolean>
 <boolean key="nojumpdelay" name="No Jumpdelay">0 = jump delay disabled only on surfaceparm monsterslicknorth. 1 = jump delay enabled only on surfaceparm monsterslicknorth.</boolean>
-<boolean key="nonoclip" name="No Noclip">Disables noclip.</boolean>
+<boolean key="nonoclip" name="No Noclip">0 = cannot use noclip inside of surfaceparm donotenterlarge. 1 = cannot use noclip outside of surfaceparm donotenterlarge.</boolean>
 <boolean key="nooverbounce" name="No Overbounce">0 = overbounce disabled only on surfaceparm monsterslicksouth. 1 = overbounce enabled only on surfaceparm monsterslicksouth.</boolean>
 <boolean key="noprone" name="No Prone">0 = cannot prone inside of surfaceparm donotenter. 1 = cannot prone outside of surfaceparm donotenter.</boolean>
 <boolean key="nosave" name="No Save">0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal.</boolean>
 <integer key="portalgun_spawn" name="Spawn with portalgun" value="1">Toggles whether players will spawn with a portalgun.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
+<boolean key="nowallbug" name="No Wallbug">Disables acceleration while stuck in a wall.</boolean>
 <integer key="portalsurfaces" name="Portal Surfaces" value="1">0 = players can only shoot portals to surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaceparm monsterslickeast.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
 <portalteam key="portalteam" name="Portal Team">0 = players can only go through their own portals. 1 = players can also go through fireteam members portals. 2 = players can go through everyones portals.</portalteam>
 <integer key="limitedsaves" name="Limited Saves">Limits saves to set amount, 0 = no limit.</integer>
@@ -2171,7 +2172,7 @@ Prints out text in centerprint when activated.
 <flag key="ALLIED_ONLY" name="Allied Only" bit="1">Only allied team players will see the message.</flag>
 <flag key="PRIVATE" name="Activator Only" bit="2">Only the player that activates the target will see the message.</flag>
 <flag key="CPM" name="CPM" bit="3">Prints in cpm (popup) rather than centerprint.</flag>
-<flag key="NAME_SHORTCUT" name="Name shortcut" bit="4">Replace "[n]" in the message with activators name.</flag>
+<flag key="NAME_SHORTCUT" name="Name shortcut" bit="4">Replace "[n]" or "%s" in the message with activators name.</flag>
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
@@ -2562,13 +2563,11 @@ The entity must be used first before it will count down its life.
 <flag key="MEDIC_ONLY" name="Medic only" bit="6">Only medics may trigger this.</flag>
 <flag key="ENGINEER_ONLY" name="Engineer only" bit="7">Only engineers may trigger this.</flag>
 <flag key="COVERTOPS_ONLY" name="Covertops only" bit="8">Only covertops may trigger this.</flag>
-<flag key="CONSTANT" name="Constant" bit="9">Triggers every server frame.</flag>
-<flag key="MULTI_ACTIVATOR" name="Multi activator" bit="11">Activates for all players touching the trigger.</flag>
 -------- NOTES --------
 Variable sized repeatable trigger. Must be targeted at one or more entities.
 The basic time between firing is a random time between (wait - random) and (wait + random). 
 
-When MULTI_ACTIVATOR is set, "wait" cycle is unique for each player.
+"wait" cycle is unique per client, meaning the trigger can fire more often than specified in "wait", but it won't fire faster to the same client.
 
 You can only set one of the "_ONLY" spawnflags, they cannot be combined.
 For example, "AXIS_ONLY" + "MEDIC_ONLY" results in AXIS_ONLY.
@@ -3145,17 +3144,14 @@ Run name does not have to be specified as it interrupts any ongoing timerun.
 =============================================================================
 -->
 
-<point name="target_printname" color="0 0 1" box="-8 -8 -8 8 8 8">
+<point name="target_portal_relay" color="0.8 0.8 0.3" box="-8 -8 -8 8 8 8">
+Fires targets if activator has fired less or equal amount of portals than specified after last portal reset.
 -------- KEYS --------
-<string key="message" name="Message">Text to print. %s and %i can be used to print the activators name.</string>
+<integer key="maxportals" name="Max portals" value="-1">Maximum number of portals client is allowed to fire to activate targets.</integer>
 -------- SPAWNFLAGS --------
-<flag key="AXIS_ONLY" name="Axis Only" bit="0">Only the axis players will see the message.</flag>
-<flag key="ALLIED_ONLY" name="Allied Only" bit="1">Only allied team players will see the message.</flag>
-<flag key="PRIVATE" name="Activator Only" bit="2">Only the player that activates the target will see the message.</flag>
+(none)
 -------- NOTES --------
-If no spawnflag is checked, all clients get the message, including spectators.
-Color codes can be used in the message.
-Prints to CPM (popups).
+Portals are reset on death, team change, timerun start and when activating "target_remove_portals".
 </point>
 
 <!--
@@ -3164,9 +3160,11 @@ Prints to CPM (popups).
 
 <point name="target_remove_portals" color="0.3 0.3 0.3" box="-8 -8 -8 8 8 8">
 -------- KEYS --------
-(none)
+<sound key="noise" name="Noise">WAV file to play when activated.</sound>
+<integer key="volume" name="Volume" value="255">Volume of the activation sound, limit is 65535, but digital distortion will cut in long before then.</integer>
 -------- SPAWNFLAGS --------
 <flag key="SILENT" name="Silent" bit="0">No print is given when portals are removed.</flag>
+<flag key="FIRE_TARGETS" name="Fire targets" bit="1">Fires targeted entities when portals are removed.</flag>
 -------- NOTES --------
 Removes activators portals from the map.
 </point>
@@ -3252,7 +3250,7 @@ Can be used to set health higher than normal max health.
 <point name="target_starttimer" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
 Starts a timerun.
 -------- KEYS --------
-<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+<string key="name" name="Name">Name of the timerun.</string>
 <real key="speed_limit" name="Speed limit">Maximum speed activator can have at the start of the run.</real>
 -------- SPAWNFLAGS --------
 <flag key="RESET_TEAM" name="Reset team" bit="0">Run resets on team change.</flag>
@@ -3265,12 +3263,15 @@ Starts a timerun.
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
+
+By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
+
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
-- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used) that were made during a previous timerun.
 </point>
 
 <!--
@@ -3280,7 +3281,7 @@ Starting a timerun performs the following actions to the activating player:
 <point name="target_stoptimer" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
 Stops a timerun.
 -------- KEYS --------
-<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+<string key="name" name="Name">Name of the timerun.</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -3371,12 +3372,15 @@ Starts a timerun.
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
+
+By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
+
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
-- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used) that were made during a previous timerun.
 </group>
 
 <!--
@@ -3386,7 +3390,7 @@ Starting a timerun performs the following actions to the activating player:
 <group name="trigger_stoptimer" color="0.5 0.5 0.5">
 Stops a timerun.
 -------- KEYS --------
-<string key="name" name="Name">Name of the timerun. Name is case sensitive.</string>
+<string key="name" name="Name">Name of the timerun.</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
