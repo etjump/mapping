@@ -1515,6 +1515,18 @@ Must use "target"; "angle(s)" will not work.
 Fires a rocket (panzerfaust) at either the target or towards angle(s).
 */
 
+/*QUAKED shooter_grenade (1 0 0) (-16 -16 -16) (16 16 16)
+-------- KEYS --------
+"random" the number of degrees of deviance from the target. (1.0 default)
+"target" fires towards this target.
+"angle" sets the angle to fire at. Use -1 for up, -2 for down.
+"angles" sets the angles to fire at.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Fires at either the target or towards angle(s).
+*/
+
 /*QUAKED target_counter (1 1 0) (-8 -8 -8) (8 8 8)
 Simple counter that fires its targets when "count" reaches 0.
 -------- KEYS --------

@@ -2000,6 +2000,22 @@ Fires a rocket (panzerfaust) at either the target or towards angle(s).
 
 <!--
 =============================================================================
+-->
+
+<point name="shooter_grenade" color="1 0 0" box="-16 -16 -16 16 16 16">
+-------- KEYS --------
+<real key="random" name="Random">The number of degrees of deviance from the target. (1.0 default)</real>
+<target key="target" name="Target">Fire towards this target.</target>
+<angle key="angle" name="Angle">Sets the angle to fire at. Use -1 for up, -2 for down.</angle>
+<angles key="angles" name="Angles">Sets the angles to fire at.</angles>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Fires at either the target or the current direction.
+</point>
+
+<!--
+=============================================================================
 
 TARGET_* ENTITIES
 
