@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.0.1
-// Last updated on: 01.10.2023
+// Updated for ETJump 3.1.0
+// Last updated on: 07.01.2024
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -19,10 +19,11 @@
 "nogod" Disables god mode.
 "nogoto" Disables goto.
 "nojumpdelay" 0 = jump delay disabled only on surfaceparm monsterslicknorth. 1 = jump delay enabled only on surfaceparm monsterslicknorth. Default 0.
-"nonoclip" Disables noclip.
+"nonoclip" 0 = cannot noclip inside of surfaceparm donotenterlarge. 1 = cannot noclip outside of surfaceparm donotenterlarge.
 "nooverbounce" 0 = cannot overbounce on surfaces with surfaceparm monsterslicksouth. 1 = can only overbounce on surfaces with surfaceparm monsterslicksouth. Default 0.
 "noprone" 0 = cannot prone inside of surfaceparm donotenter. 1 = cannot prone outside of surfaceparm donotenter. Default 0.
 "nosave" 0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal. Default 0.
+"nowallbug" Disables acceleration while stuck in a wall.
 "portalgun_spawn" Toggles whether players should spawn with a portal gun.
 "portalsurfaces" 0 = players can only shoot portals to surfaces with surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaces with surfaceparm monsterslickeast. Default 1
 "portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
@@ -1514,6 +1515,18 @@ Must use "target"; "angle(s)" will not work.
 Fires a rocket (panzerfaust) at either the target or towards angle(s).
 */
 
+/*QUAKED shooter_grenade (1 0 0) (-16 -16 -16) (16 16 16)
+-------- KEYS --------
+"random" the number of degrees of deviance from the target. (1.0 default)
+"target" fires towards this target.
+"angle" sets the angle to fire at. Use -1 for up, -2 for down.
+"angles" sets the angles to fire at.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+Fires at either the target or towards angle(s).
+*/
+
 /*QUAKED target_counter (1 1 0) (-8 -8 -8) (8 8 8)
 Simple counter that fires its targets when "count" reaches 0.
 -------- KEYS --------
@@ -1648,7 +1661,7 @@ AXIS_ONLY axis only.
 ALLIED_ONLY allies only.
 PRIVATE only the activator gets the message.
 CPM prints in cpm (popup) instead of centerprint
-NAME_SHORTCUT replace "[n]" in the message with the activators name
+NAME_SHORTCUT replace "[n]" or "%s" in the message with the activators name
 -------- NOTES --------
 If no spawnflag is checked, all clients get the message, including spectators.
 Color codes can be used in the message.
@@ -1938,7 +1951,7 @@ Targeting the trigger will toggle its on / off state.
 The entity must be used first before it will count down its life
 */
 
-/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY CONSTANT - MULTI_ACTIVATOR
+/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY - - -
 -------- KEYS --------
 "wait" Seconds between triggerings, 0.5 default, -1 = one time only.
 "random" wait variance, default is 0
@@ -1953,14 +1966,12 @@ FIELDOPS_ONLY only fieldops may trigger this
 MEDIC_ONLY only medics may trigger this
 ENGINEER_ONLY only engineers may trigger this
 COVERTOPS_ONLY only covertops may trigger this
-CONSTANT triggers on every frame
-MULTI_ACTIVATOR activates for all players touching the trigger
 -------- NOTES --------
 Variable sized repeatable trigger.  Must be targeted at one or more entities.
 so, the basic time between firing is a random time between
 (wait - random) and (wait + random)
 
-When MULTI_ACTIVATOR is set, "wait" cycle is unique for each player.
+"wait" cycle is unique per client, meaning the trigger can fire more often than specified in "wait", but it won't fire faster to the same client.
 
 You can only set one of the "_ONLY" spawnflags, they cannot be combined.
 For example, "AXIS_ONLY" + "MEDIC_ONLY" results in AXIS_ONLY.
@@ -2390,7 +2401,7 @@ Ident system has been replaced with tracker system. Use that instead.
 /*QUAKED target_init (1 0 0) (-8 -8 -8) (8 8 8) KEEPHEALTH KEEPAMMO KEEPWEAPONS KEEPPORTALGUN KEEPHOLDABLE KEEPIDENT KEEPTRACKER REMOVESTARTINGWEAPONS
 Initalizes player to a freshly spawned state.
 -------- KEYS --------
-(none(
+(none)
 -------- SPAWNFLAGS --------
 KEEPHEALTH Keep current health.
 KEEPAMMO Keep current ammo.
@@ -2414,24 +2425,23 @@ Stops a timerun without setting a record.
 Run name does not have to be specified as it interrupts any ongoing timerun.
 */
 
-/*QUAKED target_printname (0 0 1) (-8 -8 -8) (8 8 8) AXIS_ONLY ALLIED_ONLY PRIVATE
+/*QUAKED target_portal_relay (0.8 0.8 0.3) (-8 -8 -8) (8 8 8) 
+Fires targets if activator has fired less or equal amount of portals than specified after last portal reset.
 -------- KEYS --------
-"message" text to print (%s or %i are placeholders for player name) Example: text text text %s text text text
+"maxportals" Maximum number of portals client is allowed to fire to activate targets
 -------- SPAWNFLAGS --------
-AXIS_ONLY axis only.
-ALLIED_ONLY allies only.
-PRIVATE only the activator gets the message.
+(none)
 -------- NOTES --------
-If no spawnflag is checked, all clients get the message, including spectators.
-Color codes can be used in the message.
-Prints to CPM (popups).
+Portals are reset on death, team change, timerun start and when activating "target_remove_portals".
 */
 
 /*QUAKED target_remove_portals (0.3 0.3 0.3) (-8 -8 -8) (8 8 8) SILENT
 -------- KEYS --------
-(none)
+"noise" WAV file to play when activated
+"volume" Volume of the activation sound, limit is 65535, but digital distortion will cut in long before then
 -------- SPAWNFLAGS --------
 SILENT does not print text when portals are removed.
+FIRE_TARGETS fires targets when portals are removed.
 -------- NOTES --------
 Removes activators portals from the map.
 */
@@ -2505,14 +2515,16 @@ NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
 NO_SAVE disables save during timerun, load resets the run.
 -------- NOTES --------
-"name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
+target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+
+By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
 
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
-- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used) that were made during a previous timerun
 */
 
 /*QUAKED target_stoptimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8)
@@ -2522,7 +2534,7 @@ Ends a timerun.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-"name" is case sensitive. target_starttimer and target_stoptimer must have matching names.
+target_starttimer and target_stoptimer must have matching names.
 */
 
 /*QUAKED target_tracker (0 0 0) (-8 -8 -8) (8 8 8)
@@ -2592,14 +2604,16 @@ NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
 NO_SAVE disables save during timerun, load resets the run.
 -------- NOTES --------
-"name" is case sensitive. target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+
+By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
 
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
 - Removes portalgun
 - Resets portals
-- Clears all save slots and backups (unless NO_SAVE spawnflag is used)
+- Clears all save slots and backups (unless NO_SAVE spawnflag is used) that were made during a previous timerun
 */
 
 /*QUAKED trigger_stoptimer (.5 .5 .5) ?
@@ -2609,7 +2623,7 @@ Ends a timerun.
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
-"name" is case sensitive. target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 */
 
 /*QUAKED trigger_tracker (.5 .5 .5) ?
