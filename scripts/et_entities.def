@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.1.0
-// Last updated on: 07.01.2024
+// Updated for ETJump 3.1.1
+// Last updated on: 10.01.2024
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -2519,6 +2519,8 @@ target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 
 By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
 
+Runs that don't reset on team change are still reset if the player goes to spectate.
+
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
 - Removes all projectiles and mines of the activator
@@ -2607,6 +2609,8 @@ NO_SAVE disables save during timerun, load resets the run.
 target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 
 By default, timeruns are reset on team change, death and if client sets "pmove_fixed 0". If ANY spawnflags are set, you must explicitly specify the reset conditions.
+
+Runs that don't reset on team change are still reset if the player goes to spectate.
 
 Starting a timerun performs the following actions to the activating player:
 - Removes explosive weapons and flamethrower
