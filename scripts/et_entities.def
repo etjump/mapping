@@ -581,7 +581,7 @@ Platform which moves up/down when stepped on
 Plats are always drawn in the extended position so they will light correctly.
 */
 
-/*QUAKED func_portaltarget (1 0.7 0)
+/*QUAKED func_portaltarget (1 0.7 0) ?
 A brush model that spawns portalgun portals shot on it always on the same position on that surface.
 -------- KEYS --------
 (none)
@@ -597,7 +597,6 @@ A brush model that spawns portalgun portals shot on it always on the same positi
 -------- NOTES --------
 The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
 The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
-
 */
 
 /*QUAKED func_rotating (0 .5 .8) ? START_ON STARTINVIS X_AXIS Y_AXIS
