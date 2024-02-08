@@ -676,6 +676,7 @@ Alphamod brushes included in a "func_group" will only apply alphamod to brushes 
 -------- SPAWNFLAGS --------
 <flag key="STARTOFF" name="Start off" bit="0">Isn't functional till toggled.</flag>
 <flag key="NO_OFF_NOISE" name="No off noise" bit="2">No sound will play if the invis_user is used when 'off'.</flag>
+<flag key="SCRIPT_ACTIVATOR" name="Mapscript activator" bit="3">Activator (player) is forwarded to "activate" script event.</flag>
 -------- NOTES --------
 When activated will use its targets.
 When used, calls standard scripting functions:
