@@ -581,7 +581,7 @@ Platform which moves up/down when stepped on
 Plats are always drawn in the extended position so they will light correctly.
 */
 
-/*QUAKED func_portaltarget (1 0.7 0) ?
+/*QUAKED func_portaltarget (0.4 0.3 1) ?
 A brush model that spawns portalgun portals shot on it always on the same position on that surface.
 -------- KEYS --------
 (none)
