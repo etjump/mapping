@@ -581,6 +581,25 @@ Platform which moves up/down when stepped on
 Plats are always drawn in the extended position so they will light correctly.
 */
 
+/*QUAKED func_portaltarget (1 0.7 0)
+A brush model that spawns portalgun portals shot on it always on the same position on that surface.
+-------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
+
+*/
+
 /*QUAKED func_rotating (0 .5 .8) ? START_ON STARTINVIS X_AXIS Y_AXIS
 -------- KEYS --------
 "model2" .md3 model to also draw

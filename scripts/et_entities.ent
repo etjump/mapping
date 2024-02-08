@@ -768,6 +768,33 @@ Plats should be constructed in the raised position so they will behave and light
 =============================================================================
 -->
 
+<group name="func_portaltarget" color="1 0.7 0">
+A brush model that spawns portalgun portals shot on it always on the same position on that surface.
+-------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
+<integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
+<integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
+<real key="_lightmapscale" name="Lightmap Scale" value="1.0">Scaling factor for lightmap size.</real>
+<integer key="_samplesize" name="Samplesize">Default surface lightmap sample size.</integer>
+<real key="_shadeangle" name="Shadeangle">Largest allowed angle between faces to be treated as same nonplanar surface.</real>
+<string key="_clone" name="Clone">Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).</string>
+<string key="_clonename" name="Clonename">Name referenced by "_clone".</string>
+<texture key="_celshader" name="CelShader">CelShader to use, omit "textures/" prefix.</texture>
+<boolean key="_patchMeta" name="Patch Meta">Generate meta surfaces from patches.</boolean>
+<integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
+<integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
+</group>
+
+<!--
+=============================================================================
+-->
+
 <group name="func_rotating" color="0 0.5 0.8">
 -------- KEYS --------
 <real key="speed" name="Rotation Speed" value="100">Determines how fast entity rotates. Negative values reverse direction.</real>
