@@ -3348,6 +3348,10 @@ Stops a timerun.
 <string key="tracker_set_if" name="Tracker set if">Sets activators tracker value(s) to specified value(s) if conditions from "tracker_eq", "tracker_not_eq", "tracker_gt" or "tracker_lt" are met.</string>
 <string key="tracker_inc" name="Tracker inc">Increases activators tracker value(s) by specified value(s).</string>
 <string key="tracker_inc_if" name="Tracker inc if">Increases activators tracker value(s) by specified value(s) if conditions from "tracker_eq", "tracker_not_eq", "tracker_gt" or "tracker_lt" are met.</string>
+<string key="tracker_bit_is_set" name="Tracker BITSET">Fires targets if activator's tracker value(s) have the specified bit ON.</string>
+<string key="tracker_bit_not_set" name="Tracker NOT BITSET">Fires targets if activator's tracker value(s) have the specified bit OFF.</string>
+<string key="tracker_bit_set" name="Tracker set bit">Set the specified bits ON in the activator's tracker value(s).</string>
+<string key="tracker_bit_reset" name="Tracker rest bit">Set the specified bits OFF in the activator's tracker value(s).</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -3368,6 +3372,8 @@ tracker_eq&#x9;2,1&#x9;&#x9;&#x9;tracker on index 2 has to be 1
 tracker_eq&#x9;1,1|2,1|3,1&#x9;trackers on indices 1, 2 and 3 have to be 1
 
 Maximum amount of tracker indices is 50.
+
+Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 checks for bit 4 etc.
 </point>
 
 <!--
@@ -3459,6 +3465,10 @@ Stops a timerun.
 <string key="tracker_set_if" name="Tracker set if">Sets activators tracker value(s) to specified value(s) if conditions from "tracker_eq", "tracker_not_eq", "tracker_gt" or "tracker_lt" are met.</string>
 <string key="tracker_inc" name="Tracker inc">Increases activators tracker value(s) by specified value(s).</string>
 <string key="tracker_inc_if" name="Tracker inc if">Increases activators tracker value(s) by specified value(s) if conditions from "tracker_eq", "tracker_not_eq", "tracker_gt" or "tracker_lt" are met.</string>
+<string key="tracker_bit_is_set" name="Tracker BITSET">Fires targets if activator's tracker value(s) have the specified bit ON.</string>
+<string key="tracker_bit_not_set" name="Tracker NOT BITSET">Fires targets if activator's tracker value(s) have the specified bit OFF.</string>
+<string key="tracker_bit_set" name="Tracker set bit">Set the specified bits ON in the activator's tracker value(s).</string>
+<string key="tracker_bit_reset" name="Tracker rest bit">Set the specified bits OFF in the activator's tracker value(s).</string>
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -3479,6 +3489,8 @@ tracker_eq&#x9;2,1&#x9;&#x9;&#x9;tracker on index 2 has to be 1
 tracker_eq&#x9;1,1|2,1|3,1&#x9;trackers on indices 1, 2 and 3 have to be 1
 
 Maximum amount of tracker indices is 50.
+
+Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 checks for bit 4 etc.
 </group>
 
 <!--
