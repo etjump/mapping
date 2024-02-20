@@ -480,7 +480,7 @@ Used to group brushes together just for editor convenience. They are turned into
 Alphamod brushes included in a func_group will only apply alphamod to brushes in that func_group.
 */
 
-/*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE -
+/*QUAKED func_invisible_user (.3 .5 .8) ? STARTOFF - NO_OFF_NOISE SCRIPT_ACTIVATOR
 -------- KEYS --------
 "delay" time (in seconds) before it can be used again
 "offnoise" specifies an alternate sound
@@ -493,6 +493,7 @@ Alphamod brushes included in a func_group will only apply alphamod to brushes in
 -------- SPAWNFLAGS --------
 STARTOFF isn't functional till toggled
 NO_OFF_NOISE no sound will play if the invis_user is used when 'off'
+SCRIPT_ACTIVATOR activator (player) is forwarded to "activate" script event.
 -------- NOTES --------
 when activated will use its target
 
@@ -578,6 +579,24 @@ Platform which moves up/down when stepped on
 (none)
 -------- NOTES --------
 Plats are always drawn in the extended position so they will light correctly.
+*/
+
+/*QUAKED func_portaltarget (0.4 0.3 1) ?
+A brush model that spawns portalgun portals shot on it always on the same position on that surface.
+-------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 */
 
 /*QUAKED func_rotating (0 .5 .8) ? START_ON STARTINVIS X_AXIS Y_AXIS
@@ -2549,6 +2568,10 @@ target_starttimer and target_stoptimer must have matching names.
 "tracker_set_if" Tracker sets player's tracker value to the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
 "tracker_inc" Tracker increases player's target value by the specified value.
 "tracker_inc_if" Tracker increases player's target value by the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+"tracker_bit_is_set" Fires targets if activator's tracker value(s) have the specified bit ON.
+"tracker_bit_not_set" Fires targets if activator's tracker value(s) have the specified bit OFF.
+"tracker_bit_set" Set the specified bits ON in the activator's tracker value(s).
+"tracker_bit_reset" Set the specified bits OFF in the activator's tracker value(s).
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -2569,6 +2592,8 @@ tracker_eq  2,1                 tracker on index 2 has to be 1
 tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 
 Maximum amount of tracker indices is 50.
+
+Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 checks for bit 4 etc.
 */
 
 /*QUAKED trigger_checkpoint (.5 .5 .5) ?
@@ -2640,6 +2665,10 @@ target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 "tracker_set_if" Tracker sets player's tracker value to the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
 "tracker_inc" Tracker increases player's target value by the specified value.
 "tracker_inc_if" Tracker increases player's target value by the specified value if conditions from tracker_eq, tracker_gt or tracker_lt are met.
+"tracker_bit_is_set" Fires targets if activator's tracker value(s) have the specified bit ON.
+"tracker_bit_not_set" Fires targets if activator's tracker value(s) have the specified bit OFF.
+"tracker_bit_set" Set the specified bits ON in the activator's tracker value(s).
+"tracker_bit_reset" Set the specified bits OFF in the activator's tracker value(s).
 -------- SPAWNFLAGS --------
 (none)
 -------- NOTES --------
@@ -2660,6 +2689,8 @@ tracker_eq  2,1                 tracker on index 2 has to be 1
 tracker_eq  1,1|2,1|3,1         trackers on indices 1, 2 and 3 have to be 1
 
 Maximum amount of tracker indices is 50.
+
+Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 checks for bit 4 etc.
 */
 
 /*QUAKED weapon_portalgun (.3 .3 1) (-16 -16 -16) (16 16 16) - SPIN BOB
