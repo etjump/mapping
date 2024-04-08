@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.1.1
-// Last updated on: 10.01.2024
+// Updated for ETJump 3.2.0
+// Last updated on: 08.04.2024
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -167,6 +167,7 @@ models/ammo/syringe/syringe.md3
 START_OFF starts non-visible
 -------- NOTES --------
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
+Static coronas don't count towards entity limit.
 */
 
 /*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) - STARTOFF ONETIME
@@ -579,24 +580,6 @@ Platform which moves up/down when stepped on
 (none)
 -------- NOTES --------
 Plats are always drawn in the extended position so they will light correctly.
-*/
-
-/*QUAKED func_portaltarget (0.4 0.3 1) ?
-A brush model that spawns portalgun portals shot on it always on the same position on that surface.
--------- KEYS --------
-(none)
--------- Q3MAP2 KEYS --------
-"_lightmapscale" Scaling factor for lightmap size.
-"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
-"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
-"_celshader" CelShader to use, omit "textures/" prefix.
-"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
-"_clonename" Name referenced by "_clone".
--------- SPAWNFLAGS --------
-(none)
--------- NOTES --------
-The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
-The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 */
 
 /*QUAKED func_rotating (0 .5 .8) ? START_ON STARTINVIS X_AXIS Y_AXIS
@@ -2048,6 +2031,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 "speed" push speed. Default to 1000
 "noise" wav file to play
 "target" aim at "target_position"
+"wait" milliseconds to wait between activations, default 100
 "angle" push angle, use -1 for up, -2 for down
 "angles" push angles
 -------- SPAWNFLAGS --------
@@ -2335,6 +2319,49 @@ Fires a random target.
 Works exactly like "target_relay" with RANDOM spawnflag.
 Fires once and dies afterwards.
 Used for version checking, preventing a map for working on < ETjump 2.0.0. You should probably not use this.
+*/
+
+/*QUAKED func_missilepad (0 .5 .5) ? START_INVIS SCALE_HORIZONTAL_ONLY SCALE_VERTICAL_ONLY
+Explodes grenades on impact.
+-------- KEYS --------
+"scale" multiplier to scale the explosion with for more knockback
+"target" targets to fire upon impact
+"noise" WAV file to play when grenade explodes
+"volume" volume of the activation sound
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- SPAWNFLAGS --------
+START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
+SCALE_HORIZONTAL_ONLY apply "scale" only to horizontal velocity
+SCALE_VERTICAL_ONLY apply "scale" only to vertical velocity
+-------- NOTES --------
+Only activates for direct impact, splash damage is ignored.
+Toggling existence does NOT fire targets, only impacts from rifle grenades.
+Velocity knockback from rifle grenade explosions is normally scaled to 0.25 for vertical velocity, and kept normal for horizontal velocity, so the knockback values are not consistent between velocity vectors.
+By default, "scale" is applied to both horizontal and vertical velocity.
+*/
+
+/*QUAKED func_portaltarget (0.4 0.3 1) ?
+A brush model that spawns portalgun portals shot on it always on the same position on that surface.
+-------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 */
 
 /*QUAKED target_activate (0 1 0) (-8 -8 -8) (8 8 8) TRIGGER_IF_GT TRIGGER_IF_NOT TRIGGER_IF_LT
@@ -2702,4 +2729,38 @@ SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 This entity never falls to the ground.
+*/
+
+/*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Axis hand grenade.
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+Unlike other weapon entities, this respects class-specific ammo limit for grenades.
+*/
+
+/*QUAKED weapon_grenadepineapple (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+Allied hand grenade.
+-------- KEYS --------
+"targetname" if targeted, will spawn (and respawn) when triggered
+"target" fires target when picked up
+"count" amount of ammo included, default 0
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- SPAWNFLAGS --------
+SUSPENDED will stay where spawned and does not fall to the ground.
+BOB bobs constantly.
+-------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+Unlike other weapon entities, this respects class-specific ammo limit for grenades.
 */
