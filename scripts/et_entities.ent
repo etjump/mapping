@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.1.1
- Last updated on: 10.01.2024
+ Updated for ETJump 3.2.0
+ Last updated on: 08.04.2024
 -->
 
 <classes>
@@ -247,6 +247,7 @@ CORONA
 <flag key="START_OFF" name="Start off" bit="0">Starts non-visible.</flag>
 -------- NOTES --------
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (RGB).
+Static coronas don't count towards entity limit.
 </point>
 
 <!--
@@ -762,33 +763,6 @@ Platform which moves up/down when stepped on.
 (none)
 -------- NOTES --------
 Plats should be constructed in the raised position so they will behave and light correctly.
-</group>
-
-<!--
-=============================================================================
--->
-
-<group name="func_portaltarget" color="0.4 0.3 1">
-A brush model that spawns portalgun portals shot on it always on the same position on that surface.
--------- KEYS --------
-(none)
--------- Q3MAP2 KEYS --------
-<integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
-<integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
-<real key="_lightmapscale" name="Lightmap Scale" value="1.0">Scaling factor for lightmap size.</real>
-<integer key="_samplesize" name="Samplesize">Default surface lightmap sample size.</integer>
-<real key="_shadeangle" name="Shadeangle">Largest allowed angle between faces to be treated as same nonplanar surface.</real>
-<string key="_clone" name="Clone">Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).</string>
-<string key="_clonename" name="Clonename">Name referenced by "_clone".</string>
-<texture key="_celshader" name="CelShader">CelShader to use, omit "textures/" prefix.</texture>
-<boolean key="_patchMeta" name="Patch Meta">Generate meta surfaces from patches.</boolean>
-<integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
-<integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
--------- SPAWNFLAGS --------
-(none)
--------- NOTES --------
-The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
-The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 </group>
 
 <!--
@@ -2679,6 +2653,7 @@ Pushes activator towards targeted "target_position" or "info_notnull", which wil
 <real key="speed" name="Speed" value="1000">Push speed.</real>
 <sound key="noise" name="Noise">WAV file to play.</sound>
 <target key="target" name="Target">"target_position" to aim at.</target>
+<integer key="wait" name="Wait" value="100"> Milliseconds to wait between activations.</integer>
 <angle key="angle" name="Angle">Push angle. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Push angles.</angles>
 -------- SPAWNFLAGS --------
@@ -3040,6 +3015,67 @@ Works exactly like "target_relay" with RANDOM spawnflag.
 Fires once and dies afterwards.
 Used for version checking, preventing a map for working on &lt; ETjump 2.0.0. You should probably not use this.
 </point>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_missilepad" color="0.5 0.5 0.5">
+Explodes grenades on impact.
+-------- KEYS --------
+<real key="scale" name="Scale">Multiplier to scale the explosion with for more knockback.</real>
+<target key="target" name="Target">Targets to fire upon impact.</target>
+<sound key="noise" name="Noise">WAV file to play when grenade explodes.</sound>
+<integer key="volume" name="Volume" value="255">Volume of the activation sound.</integer>
+-------- Q3MAP2 KEYS --------
+<integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
+<integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
+<real key="_lightmapscale" name="Lightmap Scale" value="1.0">Scaling factor for lightmap size.</real>
+<integer key="_samplesize" name="Samplesize">Default surface lightmap sample size.</integer>
+<real key="_shadeangle" name="Shadeangle">Largest allowed angle between faces to be treated as same nonplanar surface.</real>
+<string key="_clone" name="Clone">Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).</string>
+<string key="_clonename" name="Clonename">Name referenced by "_clone".</string>
+<texture key="_celshader" name="CelShader">CelShader to use, omit "textures/" prefix.</texture>
+<boolean key="_patchMeta" name="Patch Meta">Generate meta surfaces from patches.</boolean>
+<integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
+<integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
+-------- SPAWNFLAGS --------
+<flag key="START_INVIS" name="Start invisible" bit="0">Start the entity as non-existent, if targeted, it will toggle existence when triggered.</flag>
+<flag key="SCALE_HORIZONTAL_ONLY" name="Scale horizontal only" bit="1">Apply "scale" only to horizontal velocity.</flag>
+<flag key="SCALE_VERTICAL_ONLY" name="Scale horizontal only" bit="2">Apply "scale" only to vertical velocity.</flag>
+-------- NOTES --------
+Only activates for direct impact, splash damage is ignored.
+Toggling existence does NOT fire targets, only impacts from rifle grenades.
+Velocity knockback from rifle grenade explosions is normally scaled to 0.25 for vertical velocity, and kept normal for horizontal velocity, so the knockback values are not consistent between velocity vectors.
+By default, "scale" is applied to both horizontal and vertical velocity.
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="func_portaltarget" color="0.4 0.3 1">
+A brush model that spawns portalgun portals shot on it always on the same position on that surface.
+-------- KEYS --------
+(none)
+-------- Q3MAP2 KEYS --------
+<integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
+<integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
+<real key="_lightmapscale" name="Lightmap Scale" value="1.0">Scaling factor for lightmap size.</real>
+<integer key="_samplesize" name="Samplesize">Default surface lightmap sample size.</integer>
+<real key="_shadeangle" name="Shadeangle">Largest allowed angle between faces to be treated as same nonplanar surface.</real>
+<string key="_clone" name="Clone">Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).</string>
+<string key="_clonename" name="Clonename">Name referenced by "_clone".</string>
+<texture key="_celshader" name="CelShader">CelShader to use, omit "textures/" prefix.</texture>
+<boolean key="_patchMeta" name="Patch Meta">Generate meta surfaces from patches.</boolean>
+<integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
+<integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
+</group>
 
 <!--
 =============================================================================
@@ -3497,7 +3533,7 @@ Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 check
 =============================================================================
 -->
 
-<point name="weapon_portalgun" color="0.3 0.3 1" box="-16 -16 -16 16 16 16" model="models/weapons2/tesla/tesla.mdc">
+<point name="weapon_portalgun" color="0.3 0.3 1" box="-16 -16 -16 16 16 16" model="models/weapons2/portalgun/portalgun.mdc">
 Portalgun.
 -------- KEYS --------
 (none)
@@ -3507,6 +3543,48 @@ Portalgun.
 -------- NOTES --------
 This entity never falls to the ground.
 Unlike other weapon_ entities, this entity doesn't need to be respawned after pickup.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="weapon_grenadelauncher" color="0.3 0.3 1" box="-16 -16 -16 16 16 16" model="models/ammo/grenade1.mdc">
+Axis hand grenade.
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
+<target key="target" name="Target">Targets to fire when picked up.</target>
+<integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
+<texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
+-------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+Unlike other weapon entities, this respects class-specific ammo limit for grenades.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="weapon_grenadepineapple" color="0.3 0.3 1" box="-16 -16 -16 16 16 16" model="models/weapons2/grenade/pineapple.mdc">
+Allied hand grenade.
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
+<target key="target" name="Target">Targets to fire when picked up.</target>
+<integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
+<texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
+-------- NOTES --------
+If targeted, weapons must be triggered before they spawn.
+Weapons can be pushed around by brushes and will fall down if pushed over an edge.
+Unlike other weapon entities, this respects class-specific ammo limit for grenades.
 </point>
 
 </classes>
