@@ -1693,8 +1693,8 @@ Fires its targets.
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
-RED_ONLY only trigger by axis accepted
-BLUE_ONLY only trigger by allied accepted
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only triggers by allied accepted
 RANDOM only one of the targets will be fired, not all of them.
 TIMERUN_ONLY only fires targets if activator is timerunning
 NO_TIMERUN only fires targets if activator is not timerunning
@@ -2047,7 +2047,7 @@ When combining aiming to "target_position" & spawnflags 2/4, the amount of speed
 to reach the target (in relevant axes) is added to activators horizontal/vertical speed.
 */
 
-/*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK
+/*QUAKED trigger_teleport (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY RELATIVE_YAW RELATIVE_PITCH KNOCKBACK NO_Z_OFFSET
 Touching this will teleport players to the location of the targeted misc_teleporter_dest entity.
 -------- KEYS --------
 "noise" wav file to play
@@ -2428,7 +2428,7 @@ Fires its targets.
 "target" targets to fire.
 -------- SPAWNFLAGS --------
 RED_ONLY only triggers by axis accepted
-BLUE_ONLY only trigger by allied accepted
+BLUE_ONLY only triggers by allied accepted
 ALL_TARGETS fires all targeted entities instead of picking one randomly
 TIMERUN_ONLY only fires targets if activator is timerunning
 NO_TIMERUN only fires targets if activator is not timerunning
