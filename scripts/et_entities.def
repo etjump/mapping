@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.2.0
-// Last updated on: 08.04.2024
+// Updated for ETJump 3.3.0
+// Last updated on: 15.10.2024
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -15,6 +15,7 @@
 "nodrop" 0 = items are only dropped outside of surfaceparm nodrop 1 = items are only dropped inside of surfaceparm nodrop. Default 0.
 "noexplosives" Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite. Default 0.
 "nofalldamage" 0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
+"noftnoghost" Disable players' ability to toggle collision between fireteam members.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
 "nogoto" Disables goto.
@@ -1692,7 +1693,7 @@ Fires its targets.
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
-RED_ONLY only triggers by axis accepted
+RED_ONLY only trigger by axis accepted
 BLUE_ONLY only trigger by allied accepted
 RANDOM only one of the targets will be fired, not all of them.
 TIMERUN_ONLY only fires targets if activator is timerunning
@@ -1793,6 +1794,7 @@ CONVERT_VELOCITY converts player velocity to match the angle of teleport destina
 RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
 RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
 KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
+NO_Z_OFFSET disable +1u z-offset applied to player position at the teleport destination and relative z-position offset done by spawnflags "4" and "8".
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 "noise" plays only for the activator.
@@ -1953,7 +1955,7 @@ Targeting the trigger will toggle its on / off state.
 The entity must be used first before it will count down its life
 */
 
-/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY - - -
+/*QUAKED trigger_multiple (.5 .5 .5) ? AXIS_ONLY ALLIED_ONLY - - SOLDIER_ONLY FIELDOPS_ONLY MEDIC_ONLY ENGINEER_ONLY COVERTOPS_ONLY - - - NO_NOCLIP
 -------- KEYS --------
 "wait" Seconds between triggerings, 0.5 default, -1 = one time only.
 "random" wait variance, default is 0
@@ -1968,6 +1970,7 @@ FIELDOPS_ONLY only fieldops may trigger this
 MEDIC_ONLY only medics may trigger this
 ENGINEER_ONLY only engineers may trigger this
 COVERTOPS_ONLY only covertops may trigger this
+NO_NOCLIP cannot be activated while noclipping
 -------- NOTES --------
 Variable sized repeatable trigger.  Must be targeted at one or more entities.
 so, the basic time between firing is a random time between
@@ -2055,12 +2058,13 @@ CONVERT_VELOCITY converts player velocity to match the angle of teleport destina
 RELATIVE_YAW converts player velocity and angles to be relative to destination angles while preserving yaw.
 RELATIVE_PITCH converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.
 KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
+NO_Z_OFFSET disable +1u z-offset applied to player position at the teleport destination and relative z-position offset done by spawnflags "4" and "8".
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 "noise" plays only for the activator.
 */
 
-/*QUAKED weapon_fg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_fg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 FG42 rifle.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2070,13 +2074,14 @@ FG42 rifle.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_flamethrower (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_flamethrower (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Flamethrower.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2086,6 +2091,7 @@ Flamethrower.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2160,7 +2166,7 @@ If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Ammo pack.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2170,13 +2176,14 @@ Ammo pack.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_magicammo2 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_magicammo2 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Mega Ammo pack.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2186,6 +2193,7 @@ Mega Ammo pack.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2194,7 +2202,7 @@ Weapons can be pushed around by brushes and will fall down if pushed over an edg
 This doesn't have more ammo in it by default, you need to set it manually.
 */
 
-/*QUAKED weapon_mobile_mg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_mobile_mg42 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Mobile MG42.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2204,13 +2212,14 @@ Mobile MG42.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
 Weapons can be pushed around by brushes and will fall down if pushed over an edge.
 */
 
-/*QUAKED weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Mortar.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2220,6 +2229,7 @@ Mortar.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2349,7 +2359,7 @@ By default, "scale" is applied to both horizontal and vertical velocity.
 /*QUAKED func_portaltarget (0.4 0.3 1) ?
 A brush model that spawns portalgun portals shot on it always on the same position on that surface.
 -------- KEYS --------
-(none)
+"portalsize" size of the portal placed on the surface (max 512), default 0 (normal size).
 -------- Q3MAP2 KEYS --------
 "_lightmapscale" Scaling factor for lightmap size.
 "_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
@@ -2412,15 +2422,20 @@ Decays activators ident value.
 Ident system has been replaced with tracker system. Use that instead.
 */
 
-/*QUAKED target_ftrelay (0.7 0.7 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM - - -
+/*QUAKED target_ftrelay (0.7 0.7 0) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY ALL_TARGETS TIMERUN_ONLY NO_TIMERUN OTHERS_ONLY
 Fires its targets.
 -------- KEYS --------
 "target" targets to fire.
 -------- SPAWNFLAGS --------
-(none)
+RED_ONLY only triggers by axis accepted
+BLUE_ONLY only trigger by allied accepted
+ALL_TARGETS fires all targeted entities instead of picking one randomly
+TIMERUN_ONLY only fires targets if activator is timerunning
+NO_TIMERUN only fires targets if activator is not timerunning
+OTHERS_ONLY only fires targets for other fireteam members
 -------- NOTES --------
 Works exactly like "target_relay" with RANDOM spawnflag, except also fires for all members in activators fireteam.
-Activates a random target for each fireteam member.
+Activates a random target for each fireteam member, unless spawnflag "4" is set.
 */
 
 /*QUAKED target_give (0 .5 0) (-8 -8 -8) (8 8 8)
@@ -2546,7 +2561,7 @@ Cannot be used to kill player by setting health to less or equal to 0.
 Can be used to set health higher than normal max health.
 */
 
-/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE
+/*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE ALLOW_FT_NOGHOST
 Starts a timerun.
 -------- KEYS --------
 "name" timerun name.
@@ -2560,6 +2575,7 @@ NO_BACKUPS disables backups and additional save slots during timerun.
 NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
 NO_SAVE disables save during timerun, load resets the run.
+ALLOW_FT_NOGHOST allow player to enable collision between fireteam members during the timerun.
 -------- NOTES --------
 target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 
@@ -2643,7 +2659,7 @@ SILENT does not print text when saves are reset.
 Resets saves on every slot.
 */
 
-/*QUAKED trigger_starttimer (.5 .5 .5) ? RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE
+/*QUAKED trigger_starttimer (.5 .5 .5) ? RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE ALLOW_FT_NOGHOST
 Starts a timerun.
 -------- KEYS --------
 "name" timerun name.
@@ -2657,6 +2673,7 @@ NO_BACKUPS disables backups and additional save slots during timerun.
 NO_EXPLOSIVES cannot pickup explosive weapons during timerun.
 NO_PG cannot pickup portalgun during timerun.
 NO_SAVE disables save during timerun, load resets the run.
+ALLOW_FT_NOGHOST allow player to enable collision between fireteam members during the timerun.
 -------- NOTES --------
 target/trigger_starttimer and target/trigger_stoptimer must have matching names.
 
@@ -2680,6 +2697,23 @@ Ends a timerun.
 (none)
 -------- NOTES --------
 target/trigger_starttimer and target/trigger_stoptimer must have matching names.
+*/
+
+/*QUAKED trigger_teleport_client (.5 .5 .5) ? RESET_VELOCITY CONVERT_VELOCITY - - KNOCKBACK NO_Z_OFFSET
+Touching this will teleport players to the location of the targeted misc_teleporter_dest entity. Unlike "trigger_teleport", this entity is client side predicted.
+-------- KEYS --------
+"noise" wav file to play
+"outspeed" fixed speed at which activator exits at destination
+-------- SPAWNFLAGS --------
+RESET_VELOCITY resets player velocity when teleported.
+CONVERT_VELOCITY converts player velocity to match the angle of teleport destination.
+KNOCKBACK applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).
+NO_Z_OFFSET disable +1u z-offset applied to player position at the teleport destination.
+-------- NOTES --------
+Angle which player faces after being teleported is set from destination.
+"noise" plays only for the activator.
+This entity does not support targeting multiple destinations, if multiple "misc_teleporter_dest" entities are targeted, it will pick the first one every time.
+The BSP leaf that the destination lies in will be added to the PVS whenever this trigger is present in the players' PVS. Take this into consideration with things like skyboxes.
 */
 
 /*QUAKED trigger_tracker (.5 .5 .5) ?
@@ -2731,7 +2765,7 @@ BOB bobs constantly.
 This entity never falls to the ground.
 */
 
-/*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Axis hand grenade.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2741,6 +2775,7 @@ Axis hand grenade.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2748,7 +2783,7 @@ Weapons can be pushed around by brushes and will fall down if pushed over an edg
 Unlike other weapon entities, this respects class-specific ammo limit for grenades.
 */
 
-/*QUAKED weapon_grenadepineapple (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED - BOB -
+/*QUAKED weapon_grenadepineapple (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
 Allied hand grenade.
 -------- KEYS --------
 "targetname" if targeted, will spawn (and respawn) when triggered
@@ -2758,6 +2793,7 @@ Allied hand grenade.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
 SUSPENDED will stay where spawned and does not fall to the ground.
+SPIN spins until picked up.
 BOB bobs constantly.
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.

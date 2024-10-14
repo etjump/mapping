@@ -3474,6 +3474,7 @@ Starts a timerun.
 <flag key="NO_EXPLOSIVES" name="No explosives" bit="5">Cannot pickup explosive weapons during the timerun.</flag>
 <flag key="NO_PG" name="No portalgun" bit="6">Cannot pickup portalgun during the timerun.</flag>
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
+<flag key="ALLOW_FT_NOGHOST" name="Allow FT NoGhost" bit="8">Allow players to enable collision between fireteam members during the timerun.</flag>
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 
