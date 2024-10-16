@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.2.0
- Last updated on: 08.04.2024
+ Updated for ETJump 3.3.0
+ Last updated on: 11.10.2024
 -->
 
 <classes>
@@ -52,6 +52,7 @@ WORLDSPAWN
 <boolean key="nodrop" name="No Drop">0 = items are only dropped outside of surfaceparm nodrop 1 = items are only dropped inside of surfaceparm nodrop.</boolean>
 <noexplosives key="noexplosives" name="No Explosives">Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite.</noexplosives>
 <nofalldamage key="nofalldamage" name="No FallDamage">0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere.</nofalldamage>
+<boolean key="noftnoghost" name="No FT NoGhost">Disable players' ability to toggle collision between fireteam members.</boolean>
 <boolean key="noghost" name="No Ghost">Disables player ghosting. Overrides g_ghostPlayers server cvar.</boolean>
 <boolean key="nogod" name="No God">Disables god mode.</boolean>
 <boolean key="nogoto" name="No Goto">Disables goto.</boolean>
@@ -2351,6 +2352,7 @@ Unlike trigger_teleport, this entity must be activated by a trigger.
 <flag key="RELATIVE_YAW" name="Relative yaw" bit="2">Converts player velocity and angles to be relative to destination angles while preserving yaw.</flag>
 <flag key="RELATIVE_PITCH" name="Relative pitch" bit="3">Converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.</flag>
 <flag key="KNOCKBACK" name="Knockback" bit="4">Applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).</flag>
+<flag key="NO_Z_OFFSET" name="No Z offset" bit="5">Disable +1u z-offset applied to player position at the teleport destination and relative z-position offset done by spawnflags "4" and "8".</flag>
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 "noise" plays only for the activator.
@@ -2581,6 +2583,7 @@ The entity must be used first before it will count down its life.
 <flag key="MEDIC_ONLY" name="Medic only" bit="6">Only medics may trigger this.</flag>
 <flag key="ENGINEER_ONLY" name="Engineer only" bit="7">Only engineers may trigger this.</flag>
 <flag key="COVERTOPS_ONLY" name="Covertops only" bit="8">Only covertops may trigger this.</flag>
+<flag key="NO_NOCLIP" name="No noclip activation" bit="12">Cannot be activated while noclipping.</flag>
 -------- NOTES --------
 Variable sized repeatable trigger. Must be targeted at one or more entities.
 The basic time between firing is a random time between (wait - random) and (wait + random). 
@@ -2681,6 +2684,7 @@ Touching this will teleport players to the location of the targeted "misc_telepo
 <flag key="RELATIVE_YAW" name="Relative yaw" bit="2">Converts player velocity and angles to be relative to destination angles while preserving yaw.</flag>
 <flag key="RELATIVE_PITCH" name="Relative pitch" bit="3">Converts player velocity and angles to be relative to destination angles while preserving yaw and pitch.</flag>
 <flag key="KNOCKBACK" name="Knockback" bit="4">Applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).</flag>
+<flag key="NO_Z_OFFSET" name="No Z offset" bit="5">Disable +1u z-offset applied to player position at the teleport destination and relative z-position offset done by spawnflags "4" and "8".</flag>
 -------- NOTES --------
 Angle which player faces after being teleported is set from destination.
 "noise" plays only for the activator.
@@ -2704,6 +2708,7 @@ FG42 rifle.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2724,6 +2729,7 @@ Flamethrower.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2828,6 +2834,7 @@ Ammo pack.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2848,6 +2855,7 @@ Mega ammo pack.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2870,6 +2878,7 @@ Mobile MG42.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -2890,6 +2899,7 @@ Mortar.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins until picked up.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -3057,7 +3067,7 @@ By default, "scale" is applied to both horizontal and vertical velocity.
 <group name="func_portaltarget" color="0.4 0.3 1">
 A brush model that spawns portalgun portals shot on it always on the same position on that surface.
 -------- KEYS --------
-(none)
+<integer key="portalsize" name="Portal size" value="0">Size of the portal placed on the surface (max 512), 0 to use default.</integer>
 -------- Q3MAP2 KEYS --------
 <integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
 <integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
@@ -3150,10 +3160,15 @@ Fires a random target.
 -------- KEYS --------
 <target key="target" name="Target">Targets to fire.</target>
 -------- SPAWNFLAGS --------
-(none)
+<flag key="RED_ONLY" name="Axis only" bit="0">Only Axis can trigger</flag>
+<flag key="BLUE_ONLY" name="Allied only" bit="1">Only Allies can trigger</flag>
+<flag key="ALL_TARGETS" name="All targets" bit="2">Fires all targeted entities instead of picking one randomly.</flag>
+<flag key="TIMERUN_ONLY" name="Timerun only" bit="3">Only fires targets if activator is timerunning.</flag>
+<flag key="NO_TIMERUN" name="No timerun" bit="4">Only fires targets if activator is not timerunning.</flag>
+<flag key="OTHERS_ONLY" name="Other members only" bit="5">Only fires targets for other fireteam members.</flag>
 -------- NOTES --------
 Works exactly like "target_relay" with RANDOM spawnflag, except also fires for all members in activators fireteam.
-Activates a random target for each fireteam member.
+Activates a random target for each fireteam member, unless spawnflags "4" is set.
 </point>
 
 <!--
@@ -3341,6 +3356,7 @@ Starts a timerun.
 <flag key="NO_EXPLOSIVES" name="No explosives" bit="5">Cannot pickup explosive weapons during the timerun.</flag>
 <flag key="NO_PG" name="No portalgun" bit="6">Cannot pickup portalgun during the timerun.</flag>
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
+<flag key="ALLOW_FT_NOGHOST" name="Allow FT NoGhost" bit="8">Allow players to enable collision between fireteam members during the timerun.</flag>
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 
@@ -3458,6 +3474,7 @@ Starts a timerun.
 <flag key="NO_EXPLOSIVES" name="No explosives" bit="5">Cannot pickup explosive weapons during the timerun.</flag>
 <flag key="NO_PG" name="No portalgun" bit="6">Cannot pickup portalgun during the timerun.</flag>
 <flag key="NO_SAVE" name="No save" bit="7">Cannot save during the timerun; load resets the run.</flag>
+<flag key="ALLOW_FT_NOGHOST" name="Allow FT NoGhost" bit="8">Allow players to enable collision between fireteam members during the timerun.</flag>
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
 
@@ -3485,6 +3502,28 @@ Stops a timerun.
 (none)
 -------- NOTES --------
 "target/trigger_starttimer" and "target/trigger_stoptimer" must have matching names.
+</group>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_teleport_client" color="0.5 0.5 0.5">
+Touching this will teleport players to the location of the targeted "misc_teleporter_dest" entity.
+Unlike "trigger_teleport", this entity is client side predicted.
+-------- KEYS --------
+<sound key="noise" name="Noise">WAV file to play upon teleporting.</sound>
+<real key="outspeed" name="Outspeed">Fixed speed at which activator exits at destination.</real>
+-------- SPAWNFLAGS --------
+<flag key="RESET_VELOCITY" name="Reset velocity" bit="0">Resets player velocity when teleported.</flag>
+<flag key="CONVERT_VELOCITY" name="Convert velocity" bit="1">Converts player velocity to match the angle of teleport destination.</flag>
+<flag key="KNOCKBACK" name="Knockback" bit="4">Applies 160ms long knockback event on teleportation, making ground level teleports smoother (Q3 behavior).</flag>
+<flag key="NO_Z_OFFSET" name="No Z offset" bit="5">Disable +1u z-offset applied to player position at the teleport destination.</flag>
+-------- NOTES --------
+Angle which player faces after being teleported is set from destination.
+"noise" plays only for the activator.
+This entity does not support targeting multiple destinations, if multiple "misc_teleporter_dest" entities are targeted, it will pick the first one every time.
+The BSP leaf that the destination lies in will be added to the PVS whenever this trigger is present in the players' PVS. Take this into consideration with things like skyboxes.
 </group>
 
 <!--
@@ -3559,6 +3598,7 @@ Axis hand grenade.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins constantly.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
@@ -3580,6 +3620,7 @@ Allied hand grenade.
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
 <flag key="SUSPENDED" name="Suspended" bit="0">Will stay where spawned and does not fall to the ground.</flag>
+<flag key="SPIN" name="Spin" bit="1">Spins constantly.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
 -------- NOTES --------
 If targeted, weapons must be triggered before they spawn.
