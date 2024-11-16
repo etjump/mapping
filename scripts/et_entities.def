@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.3.0
-// Last updated on: 15.10.2024
+// Updated for ETJump 3.3.1
+// Last updated on: 16.11.2024
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -254,6 +254,7 @@ When a button is used, it moves some distance in the direction of it's angles, t
 "lip" override the default 4 pixel lip remaining at end of move
 "health" if set, the button will also open when hurt
 "noise" sound to play when activated. Use the sound name "nosound" (case in-sensitive) to remove sound completely
+"cursorhint" sets the cursorhint to show when near. HINT_ACTIVATE if not set.
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- Q3MAP2 KEYS --------
@@ -268,6 +269,27 @@ TOUCH activates when player is close enough
 -------- NOTES --------
 When activated, plays sound "sound/movers/switches/butn2.wav".
 The volume of the activation sound cannot be changed.
+
+cursorhint types:
+	HINT_NONE
+	HINT_ACTIVATE
+	HINT_CHAIR - gives "not useable" icon
+	HINT_DOOR
+	HINT_DOOR_LOCKED (& HINT_LOCKPICK)
+	HINT_BREAKABLE
+	HINT_LADDER
+	HINT_BUILD (& HINT_CONSTRUCTIBLE)
+	HINT_TANK
+
+	HINT_SATCHELCHARGE
+	HINT_DYNAMITE
+	HINT_DISARM
+
+	HINT_REVIVE
+	HINT_WATER
+	HINT_KNIFE
+	HINT_UNIFORM
+	HINT_LANDMINE
 */
 
 /*QUAKED func_constructible (.9 .75 .15) ? START_BUILT INVULNERABLE AXIS_CONSTRUCTIBLE ALLIED_CONSTRUCTIBLE
