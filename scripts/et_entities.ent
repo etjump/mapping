@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.3.0
- Last updated on: 11.10.2024
+ Updated for ETJump 3.3.1
+ Last updated on: 16.11.2024
 -->
 
 <classes>
@@ -347,6 +347,26 @@ We use this to hijack it's brushmodel in func_constructible entities that are ba
 =============================================================================
 -->
 
+<list name="cursorhint_func_button">
+  <item name="HINT_NONE" value="HINT_NONE"/>
+  <item name="HINT_ACTIVATE" value="HINT_ACTIVATE"/>
+  <item name="HINT_DOOR" value="HINT_DOOR"/>
+  <item name="HINT_DOOR_LOCKED" value="HINT_DOOR_LOCKED"/>
+  <item name="HINT_BREAKABLE" value="HINT_BREAKABLE"/>
+  <item name="HINT_CHAIR ('Not useable' icon)" value="HINT_CHAIR"/>
+  <item name="HINT_KNIFE" value="HINT_KNIFE"/>
+  <item name="HINT_LADDER" value="HINT_LADDER"/>
+  <item name="HINT_WATER" value="HINT_WATER"/>
+  <item name="HINT_DISARM" value="HINT_DISARM"/>
+  <item name="HINT_REVIVE" value="HINT_REVIVE"/>
+  <item name="HINT_DYNAMITE" value="HINT_DYNAMITE"/>
+  <item name="HINT_CONSTRUCTIBLE" value="HINT_CONSTRUCTIBLE"/>
+  <item name="HINT_UNIFORM" value="HINT_UNIFORM"/>
+  <item name="HINT_LANDMINE" value="HINT_LANDMINE"/>
+  <item name="HINT_TANK" value="HINT_TANK"/>
+  <item name="HINT_SATCHELCHARGE" value="HINT_SATCHELCHARGE"/>
+</list>
+
 <group name="func_button" color="0 0.5 0.8">
 When a button is used, it moves some distance in the direction of it's angles, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
 -------- KEYS --------
@@ -359,6 +379,7 @@ When a button is used, it moves some distance in the direction of it's angles, t
 <real key="lip" name="Lip" value="4">Override the amount of lip remaining at the end position.</real>
 <integer key="health" name="Health">If set, the button will also activate when hurt (it cannot be killed; any non-zero value enables this behavior).</integer>
 <sound key="noise" name="Sound" value="sound/movers/switches/butn2.wav">Sound to play when activated. Use the sound name "nosound" (case in-sensitive) to remove sound completely.</sound>
+<cursorhint_func_button key="cursorhint" name="Cursorhint">Sets the cursorhint to show when near. HINT_ACTIVATE if not set.</cursorhint_func_button>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- Q3MAP2 KEYS --------
