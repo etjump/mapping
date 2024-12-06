@@ -5,7 +5,7 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 3.3.1
- Last updated on: 16.11.2024
+ Last updated on: 06.12.2024
 -->
 
 <classes>
@@ -2343,6 +2343,7 @@ Target an info_notnull to angle the smoke.
 <real key="wait" name="Wait">Seconds between auto triggerings, 0 = don't auto trigger.</real>
 <real key="random" name="Random" value="0">Random wait variance.</real>
 <integer key="volume" name="Volume" value="255">Volume of the speaker, limit is 65535, but digital distortion will cut in long before then.</integer>
+<integer key="radius" name="Radius" value="">Audible range of the speaker, 1250 if not set.</integer>
 -------- SPAWNFLAGS --------
 <flag key="LOOPED_ON" name="Looped on" bit="0">Looping sound, starts on.</flag>
 <flag key="LOOPED_OFF" name="Looped off" bit="1">Looping sound, starts off.</flag>
