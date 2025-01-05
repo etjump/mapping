@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.3.1
- Last updated on: 06.12.2024
+ Updated for ETJump 3.3.2
+ Last updated on: 02.01.2025
 -->
 
 <classes>
@@ -396,6 +396,7 @@ When a button is used, it moves some distance in the direction of it's angles, t
 <integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
 -------- SPAWNFLAGS --------
 <flag key="TOUCH" name="Touch" bit="3">Activates when player is close enough.</flag>
+<flag key="PROGRESS_BAR" name="Progress bar" bit="4">Displays a progress bar with cursorhint until re-activation is possible.</flag>
 -------- NOTES --------
 The volume of the activation sound cannot be changed.
 </group>
@@ -700,6 +701,7 @@ Alphamod brushes included in a "func_group" will only apply alphamod to brushes 
 <flag key="STARTOFF" name="Start off" bit="0">Isn't functional till toggled.</flag>
 <flag key="NO_OFF_NOISE" name="No off noise" bit="2">No sound will play if the invis_user is used when 'off'.</flag>
 <flag key="SCRIPT_ACTIVATOR" name="Mapscript activator" bit="3">Activator (player) is forwarded to "activate" script event.</flag>
+<flag key="PROGRESS_BAR" name="Progress bar" bit="4">Displays a progress bar with cursorhint until re-activation is possible.</flag>
 -------- NOTES --------
 When activated will use its targets.
 When used, calls standard scripting functions:
@@ -2072,7 +2074,7 @@ Does not reset, so effectively one-time use.
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
-(none)
+<flag key="PER_CLIENT_DELAY" name="Per-client delay" bit="0">"wait" is unique for each client.</flag>
 -------- NOTES --------
 Fires off targets after a delay.
 </point>
