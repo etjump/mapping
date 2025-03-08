@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.3.2
- Last updated on: 02.01.2025
+ Updated for ETJump 3.3.4
+ Last updated on: 08.03.2025
 -->
 
 <classes>
@@ -282,7 +282,7 @@ DLIGHT
 <point name="dlight" color="0 1 0" box="-12 -12 -12 12 12 12">
 -------- KEYS --------
 <dlight_styles key="style" name="Style">Integer between 1-19 that contains a pre-defined 'flicker' string.</dlight_styles>
-<string key="stylestring" name="Style string">Set your own 'flicker' string, e.g. "klmnmlk". NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.</string>
+<string key="stylestring" name="Style string">Set your own 'flicker' string, e.g. "klmnmlk" (max 63 characters). NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.</string>
 <integer key="offset" name="Offset">Change the initial index in a style string. Value of 3 in the above example would start this light at "N" (used to get dlights using the same style out of sync).</integer>
 <integer key="atten" name="Attenuation">Offset the values of the stylestring. Stylestring of "ddeeffzz" with an "atten" of -1 would result in "ccddeeyy".</integer>
 <string key="shader" name="Shader">Name of shader to apply.</string>
