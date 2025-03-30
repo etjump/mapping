@@ -5,7 +5,7 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 3.3.4
- Last updated on: 08.03.2025
+ Last updated on: 30.03.2025
 -->
 
 <classes>
@@ -285,8 +285,8 @@ DLIGHT
 <string key="stylestring" name="Style string">Set your own 'flicker' string, e.g. "klmnmlk" (max 63 characters). NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.</string>
 <integer key="offset" name="Offset">Change the initial index in a style string. Value of 3 in the above example would start this light at "N" (used to get dlights using the same style out of sync).</integer>
 <integer key="atten" name="Attenuation">Offset the values of the stylestring. Stylestring of "ddeeffzz" with an "atten" of -1 would result in "ccddeeyy".</integer>
-<string key="shader" name="Shader">Name of shader to apply.</string>
 <sound key="sound" name="Sound">Sound to loop every cycle (this actually just plays the sound at the beginning of each cycle).</sound>
+<angles key="angles" name="Angles">Global directional dlight, only lights up entities lit by the lightgrid (players, gamemodels etc). Interpreted as a normal vector.</angles>
 -------- SPAWNFLAGS --------
 <flag key="STARTOFF" name="Start off" bit="1">Doesn't spawn until triggered.</flag>
 <flag key="ONETIME" name="One time" bit="2">When the dlight is triggered, it will play through it's cycle once, then shut down until triggered again.</flag>
@@ -1116,6 +1116,7 @@ ITEM_* ENTITIES
 Med pack.
 -------- KEYS --------
 <target key="target" name="Target">Targets to fire when picked up.</target>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -1134,6 +1135,7 @@ Heals for 20 health.
 Med pack.
 -------- KEYS --------
 <target key="target" name="Target">Targets to fire when picked up.</target>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -1152,6 +1154,7 @@ Heals for 50 health.
 A what once was a hot meal of turkey, now just the remaining plate.
 -------- KEYS --------
 <target key="target" name="Target">Targets to fire when picked up.</target>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2162,12 +2165,14 @@ When activated, fires a laser. You can either set a target or a direction.
 <target key="target" name="Target">Fire towards this target.</target>
 <angle key="angle" name="Angle">Sets the angle to fire at. Use -1 for up, -2 for down.</angle>
 <angles key="angles" name="Angles">Sets the angles to fire at.</angles>
+<integer key="dmg" name="Damage" value="1">Amount of damage to inflict when blocked.</integer>
 -------- SPAWNFLAGS --------
 <flag key="START_ON" name="Start on" bit="0">Starts enabled.</flag>
 -------- NOTES --------
 Has sorting issues (eg. laser shows on top of weapon when player is looking towards it).
 Players and moving objects will cut the beam.
-Does not damage players or entities.
+Damage done to players is halved by "etj_noFatigue".
+Does not damage client number 0 (will be fixed in the future).
 </point>
 
 <!--
@@ -2471,6 +2476,7 @@ This is the flagpole players touch to gain control of a checkpoint, usually conn
 -------- KEYS --------
 <model key="model" name="model">Optionally set a different model, will use same animations as default flagpole however.</model>
 <string key="scriptname" name="Scriptname">Name of script block for entity, which should contain allied_capture and axis_capture triggers.</string>
+<sound key="noise" name="Noise">WAV file to play when captured, overrides the default capture sound.</sound>
 -------- SPAWNFLAGS --------
 <flag key="SPAWNPOINT" name="Spawnpoint" bit="0">When captured, toggles STARTACTIVE spawnflag of targeted spawnpoints.</flag>
 <flag key="AXIS_ONLY" name="Axis only" bit="2">Only Axis may capture this, Allies can only turn it off.</flag>
@@ -2573,6 +2579,7 @@ Any entity that touches this will be healed at a specified rate up to a specifie
 -------- KEYS --------
 <integer key="dmg" name="Damage" value="5">Damage inflicted upon touching.</integer>
 <real key="life" name="Lifetime" value="0">Time in seconds this brush will exist for. If value is 0 it will live forever.</real>
+<sound key="sound" name="Sound">WAV file to play when touched, overrides the default sound.</sound>
 -------- SPAWNFLAGS --------
 <flag key="START_OFF" name="Start Off" bit="0">Has no effect until turned on.</flag>
 <flag key="SILENT" name="Silent" bit="2">Suppresses playing the sound.</flag>
@@ -2728,6 +2735,7 @@ FG42 rifle.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2749,6 +2757,7 @@ Flamethrower.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2770,6 +2779,7 @@ Allied sniper rifle.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2791,6 +2801,7 @@ Axis sniper rifle.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2812,6 +2823,7 @@ Axis engy rifle.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2833,6 +2845,7 @@ Allied engy rifle.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2854,6 +2867,7 @@ Ammo pack.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2875,6 +2889,7 @@ Mega ammo pack.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2898,6 +2913,7 @@ Mobile MG42.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2919,6 +2935,7 @@ Mortar.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2940,6 +2957,7 @@ MP40 submachine gun.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2961,6 +2979,7 @@ Panzerfaust rocketlauncher.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -2982,6 +3001,7 @@ Sten submachine gun.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -3003,6 +3023,7 @@ Thompson submachine gun.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -3618,6 +3639,7 @@ Axis hand grenade.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------
@@ -3640,6 +3662,7 @@ Allied hand grenade.
 <targetname key="targetname" name="Targetname">If targeted, will spawn (and respawn) when triggered.</targetname>
 <target key="target" name="Target">Targets to fire when picked up.</target>
 <integer key="count" name="Count" value="0">Amount of ammo included.</integer>
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- SPAWNFLAGS --------

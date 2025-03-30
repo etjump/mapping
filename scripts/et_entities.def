@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
 // Updated for ETJump 3.3.4
-// Last updated on: 08.03.2025
+// Last updated on: 30.03.2025
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -177,8 +177,8 @@ Static coronas don't count towards entity limit.
 "stylestring" set your own 'flicker' string, e.g. "klmnmlk" (max 63 characters). NOTE: this should be all lowercase. If both "style" and "stylestring" are set, "style" is ignored.
 "offset" change the initial index in a style string.  So val of 3 in the above example would start this light at 'N'.  (used to get dlights using the same style out of sync).
 "atten" offset from the alpha values of the stylestring.  stylestring of "ddeeffzz" with an atten of -1 would result in "ccddeeyy"
-"shader" name of shader to apply
 "sound" sound to loop every cycle (this actually just plays the sound at the beginning of each cycle)
+"angles" global directional dlight, only lights up entities lit by the lightgrid (players, gamemodels etc). Interpreted as a normal vector.
 -------- SPAWNFLAGS --------
 STARTOFF doesn't spawn in until triggered
 ONETIME	when the dlight is triggered, it will play through it's cycle once, then shut down until triggered again.
@@ -849,6 +849,7 @@ The spline between this point and next point is named after this point, ie use t
 Med pack.
 -------- KEYS --------
 "target" Targets to fire when picked up.
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -863,6 +864,7 @@ Heals for 20 health.
 Med pack.
 -------- KEYS --------
 "target" Targets to fire when picked up.
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -877,6 +879,7 @@ Heals for 50 health.
 A what once was a hot meal of turkey, now just the remaining plate.
 -------- KEYS --------
 "target" Targets to fire when picked up.
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -1648,12 +1651,14 @@ When activated, fires a laser. You can either set a target or a direction.
 "target" fires towards this target.
 "angle" sets the angle to fire at. Use -1 for up, -2 for down.
 "angles" sets the angles to fire at.
+"dmg" amount of damage to inflict when blocked, default 1.
 -------- SPAWNFLAGS --------
 START_ON starts on.
 -------- NOTES --------
 Has sorting issues (eg. laser shows on top of weapon when player is looking towards it).
 Players and moving objects will cut the beam.
-Does not damage players or entities.
+Damage done to players is halved by "etj_noFatigue".
+Does not damage client number 0 (will be fixed in the future).
 */
 
 /*QUAKED target_lock (1 1 0) (-8 -8 -8) (8 8 8)
@@ -1892,6 +1897,7 @@ This is the flagpole players touch to gain control of a checkpoint, usually conn
 -------- KEYS --------
 "model" model to use (will use same animations as flagpole however)
 "scriptname" name of script which contains allied_capture and axis_capture triggers
+"noise" WAV file to play when captured, overrides the default capture sound
 -------- SPAWNFLAGS --------
 SPAWNPOINT when captured, toggles STARTACTIVE spawnflag of targeted spawnpoints.
 AXIS_ONLY only Axis may capture this, Allies can only turn it off.
@@ -1966,6 +1972,7 @@ Any entity that touches this will be healed at a specified rate up to a specifie
 -------- KEYS --------
 "dmg" default is 5.
 "life" time this brush will exist if value is 0 will live for ever i.e. 0.5sec 2sec default 0.
+"sound" WAV file to play when touched, overrides the default sound
 -------- SPAWNFLAGS --------
 START_OFF isn't functional until toggled.
 SILENT supresses playing the sound.
@@ -2095,6 +2102,7 @@ FG42 rifle.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2112,6 +2120,7 @@ Flamethrower.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2129,6 +2138,7 @@ Allied sniper rifle.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2146,6 +2156,7 @@ Axis sniper rifle.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2163,6 +2174,7 @@ Axis engy rifle.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2180,6 +2192,7 @@ Allied engy rifle.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2197,6 +2210,7 @@ Ammo pack.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo-packs included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2214,6 +2228,7 @@ Mega Ammo pack.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo-packs included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2233,6 +2248,7 @@ Mobile MG42.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2250,6 +2266,7 @@ Mortar.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2267,6 +2284,7 @@ MP40 submachine gun.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2284,6 +2302,7 @@ Panzerfaust rocketlauncher.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2301,6 +2320,7 @@ Sten submachine gun.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2318,6 +2338,7 @@ Thompson submachine gun.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2796,6 +2817,7 @@ Axis hand grenade.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
@@ -2814,6 +2836,7 @@ Allied hand grenade.
 "targetname" if targeted, will spawn (and respawn) when triggered
 "target" fires target when picked up
 "count" amount of ammo included, default 0
+"noise" wav file to play on pickup, overrides the default item pickup sound
 "targetShaderName" Shader to remap when targets are fired.
 "targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
 -------- SPAWNFLAGS --------
