@@ -21,6 +21,9 @@ All avaible ETJump cvar and mapping entity descriptions can be found in [ETJump 
   * Note: recent releases of netradiant-custom have moved game folders to `gamepacks` directory, so the path is `radiant\gamepacks\et.game\etmain`
 * Add `lightblock` to your `shaderlist.txt`
 
+## Custinfoparms
+Using the `common/portalclip` shader requires usage of `-custinfoparms` BSP stage switch during compilation, and for the provided `custinfoparms.txt` to be present in the `scripts` directory. After installation, you may use the defined `surfaceparm portalclip` in any shaders to create portal clips. Portal clips are surfaces which players cannot shoot portalgun portals through.
+
 ## Extra assets
 Some useful assets that present in originals maps, but not inlcuded in Radiant installation, can be found in [this repository](https://github.com/Aciz/ET-extra-assets).
 

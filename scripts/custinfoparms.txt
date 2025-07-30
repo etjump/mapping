@@ -1,0 +1,9 @@
+// contentflags
+{
+		portalclip 0x00080000
+}
+
+// surfaceflags
+{
+
+}
