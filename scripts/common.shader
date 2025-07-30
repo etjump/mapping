@@ -627,6 +627,16 @@ textures/common/portalsurface_slickcushion
 	surfaceparm monsterslickeast
 }
 
+// NOTE: this requires compilation with '-custinfoparms' switch in BSP stage,
+// and for 'custinfoparms.txt' to be present in the 'scripts' directory
+textures/common/portalclip
+{
+	qer_trans 0.3
+	surfaceparm nodraw
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm portalclip
+}
 
 //Overbounce surfaces
 
