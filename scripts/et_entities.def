@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.3.4
-// Last updated on: 30.03.2025
+// Updated for ETJump 3.4.0
+// Last updated on: 28.08.2025
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -16,6 +16,8 @@
 "noexplosives" Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite. Default 0.
 "nofalldamage" 0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere. Default 0.
 "noftnoghost" Disable players' ability to toggle collision between fireteam members.
+"noftsavelimit" Disable players’ ability to set savelimit for the fireteam.
+"noftteamjumpmode" Disable players’ ability to toggle teamjump mode for the fireteam.
 "noghost" Disables player ghosting.
 "nogod" Disables god mode.
 "nogoto" Disables goto.
@@ -25,8 +27,10 @@
 "noprone" 0 = cannot prone inside of surfaceparm donotenter. 1 = cannot prone outside of surfaceparm donotenter. Default 0.
 "nosave" 0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal. Default 0.
 "nowallbug" Disables acceleration while stuck in a wall.
+"overbounce_players" 0 = no change, controlled by "nooverbounce" key. 1 = always allow overbounces on players. 2 = never allow overbounces on players.
 "portalgun_spawn" Toggles whether players should spawn with a portal gun.
 "portalsurfaces" 0 = players can only shoot portals to surfaces with surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaces with surfaceparm monsterslickeast. Default 1
+"portalpredict" Toggles forced client side predicted portal teleports.
 "portalteam" If set to 0, players can only go to own portals. If set to 1, players can also go to fireteam mates' portals. If set to 2, anyone can go to anyones portals. Default 0.
 "limitedsaves" If set to higher than 0, saves are limited to the set value.
 "strictsaveload" Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).
@@ -168,7 +172,8 @@ models/ammo/syringe/syringe.md3
 START_OFF starts non-visible
 -------- NOTES --------
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
-Static coronas don't count towards entity limit.
+If "scriptname", "targetname" and "spawnflags" aren't used, a corona is considered "static" and will not count towards the entity limit.
+You may place up to 1024 static coronas in a map.
 */
 
 /*QUAKED dlight (0 1 0) (-12 -12 -12) (12 12 12) - STARTOFF ONETIME
@@ -188,6 +193,8 @@ Characters in stylestring represent the intensity of light: a = lowest and z = h
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
 If using "sound", make sure you set the key to "sound" instead of "noise"! The sound button sets "noise" key instead of "sound".
 The intensity of dlights cannot be scaled up or down, they have fixed intensity tied to the characters.
+If "scriptname", "targetname" and "spawnflags" aren't used, a dlight is considered "static" and will not count towards the entity limit.
+You may place up to 1024 static dlights in a map, note that renderer won't be able to display more than 32 at a time though.
 
 Pre-defined style strings:
 1 - "mmnmmommommnonmmonqnmmo"
@@ -1658,7 +1665,6 @@ START_ON starts on.
 Has sorting issues (eg. laser shows on top of weapon when player is looking towards it).
 Players and moving objects will cut the beam.
 Damage done to players is halved by "etj_noFatigue".
-Does not damage client number 0 (will be fixed in the future).
 */
 
 /*QUAKED target_lock (1 1 0) (-8 -8 -8) (8 8 8)
@@ -2484,6 +2490,20 @@ Works exactly like "target_relay" with RANDOM spawnflag, except also fires for a
 Activates a random target for each fireteam member, unless spawnflag "4" is set.
 */
 
+/*QUAKED target_ft_setrules (1.0 0.4 0) (-8 -8 -8) (8 8 8) LEADER_ONLY
+Sets rules for the activators fireteam.
+-------- KEYS --------
+"savelimit" Set savelimit for fireteam. -1 means unlimited, max is 100. "reset" will restore any used saves for the current savelimit.
+"noghost" Enable (1) or disable (0) collision between fireteam members.
+"teamjumpmode" Enable (1) or disable (0) teamjump mode.
+"leader_only_message" Message to print when a non-leader member of a fireteam tries to activate this entity when LEADER_ONLY is set. "%s" can be used to print out the fireteam leaders name.
+-------- SPAWNFLAGS --------
+LEADER_ONLY only the fireteam leader can activate this entity.
+-------- NOTES --------
+You must explicitly set the keys for any changes you want to make to the fireteam rules. If a key is not set, the default value(s) will not be applied.
+Activating this entity will bypass restrictions imposed by any worldspawn keys that limit the players ability to set these rules.
+*/
+
 /*QUAKED target_give (0 .5 0) (-8 -8 -8) (8 8 8)
 Gives activator targeted items.
 -------- KEYS --------
@@ -2607,6 +2627,25 @@ Cannot be used to kill player by setting health to less or equal to 0.
 Can be used to set health higher than normal max health.
 */
 
+/*QUAKED target_spawn_relay (0.5 1 0) (-8 -8 -8) (8 8 8)
+Fires targets for a player whenever they spawn.
+-------- KEYS --------
+"team" Comma-separated list of teams that this relay is fired for. Leave empty to fire for all teams.
+"target" Targets to fire when a player spawns.
+"scriptname" Optional, script block to call when activated. This calls the "activate" trigger.
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+This entity does not need to be connected to anything, it is automatically fired when a player respawns. It is NOT fired when a player gets revived.
+
+Valid team names are "axis", "allies" and "spectator".
+
+You may only have one of these in a map for a given team - you can have multiple entities, but two different entities cannot be active for a same team.
+Leaving the "team" key empty means that the entity is active for all teams, and you may not include any team-specific relays.
+
+The activator is passed to the mapscript, so you can perform client-only actions in mapscript via this entity. "activate axis/allies" is supported.
+*/
+
 /*QUAKED target_starttimer (0.1 0.1 0.1) (-8 -8 -8) (8 8 8) RESET_TEAM RESET_DEATH RESET_END FORCE_PMOVE NO_BACKUPS NO_EXPLOSIVES NO_PG NO_SAVE ALLOW_FT_NOGHOST
 Starts a timerun.
 -------- KEYS --------
@@ -2650,7 +2689,8 @@ target_starttimer and target_stoptimer must have matching names.
 /*QUAKED target_tracker (0 0 0) (-8 -8 -8) (8 8 8)
 -------- KEYS --------
 "tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
-"tracker_not_eq" Tracker activates targets if specified tracker value(s) do not match the player's tracker value.
+"tracker_not_eq_any" Tracker activates targets if any of the specified tracker value(s) do not match the player's tracker value.
+"tracker_not_eq_all" Tracker activates targets if all of the specified tracker value(s) do not match the player's tracker value.
 "tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
 "tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
 "tracker_set" Tracker sets player's tracker value to the specified value.
@@ -2765,7 +2805,8 @@ The BSP leaf that the destination lies in will be added to the PVS whenever this
 /*QUAKED trigger_tracker (.5 .5 .5) ?
 -------- KEYS --------
 "tracker_eq" Tracker activates targets if specified tracker value(s) matches the player's tracker value.
-"tracker_not_eq" Tracker activates targets if specified tracker value(s) do not match the player's tracker value.
+"tracker_not_eq_any" Tracker activates targets if any of the specified tracker value(s) do not match the player's tracker value.
+"tracker_not_eq_all" Tracker activates targets if all of the specified tracker value(s) do not match the player's tracker value.
 "tracker_gt" Tracker activates targets if player's tracker value(s) is greater than the specified value.
 "tracker_lt" Tracker activates targets if player's tracker value(s) is less than the specified value.
 "tracker_set" Tracker sets player's tracker value to the specified value.
@@ -2803,12 +2844,13 @@ Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 check
 /*QUAKED weapon_portalgun (.3 .3 1) (-16 -16 -16) (16 16 16) - SPIN BOB
 Spawns portalgun.
 -------- KEYS --------
-(none)
+"noise" wav file to play on pickup, overrides the default item pickup sound
 -------- SPAWNFLAGS --------
 SPIN spins constantly.
 BOB bobs constantly.
 -------- NOTES --------
 This entity never falls to the ground.
+Unlike other weapon_ entities, this entity doesn't need to be respawned after pickup.
 */
 
 /*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN BOB -
