@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.3.4
- Last updated on: 30.03.2025
+ Updated for ETJump 3.4.0
+ Last updated on: 28.08.2025
 -->
 
 <classes>
@@ -42,6 +42,12 @@ WORLDSPAWN
   <item name="Move + Dead" value="3"/>
 </list>
 
+<list name="overbounce_players">
+  <item name="No change" value="0"/>
+  <item name="Always allowed" value="1"/>
+  <item name="Never allowed" value="2"/>
+</list>
+
 <group name="worldspawn" color="0 0 0">
 -------- KEYS --------
 <string key="atmosphere" name="Atmosphere">Specifies the atmosphere (rain/snow) in map. You must generate a tracemap for atmosphere to work.</string>
@@ -53,6 +59,8 @@ WORLDSPAWN
 <noexplosives key="noexplosives" name="No Explosives">Disables explosives. 0 = explosives are allowed. 1 = no explosive weapons. 2 = no dynamite.</noexplosives>
 <nofalldamage key="nofalldamage" name="No FallDamage">0 = fall damage disabled only on surfaceparm nodamage. 1 = fall damage enabled only on surfaceparm nodamage. 2 = fall damage disabled everywhere.</nofalldamage>
 <boolean key="noftnoghost" name="No FT NoGhost">Disable players' ability to toggle collision between fireteam members.</boolean>
+<boolean key="noftsavelimit" name="No FT Savelimit">Disable players’ ability to set savelimit for the fireteam.</boolean>
+<boolean key="noftteamjumpmode" name="No FT Teamjump mode">Disable players’ ability to toggle teamjump mode for the fireteam.</boolean>
 <boolean key="noghost" name="No Ghost">Disables player ghosting. Overrides g_ghostPlayers server cvar.</boolean>
 <boolean key="nogod" name="No God">Disables god mode.</boolean>
 <boolean key="nogoto" name="No Goto">Disables goto.</boolean>
@@ -63,7 +71,9 @@ WORLDSPAWN
 <boolean key="nosave" name="No Save">0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal.</boolean>
 <integer key="portalgun_spawn" name="Spawn with portalgun" value="1">Toggles whether players will spawn with a portalgun.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
 <boolean key="nowallbug" name="No Wallbug">Disables acceleration while stuck in a wall.</boolean>
+<overbounce_players key="overbounce_players" name="Overbounces on players">0 = no change, controlled by "nooverbounce" key. 1 = always allow overbounces on players. 2 = never allow overbounces on players.</overbounce_players>
 <integer key="portalsurfaces" name="Portal Surfaces" value="1">0 = players can only shoot portals to surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaceparm monsterslickeast.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
+<boolean key="portalpredict" name="Predicted portal teleports">Toggles forced client side predicted portal teleports.</boolean>
 <portalteam key="portalteam" name="Portal Team">0 = players can only go through their own portals. 1 = players can also go through fireteam members portals. 2 = players can go through everyones portals.</portalteam>
 <integer key="limitedsaves" name="Limited Saves">Limits saves to set amount, 0 = no limit.</integer>
 <strictsaveload key="strictsaveload" name="Strict save/load">Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).</strictsaveload>
@@ -248,7 +258,8 @@ CORONA
 <flag key="START_OFF" name="Start off" bit="0">Starts non-visible.</flag>
 -------- NOTES --------
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (RGB).
-Static coronas don't count towards entity limit.
+If "scriptname", "targetname" and "spawnflags" aren't used, a corona is considered "static" and will not count towards the entity limit.
+You may place up to 1024 static coronas in a map.
 </point>
 
 <!--
@@ -295,6 +306,8 @@ Stylestring characters run at 10 cps in the game (meaning the alphabet, at 24 ch
 Characters in stylestring represent the intensity of light: a = lowest and z = highest.
 Use color picker to set color or key "color". Values are 0.0-1.0 for each color (R G B).
 The intensity of dlights cannot be scaled up or down, they have fixed intensity tied to the characters.
+If "scriptname", "targetname" and "spawnflags" aren't used, a dlight is considered "static" and will not count towards the entity limit.
+You may place up to 1024 static dlights in a map, note that renderer won't be able to display more than 32 at a time though.
 </point>
 
 <!--
@@ -2172,7 +2185,6 @@ When activated, fires a laser. You can either set a target or a direction.
 Has sorting issues (eg. laser shows on top of weapon when player is looking towards it).
 Players and moving objects will cut the beam.
 Damage done to players is halved by "etj_noFatigue".
-Does not damage client number 0 (will be fixed in the future).
 </point>
 
 <!--
@@ -3220,6 +3232,24 @@ Activates a random target for each fireteam member, unless spawnflags "4" is set
 =============================================================================
 -->
 
+<point name="target_ft_setrules" color="1.0 0.4 0" box="-8 -8 -8 8 8 8">
+Sets rules for the activators fireteam.
+-------- KEYS --------
+<string key="savelimit" name="Save limit">Set savelimit for fireteam. -1 means unlimited, max is 100. "reset" will restore any used saves for the current savelimit.</string>
+<integer key="noghost" name="No ghost">Enable (1) or disable (0) collision between fireteam members.</integer>
+<integer key="teamjumpmode" name="Teamjump mode">Enable (1) or disable (0) teamjump mode.</integer>
+<string key="leader_only_message" name="Leader only message">Message to print when a non-leader member of a fireteam tries to activate this entity when LEADER_ONLY is set. "%s" can be used to print out the fireteam leaders name.</string>
+-------- SPAWNFLAGS --------
+<flag key="LEADER_ONLY" name="Leader only" bit="0">Only the fireteam leader can activate this entity.</flag>
+-------- NOTES --------
+You must explicitly set the keys for any changes you want to make to the fireteam rules. If a key is not set, the default value(s) will not be applied.
+Activating this entity will bypass restrictions imposed by any worldspawn keys that limit the players ability to set these rules.
+</point>
+
+<!--
+=============================================================================
+-->
+
 <point name="target_give" color="0 0.5 0" box="-8 -8 -8 8 8 8">
 Gives activator targeted items.
 -------- KEYS --------
@@ -3387,6 +3417,29 @@ Can be used to set health higher than normal max health.
 =============================================================================
 -->
 
+<point name="target_spawn_relay" color="0.5 1 0" box="-8 -8 -8 8 8 8">
+Fires targets for a player whenever they spawn.
+-------- KEYS --------
+<string key="team" name="Teams">Comma-separated list of teams that this relay is fired for. Leave empty to fire for all teams.</string>
+<target key="target" name="Target">Targets to fire when a player spawns.</target>
+<string key="scriptname" name="Scriptname">Optional, script block to call when activated. This calls the "activate" trigger.</string>
+-------- SPAWNFLAGS --------
+(none)
+-------- NOTES --------
+This entity does not need to be connected to anything, it is automatically fired when a player respawns. It is NOT fired when a player gets revived.
+
+Valid team names are "axis", "allies" and "spectator".
+
+You may only have one of these in a map for a given team - you can have multiple entities, but two different entities cannot be active for a same team.
+Leaving the "team" key empty means that the entity is active for all teams, and you may not include any team-specific relays.
+
+The activator is passed to the mapscript, so you can perform client-only actions in mapscript via this entity. "activate axis/allies" is supported.
+</point>
+
+<!--
+=============================================================================
+-->
+
 <point name="target_starttimer" color="0.1 0.1 0.1" box="-8 -8 -8 8 8 8">
 Starts a timerun.
 -------- KEYS --------
@@ -3438,7 +3491,8 @@ Stops a timerun.
 <point name="target_tracker" color="0 0 0" box="-8 -8 -8 8 8 8">
 -------- KEYS --------
 <string key="tracker_eq" name="Tracker EQ">Fires targets if activators tracker value(s) match the specified value(s).</string>
-<string key="tracker_not_eq" name="Tracker NOT EQ">Fires targets if activators tracker value(s) do not match the specified value(s).</string>
+<string key="tracker_not_eq_any" name="Tracker NOT EQ any">Fires targets if activators tracker value(s) do not match any of the specified value(s).</string>
+<string key="tracker_not_eq_all" name="Tracker NOT EQ all">Fires targets if activators tracker value(s) do not match all of the specified value(s).</string>
 <string key="tracker_gt" name="Tracker GT">Fires targets if activators tracker value(s) is greather than the specified value(s).</string>
 <string key="tracker_lt" name="Tracker LT">Fires targets if activators tracker value(s) is less than the specified value(s).</string>
 <string key="tracker_set" name="Tracker set">Sets activators tracker value(s) to specified value(s).</string>
@@ -3578,7 +3632,8 @@ The BSP leaf that the destination lies in will be added to the PVS whenever this
 <group name="trigger_tracker" color="0.5 0.5 0.5">
 -------- KEYS --------
 <string key="tracker_eq" name="Tracker EQ">Fires targets if activators tracker value(s) match the specified value(s).</string>
-<string key="tracker_not_eq" name="Tracker NOT EQ">Fires targets if activators tracker value(s) do not match the specified value(s).</string>
+<string key="tracker_not_eq_any" name="Tracker NOT EQ any">Fires targets if activators tracker value(s) do not match any of the specified value(s).</string>
+<string key="tracker_not_eq_all" name="Tracker NOT EQ all">Fires targets if activators tracker value(s) do not match all of the specified value(s).</string>
 <string key="tracker_gt" name="Tracker GT">Fires targets if activators tracker value(s) is greather than the specified value(s).</string>
 <string key="tracker_lt" name="Tracker LT">Fires targets if activators tracker value(s) is less than the specified value(s).</string>
 <string key="tracker_set" name="Tracker set">Sets activators tracker value(s) to specified value(s).</string>
@@ -3620,7 +3675,7 @@ Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 check
 <point name="weapon_portalgun" color="0.3 0.3 1" box="-16 -16 -16 16 16 16" model="models/weapons2/portalgun/portalgun.mdc">
 Portalgun.
 -------- KEYS --------
-(none)
+<sound key="noise" name="Noise">WAV file to play on pickup, overrides default item pickup sound</sound>
 -------- SPAWNFLAGS --------
 <flag key="SPIN" name="Spin" bit="1">Spins constantly.</flag>
 <flag key="BOB" name="Bob" bit="2">Bobs constantly.</flag>
