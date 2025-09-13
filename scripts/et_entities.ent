@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.4.0
- Last updated on: 28.08.2025
+ Updated for ETJump 3.4.1
+ Last updated on: 12.09.2025
 -->
 
 <classes>
@@ -906,7 +906,7 @@ Can be used for conditional walls and models.
 <flag key="NO_RAND_DELAY" name="No random delay" bit="3">Removes the random 500-1000ms delay normally applied between activations.</flag>
 -------- NOTES --------
 When using pain you will need to specify the delay time.
-When PAIN is used, the entity will have 9999 health, and will stop functioning once enough damage has been dealt to it.
+When PAIN is used, the entity is unkillable under normal gameplay circumstances.
 After death is called, targets are not triggered when hurt. Health can be restored with "constructible_health" scriptcommand in the "pain" script function to avoid this.
 Minimum re-activation delay when using NO_RAND_DELAY is 100ms.
 </group>
@@ -2373,8 +2373,6 @@ Target an info_notnull to angle the smoke.
 -------- NOTES --------
 Global and activator sounds can't be combined with looping.
 Multiple identical looping sounds will just increase volume without any speed cost.
-Speaker radius is fixed, increasing/decreasing volume only scales the volume level within the radius.
-Use in-game speaker editor if you want to control radius of a speaker.
 </point>
 
 <!--
