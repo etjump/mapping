@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
 // Updated for ETJump 3.4.1
-// Last updated on: 12.09.2025
+// Last updated on: 03.10.2025
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -166,8 +166,8 @@ models/ammo/syringe/syringe.md3
 
 /*QUAKED corona (0 1 0) (-4 -4 -4) (4 4 4) START_OFF
 -------- KEYS --------
-"scale" will designate a multiplier to the default size.  (so 2.0 is 2xdefault size, 0.5 is half)
-"color" will change the color
+"scale" scaling factor of the size of corona (max 4.0)
+"color" weighted RGB value of light color
 -------- SPAWNFLAGS --------
 START_OFF starts non-visible
 -------- NOTES --------

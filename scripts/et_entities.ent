@@ -5,7 +5,7 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 3.4.1
- Last updated on: 12.09.2025
+ Last updated on: 03.10.2025
 -->
 
 <classes>
@@ -252,7 +252,7 @@ CORONA
 
 <point name="corona" color="0 1 0" box="-4 -4 -4 4 4 4">
 -------- KEYS --------
-<real key="scale" name="Scale">Scaling factor of the size of corona.</real>
+<real key="scale" name="Scale">Scaling factor of the size of corona (max 4.0).</real>
 <color key="color" name="Corona color">Weighted RGB value of light color.</color>
 -------- SPAWNFLAGS --------
 <flag key="START_OFF" name="Start off" bit="0">Starts non-visible.</flag>
