@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.4.1
- Last updated on: 03.10.2025
+ Updated for ETJump 3.5.0
+ Last updated on: 13.05.2026
 -->
 
 <classes>
@@ -3146,6 +3146,48 @@ The surfaces should have the correct surfaceparm directly. Due to how traces wor
 =============================================================================
 -->
 
+<group name="func_static_client" color="0 0.5 0.8">
+A brush model that just sits there, doing nothing.
+Can be used for conditional walls and models.
+The state of this brush is unique for each client.
+-------- KEYS --------
+<model key="model2" name="model2">Optional md3/mdc model to draw instead.</model>
+<model key="offModel" name="Off model">Optional md3/mdc model to when the brush is turned "off". Requires "model2" to also be set.</model>
+<string key="offShader" name="Off shader">Optional alternative shader to draw when the brush is turned "off". Does nothing if "model2" is set.</string>
+<targetname key="targetname" name="Targetname">When targeted, toggles existence for the activating client.</targetname>
+<target key="target" name="Target">Target(s) to fire when hurt, if "spawnflag 2" is set.</target>
+<string key="scriptname" name="Scriptname">Optional, script block to call hurt, if "spawnflag 2" is set. This calls the "pain" trigger.</string>
+<texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
+<texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
+-------- Q3MAP2 KEYS --------
+<integer key="_cs" name="Cast shadows">Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.</integer>
+<integer key="_rs" name="Receive shadows">Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.</integer>
+<real key="_lightmapscale" name="Lightmap Scale" value="1.0">Scaling factor for lightmap size.</real>
+<integer key="_samplesize" name="Samplesize">Default surface lightmap sample size.</integer>
+<real key="_shadeangle" name="Shadeangle">Largest allowed angle between faces to be treated as same nonplanar surface.</real>
+<string key="_clone" name="Clone">Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).</string>
+<string key="_clonename" name="Clonename">Name referenced by "_clone".</string>
+<texture key="_celshader" name="CelShader">CelShader to use, omit "textures/" prefix.</texture>
+<boolean key="_patchMeta" name="Patch Meta">Generate meta surfaces from patches.</boolean>
+<integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
+<integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
+-------- SPAWNFLAGS --------
+<flag key="START_INVIS" name="Start invisible" bit="0">Start the entity as non-existent, if targeted, it will toggle existence when triggered.</flag>
+<flag key="PAIN" name="Pain" bit="1">Will fire its targets when hurt.</flag>
+<flag key="GIB_INSIDE" name="Gib inside" bit="2">Gib the activator if they would get stuck inside the brush when it's turned on.</flag>
+<flag key="FT_TEAMJUMP_SYNC" name="FT teamjump sync" bit="3">Sync this entity's state to match the fireteam leaders state when teamjump mode gets enabled.</flag>
+<flag key="CONSUME_PORTALS" name="Consume portals" bit="4">Delete activator's portals that are inside the entity when it turns solid.</flag>
+-------- NOTES --------
+This must be activated via an entity that passes on the activator data.
+If neither "offModel" or "offShader" are set, the brush will simply become invisible when turned off.
+If using "model2", you must have an origin brush as a part of this entity.
+When "model2" is set, the brushes that are part of this entity will be used as the clipping brushes when the brush is visible. If you wish to not have clipping at all, make sure the brushes use a nonsolid shader.
+</group>
+
+<!--
+=============================================================================
+-->
+
 <point name="target_activate" color="0 1 0" box="-8 -8 -8 8 8 8">
 Fires its target if ident requirement is met.
 -------- KEYS --------
@@ -3320,6 +3362,24 @@ Fires targets if activator has fired less or equal amount of portals than specif
 (none)
 -------- NOTES --------
 Portals are reset on death, team change, timerun start and when activating "target_remove_portals".
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_random" color="0.0 0.4 0.5" box="-8 -8 -8 8 8 8">
+Generates a random number and fires targets if the desired outcome is met.
+-------- KEYS --------
+<integer key="chance" name="Chance" value="1">The chance of targets getting fired.</integer>
+<integer key="total" name="Total" value="1">Total possible outcomes.</integer>
+<string key="scriptname" name="Scriptname">Optional, script block to call when activated. This calls the "activate" trigger.</string>
+-------- SPAWNFLAGS --------
+<flag key="EXACT_NUMBER" name="Exact number" bit="0">"Chance" is the exact number that must be generated for targets to fire.</flag>
+-------- NOTES --------
+The chance is calculated by rolling a random number between 1 - "total". If the resulting number is less or equal to "chance", targets are fired.
+Both "chance" and "total" must be over 1.
+"chance" cannot be higher than "total".
 </point>
 
 <!--

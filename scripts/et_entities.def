@@ -1,7 +1,7 @@
 // Enemy Territory entity definition file for ETJump mod.
 // Made for GtkRadiant.
-// Updated for ETJump 3.4.1
-// Last updated on: 03.10.2025
+// Updated for ETJump 3.5.0
+// Last updated on: 13.05.2026
 
 /*QUAKED worldspawn (0 0 0) ? NO_GT_WOLF NO_STOPWATCH - NO_LMS
 -------- KEYS --------
@@ -2424,6 +2424,39 @@ The portals are centered on the plane where they spawn either on an explicit ori
 The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 */
 
+/*QUAKED func_static_client (0 .5 .8) ? START_INVIS PAIN GIB_INSIDE FT_TEAMJUMP_SYNC CONSUME_PORTALS
+A brush model that just sits there, doing nothing.
+Can be used for conditional walls and models.
+The state of this brush is unique for each client.
+-------- KEYS --------
+"model2" Optional md3/mdc model to draw instead.
+"offModel" Optional md3/mdc model to when the brush is turned "off". Requires "model2" to also be set.
+"offShader" Optional alternative shader to draw when the brush is turned "off". Does nothing if "model2" is set.
+"targetname" When targeted, toggles existence for the activating client.
+"target" Target(s) to fire when hurt, if "spawnflag 2" is set.
+"scriptname" Optional, script block to call hurt, if "spawnflag 2" is set. This calls the "pain" trigger.
+"targetShaderName" Shader to remap when targets are fired.
+"targetShaderNewName" Shader to remap "targetShaderName" to when targets are fired.
+-------- Q3MAP2 KEYS --------
+"_lightmapscale" Scaling factor for lightmap size.
+"_cs" Per-entity control of shadow casting, used to disable (0) or enable shadow casting to entities with corresponding "_rs" value. Defaults to 1 on world, 0 on entities.
+"_rs" Per-entity control of shadow receiving, used to disable (0) or enable shadow receiving from entities with corresponding "_cs" value. Defaults to 1 on everything.
+"_celshader" CelShader to use, omit "textures/" prefix.
+"_clone" Name of the brush entity to copy brushes from (can be used to use the same brush model multiple times).
+"_clonename" Name referenced by "_clone".
+-------- SPAWNFLAGS --------
+START_INVIS will start the entity as non-existant, if targeted, it will toggle existance when triggered
+PAIN will fire its targets when hurt/pain
+GIB_INSIDE Gib the activator if they would get stuck inside the brush when it's turned on.
+FT_TEAMJUMP_SYNC Sync this entity's state to match the fireteam leaders state when teamjump mode gets enabled.
+CONSUME_PORTALS Delete activator's portals that are inside the entity when it turns solid.
+-------- NOTES --------
+This must be activated via an entity that passes on the activator data.
+If neither "offModel" or "offShader" are set, the brush will simply become invisible when turned off.
+If using "model2", you must have an origin brush as a part of this entity.
+When "model2" is set, the brushes that are part of this entity will be used as the clipping brushes when the brush is visible. If you wish to not have clipping at all, make sure the brushes use a nonsolid shader.
+*/
+
 /*QUAKED target_activate (0 1 0) (-8 -8 -8) (8 8 8) TRIGGER_IF_GT TRIGGER_IF_NOT TRIGGER_IF_LT
 Fires its targets if ident requirement is met.
 -------- KEYS --------
@@ -2558,6 +2591,20 @@ Fires targets if activator has fired less or equal amount of portals than specif
 (none)
 -------- NOTES --------
 Portals are reset on death, team change, timerun start and when activating "target_remove_portals".
+*/
+
+/*QUAKED target_random (0.0 0.4 0.5) (-8 -8 -8) (8 8 8) EXACT_NUMBER
+Generates a random number and fires targets if the desired outcome is met.
+-------- KEYS --------
+"chance" The chance of targets getting fired.
+"total" Total possible outcomes.
+"scriptname" Optional, script block to call when activated. This calls the "activate" trigger.
+-------- SPAWNFLAGS --------
+EXACT_NUMBER "Chance" is the exact number that must be generated for targets to fire.
+-------- NOTES --------
+The chance is calculated by rolling a random number between 1 - "total". If the resulting number is less or equal to "chance", targets are fired.
+Both "chance" and "total" must be over 1.
+"chance" cannot be higher than "total".
 */
 
 /*QUAKED target_remove_portals (0.3 0.3 0.3) (-8 -8 -8) (8 8 8) SILENT
