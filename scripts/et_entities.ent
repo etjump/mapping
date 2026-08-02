@@ -5,7 +5,7 @@
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
  Updated for ETJump 3.5.3
- Last updated on: 14.07.2026
+ Last updated on: 02.08.2026
 -->
 
 <classes>
@@ -3151,7 +3151,7 @@ A brush model that just sits there, doing nothing.
 Can be used for conditional walls and models.
 The state of this brush is unique for each client.
 -------- KEYS --------
-<model key="model2" name="model2">Optional md3/mdc model to draw instead.</model>
+<model key="model2" name="model2">Optional md3/mdc model to draw instead. Use an origin brush to set the model origin.</model>
 <model key="offModel" name="Off model">Optional md3/mdc model to when the brush is turned "off". Requires "model2" to also be set.</model>
 <string key="offShader" name="Off shader">Optional alternative shader to draw when the brush is turned "off". Does nothing if "model2" is set.</string>
 <targetname key="targetname" name="Targetname">When targeted, toggles existence for the activating client.</targetname>
@@ -3172,7 +3172,7 @@ The state of this brush is unique for each client.
 <integer key="_patchQuality" name="Patch Quality">Quality multiplier for patches when "_patchMeta" is set. Note: integer values only.</integer>
 <integer key="_patchSubdivide" name="Patch Subdivide">Absolute quality setting for patches when "_patchMeta" is set. Note: integer values only.</integer>
 -------- SPAWNFLAGS --------
-<flag key="START_INVIS" name="Start invisible" bit="0">Start the entity as non-existent, if targeted, it will toggle existence when triggered.</flag>
+<flag key="START_OFF" name="Start off" bit="0">Start the entity in "off" (nonsolid) state.</flag>
 <flag key="PAIN" name="Pain" bit="1">Will fire its targets when hurt.</flag>
 <flag key="GIB_INSIDE" name="Gib inside" bit="2">Gib the activator if they would get stuck inside the brush when it's turned on.</flag>
 <flag key="FT_TEAMJUMP_SYNC" name="FT teamjump sync" bit="3">Sync this entity's state to match the fireteam leaders state when teamjump mode gets enabled.</flag>
@@ -3180,7 +3180,6 @@ The state of this brush is unique for each client.
 -------- NOTES --------
 This must be activated via an entity that passes on the activator data.
 If neither "offModel" or "offShader" are set, the brush will simply become invisible when turned off.
-If using "model2", you must have an origin brush as a part of this entity.
 When "model2" is set, the brushes that are part of this entity will be used as the clipping brushes when the brush is visible. If you wish to not have clipping at all, make sure the brushes use a nonsolid shader.
 </group>
 
