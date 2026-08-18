@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.5.3
- Last updated on: 02.08.2026
+ Updated for ETJump 3.6.0
+ Last updated on: 18.08.2026
 -->
 
 <classes>
@@ -3139,6 +3139,7 @@ A brush model that spawns portalgun portals shot on it always on the same positi
 (none)
 -------- NOTES --------
 The portals are centered on the plane where they spawn either on an explicit origin set by an origin brush, or using the entity's center position.
+The portal centering may behave unexpectedly if this entity is not an axial rectangle.
 The surfaces should have the correct surfaceparm directly. Due to how traces work with bmodels, using a separate portalsurface-brush is unlikely to work.
 </group>
 
@@ -3154,9 +3155,14 @@ The state of this brush is unique for each client.
 <model key="model2" name="model2">Optional md3/mdc model to draw instead. Use an origin brush to set the model origin.</model>
 <model key="offModel" name="Off model">Optional md3/mdc model to when the brush is turned "off". Requires "model2" to also be set.</model>
 <string key="offShader" name="Off shader">Optional alternative shader to draw when the brush is turned "off". Does nothing if "model2" is set.</string>
+<real key="modelscale" name="Scale" value="1.0">Scale for the model if "model2" is set. Also applied to "offModel".</real>
+<real3 key="modelscale_vec" name="Scale vector" value="1.0 1.0 1.0">Per-axis scale for the model if "model2" is set. Also applied to "offModel". Overrides "modelscale", so if you have both, the "modelscale" is ignored.</real3>
+<angle key="angle" name="Angle">Angle for the model if "model2" is set. Also applied to "offModel".</angle>
+<angles key="angles" name="Angles">Angles for the model if "model2" is set. Also applied to "offModel".</angles>
+<integer key="portalsize" name="Portal size" value="0">Size of portals fired on this entity, if "spawnflag 32" is set. Max 512, 0 means default size.</integer>
 <targetname key="targetname" name="Targetname">When targeted, toggles existence for the activating client.</targetname>
 <target key="target" name="Target">Target(s) to fire when hurt, if "spawnflag 2" is set.</target>
-<string key="scriptname" name="Scriptname">Optional, script block to call hurt, if "spawnflag 2" is set. This calls the "pain" trigger.</string>
+<string key="scriptname" name="Scriptname">Optional, script block for mapscripting. Calls "enabled/disabled (axis/allies)" triggers when toggled, "pain" if hurt and "spawnflag 2" is set.</string>
 <texture key="targetShaderName" name="Target shader name">Shader to remap when targets are fired.</texture>
 <texture key="targetShaderNewName" name="Target shader new name">Shader to remap "targetShaderName" to when targets are fired.</texture>
 -------- Q3MAP2 KEYS --------
@@ -3177,6 +3183,7 @@ The state of this brush is unique for each client.
 <flag key="GIB_INSIDE" name="Gib inside" bit="2">Gib the activator if they would get stuck inside the brush when it's turned on.</flag>
 <flag key="FT_TEAMJUMP_SYNC" name="FT teamjump sync" bit="3">Sync this entity's state to match the fireteam leaders state when teamjump mode gets enabled.</flag>
 <flag key="CONSUME_PORTALS" name="Consume portals" bit="4">Delete activator's portals that are inside the entity when it turns solid.</flag>
+<flag key="PORTAL_TARGET" name="Portal target" bit="5">Center portals fired on this entity on it's surfaces (similar to "func_portaltarget"). This may behave unexpectedly on entities that are not axial rectangles.</flag>
 -------- NOTES --------
 This must be activated via an entity that passes on the activator data.
 If neither "offModel" or "offShader" are set, the brush will simply become invisible when turned off.
