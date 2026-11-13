@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.6.2
- Last updated on: 27.08.2026
+ Updated for ETJump 3.7.0
+ Last updated on: 13.11.2026
 -->
 
 <classes>
@@ -48,6 +48,27 @@ WORLDSPAWN
   <item name="Never allowed" value="2"/>
 </list>
 
+<list name="nonoclip">
+  <item name="Inside of surfaceparm donotenterlarge" value="0"/>
+  <item name="Outside of surfaceparm donotenterlarge" value="1"/>
+  <item name="Always allowed" value="2"/>
+  <item name="Never allowed" value="3"/>
+</list>
+
+<list name="noprone">
+  <item name="Inside of surfaceparm donotenter" value="0"/>
+  <item name="Outside of surfaceparm donotenter" value="1"/>
+  <item name="Always allowed" value="2"/>
+  <item name="Never allowed" value="3"/>
+</list>
+
+<list name="nosave">
+  <item name="Inside of surfaceparm clusterportal" value="0"/>
+  <item name="Outside of surfaceparm clusterportal" value="1"/>
+  <item name="Always allowed" value="2"/>
+  <item name="Never allowed" value="3"/>
+</list>
+
 <group name="worldspawn" color="0 0 0">
 -------- KEYS --------
 <string key="atmosphere" name="Atmosphere">Specifies the atmosphere (rain/snow) in map. You must generate a tracemap for atmosphere to work.</string>
@@ -65,15 +86,15 @@ WORLDSPAWN
 <boolean key="nogod" name="No God">Disables god mode.</boolean>
 <boolean key="nogoto" name="No Goto">Disables goto.</boolean>
 <boolean key="nojumpdelay" name="No Jumpdelay">0 = jump delay disabled only on surfaceparm monsterslicknorth. 1 = jump delay enabled only on surfaceparm monsterslicknorth.</boolean>
-<boolean key="nonoclip" name="No Noclip">0 = cannot use noclip inside of surfaceparm donotenterlarge. 1 = cannot use noclip outside of surfaceparm donotenterlarge.</boolean>
+<nonoclip key="nonoclip" name="No Noclip">Control players ability to use noclip.</nonoclip>
 <boolean key="nooverbounce" name="No Overbounce">0 = overbounce disabled only on surfaceparm monsterslicksouth. 1 = overbounce enabled only on surfaceparm monsterslicksouth.</boolean>
-<boolean key="noprone" name="No Prone">0 = cannot prone inside of surfaceparm donotenter. 1 = cannot prone outside of surfaceparm donotenter.</boolean>
-<boolean key="nosave" name="No Save">0 = cannot save inside of surfaceparm clusterportal. 1 = cannot save outside of surfaceparm clusterportal.</boolean>
+<noprone key="noprone" name="No Prone">Control players ability to go to prone.</noprone>
+<nosave key="nosave" name="No Save">Control players ability to save.</nosave>
 <integer key="portalgun_spawn" name="Spawn with portalgun" value="1">Toggles whether players will spawn with a portalgun.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
 <boolean key="nowallbug" name="No Wallbug">Disables acceleration while stuck in a wall.</boolean>
 <overbounce_players key="overbounce_players" name="Overbounces on players">0 = no change, controlled by "nooverbounce" key. 1 = always allow overbounces on players. 2 = never allow overbounces on players.</overbounce_players>
 <integer key="portalsurfaces" name="Portal Surfaces" value="1">0 = players can only shoot portals to surfaceparm monsterslickeast. 1 = players cannot shoot portals to surfaceparm monsterslickeast.</integer> <!-- This should be a boolean but NetRadiant currently doesn't support booleans with default value of 1. -->
-<boolean key="portalpredict" name="Predicted portal teleports">Toggles forced client side predicted portal teleports.</boolean>
+<boolean key="portalpredict" name="Predicted portals">Enables forced client-side predicted portal spawning and teleporting.</boolean>
 <portalteam key="portalteam" name="Portal Team">0 = players can only go through their own portals. 1 = players can also go through fireteam members portals. 2 = players can go through everyones portals.</portalteam>
 <integer key="limitedsaves" name="Limited Saves">Limits saves to set amount, 0 = no limit.</integer>
 <strictsaveload key="strictsaveload" name="Strict save/load">Limit save/load. Bitmask or string value. 1/move = cannot save while moving. 2/dead = cannot save/load while dead. Combine strings using | (eg. move | dead).</strictsaveload>
@@ -3589,6 +3610,29 @@ tracker_eq&#x9;1,1|2,1|3,1&#x9;trackers on indices 1, 2 and 3 have to be 1
 Maximum amount of tracker indices is 50.
 
 Bit checks and changes start from 1, a bit check for 0 checks for bit 1, 2 checks for bit 4 etc.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_wskey_overrides" color="0.2 0.8 0.6" box="-8 -8 -8 8 8 8">
+Override behavior of global worldspawn keys.
+-------- KEYS --------
+<nonoclip key="nonoclip" name="No noclip">Overridden value to apply for "nonoclip"</nonoclip>
+<nosave key="nosave" name="No save">Overridden value to apply for "nosave"</nosave>
+<noprone key="noprone" name="No prone">Overridden value to apply for "noprone"</noprone>
+-------- SPAWNFLAGS --------
+<flag key="AXIS" name="Axis" bit="0">Apply this override for Axis players.</flag>
+<flag key="ALLIES" name="Allies" bit="1">Apply this override for Allied players.</flag>
+<flag key="SPECTATORS" name="Spectators" bit="2">Apply this override for Spectators.</flag>
+<flag key="TIMERUN_ONLY" name="Timerun only" bit="3">Apply this override only when the player is timerunning.</flag>
+<flag key="NO_TIMERUN" name="No timerun" bit="4">Apply this override only when the player is NOT timerunning.</flag>
+-------- NOTES --------
+This entity will not count towards the entity limit.
+You must pick at least one team to apply the overrides for.
+Conflicting overrides will result in an error - you may not set different values for the same key in two different entities, while targeting the same team(s) and timerun state.
+Default scope for timeruns is to ignore timerun state. If neither timerun state spawnflag is set, the override applies regardless of the timerun state.
 </point>
 
 <!--
