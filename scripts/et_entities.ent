@@ -4,8 +4,8 @@
  Made for NetRadiant-custom by Garux.
  https://github.com/Garux/netradiant-custom
  Support for Q3Map2 keys might vary depending on compiler used.
- Updated for ETJump 3.7.0
- Last updated on: 13.11.2026
+ Updated for ETJump 3.7.1
+ Last updated on: 25.11.2026
 -->
 
 <classes>
@@ -3209,6 +3209,7 @@ The state of this brush is unique for each client.
 This must be activated via an entity that passes on the activator data.
 If neither "offModel" or "offShader" are set, the brush will simply become invisible when turned off.
 When "model2" is set, the brushes that are part of this entity will be used as the clipping brushes when the brush is visible. If you wish to not have clipping at all, make sure the brushes use a nonsolid shader.
+When a client disconnects from the server, the entity resets back to it's default state.
 </group>
 
 <!--
